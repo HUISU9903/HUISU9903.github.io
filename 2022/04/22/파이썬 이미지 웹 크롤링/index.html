@@ -1,0 +1,470 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=dark>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="HUISU">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="네이버 랭킹 뉴스의 제목과 내용을 가져오는 방법을 알아본다.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="﻿BeautifulSoup를 이용한 Python 텍스트 웹 크롤링">
+<meta property="og:url" content="https://huisu9903.github.io/2022/04/22/%ED%8C%8C%EC%9D%B4%EC%8D%AC%20%EC%9D%B4%EB%AF%B8%EC%A7%80%20%EC%9B%B9%20%ED%81%AC%EB%A1%A4%EB%A7%81/index.html">
+<meta property="og:site_name" content="MY FIRST BLOG">
+<meta property="og:description" content="네이버 랭킹 뉴스의 제목과 내용을 가져오는 방법을 알아본다.">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://user-images.githubusercontent.com/65166786/164966778-74f9e95f-553c-464d-91a0-041f6e94c060.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/65166786/164975681-cc2a5d8c-6330-44fc-94be-888ed2c54894.png">
+<meta property="article:published_time" content="2022-04-22T05:00:00.000Z">
+<meta property="article:modified_time" content="2022-04-27T23:44:41.725Z">
+<meta property="article:author" content="HUISU">
+<meta property="article:tag" content="Python">
+<meta property="article:tag" content="Beautifulsoup">
+<meta property="article:tag" content="Web crawling">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://user-images.githubusercontent.com/65166786/164966778-74f9e95f-553c-464d-91a0-041f6e94c060.png">
+  
+  
+  <title>﻿BeautifulSoup를 이용한 Python 텍스트 웹 크롤링 - MY FIRST BLOG</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/hybrid.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"huisu9903.github.io","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":75,"cursorChar":"","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>HUISU</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Categories
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="﻿BeautifulSoup를 이용한 Python 텍스트 웹 크롤링">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-04-22 14:00" pubdate>
+        April 22, 2022
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">﻿BeautifulSoup를 이용한 Python 텍스트 웹 크롤링</h1>
+            
+            <div class="markdown-body">
+              <h1 id="네이버-랭킹뉴스-웹-크롤링"><a href="#네이버-랭킹뉴스-웹-크롤링" class="headerlink" title="네이버 랭킹뉴스 웹 크롤링"></a>네이버 랭킹뉴스 웹 크롤링</h1><p>네이버 랭킹 뉴스는 사람들이 어떤 이슈에 가장 많은 관심을 보이는지를 쉽게 파악 할 수 있기에<br>해당 페이지를 크롤링하면 무언가 의미있지 않을까.. </p>
+<h2 id="기사-제목만-가져오기"><a href="#기사-제목만-가져오기" class="headerlink" title="기사 제목만 가져오기"></a>기사 제목만 가져오기</h2><p>네이버 랭킹뉴스에 가보면 수많은 기사들의 제목들이 보인다.<br><img src="https://user-images.githubusercontent.com/65166786/164966778-74f9e95f-553c-464d-91a0-041f6e94c060.png" srcset="/img/loading.gif" lazyload alt="image"></p>
+<p>이러한 기사들의 제목만 가져오는 텍스트 크롤링을 해본다.</p>
+<p>일단 하단의 코드로 네이버 랭킹뉴스를 크롤링 대상으로 잡아준다.</p>
+<figure class="highlight gradle"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></div></td><td class="code"><pre><code class="hljs gradle"><span class="hljs-keyword">import</span> requests  <br><span class="hljs-keyword">from</span> bs4 <span class="hljs-keyword">import</span> BeautifulSoup<br><span class="hljs-keyword">def</span> main():<br><br>headers = &#123; <br><span class="hljs-string">&#x27;user-agent&#x27;</span>: <span class="hljs-string">&#x27;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36&#x27;</span>  <br>&#125;<br>url = <span class="hljs-string">&quot;https://news.naver.com/main/ranking/popularDay.naver&quot;</span><br></code></pre></td></tr></table></figure>
+<p>그리고 요청을 보낸뒤 파싱을 한다.</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs routeros">req = requests.<span class="hljs-built_in">get</span>(<span class="hljs-attribute">url</span>=url, <span class="hljs-attribute">headers</span>=headers)<br><span class="hljs-built_in">print</span>(req.status_code) # 200이면 정상이다.<br>soup = BeautifulSoup(req.text, <span class="hljs-string">&#x27;html.parser&#x27;</span>)<br></code></pre></td></tr></table></figure>
+<p>랭킹 뉴스는 각 언론사별 카드 뉴스의 형태로 되어 있는데, 이를 분석해보면<br><code>rankingnews_box</code>라는 코드로 되어있다는 것을 알 수 있다.<br>이를 찾아서 <code>ranking_boxes</code>라는 변수에 넣어준다.</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ini"><span class="hljs-attr">ranking_boxes</span> = soup.find_all(<span class="hljs-string">&#x27;div&#x27;</span>, <span class="hljs-string">&#x27;rankingnews_box&#x27;</span>)<br></code></pre></td></tr></table></figure>
+<p>각 언론사별로 기사 제목만 수집하여 <code>rankingnewstitle</code> 리스트에 넣는다.</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs routeros">rankingnewstitle = [] # 빈 리스트 생성 <br><span class="hljs-keyword">for</span> rankingbox <span class="hljs-keyword">in</span> ranking_boxes:  <br>    article_list = rankingbox.<span class="hljs-built_in">find</span>(<span class="hljs-string">&quot;ul&quot;</span>, <span class="hljs-string">&quot;rankingnews_list&quot;</span>).find_all(<span class="hljs-string">&quot;li&quot;</span>)  <br>    <span class="hljs-keyword">for</span> article <span class="hljs-keyword">in</span> article_list:  <br>        content = article.<span class="hljs-built_in">find</span>(<span class="hljs-string">&quot;div&quot;</span>, <span class="hljs-string">&quot;list_content&quot;</span>)  <br>        # 각 언론사별로 기사 제목 수집해서 ranking_news_titles에 삽입  <br>  <span class="hljs-keyword">if</span> content:  <br>            rankingnewstitle.append(content.<span class="hljs-built_in">find</span>(<span class="hljs-string">&quot;a&quot;</span>).text)<br></code></pre></td></tr></table></figure>
+<p>  <code>rankingnewstitle</code> 리스트를 출력한다.</p>
+<figure class="highlight dos"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs dos"><span class="hljs-keyword">for</span> <span class="hljs-built_in">title</span> <span class="hljs-keyword">in</span> rankingnewstitle:  <br>   <span class="hljs-built_in">print</span>(<span class="hljs-built_in">title</span>)<br></code></pre></td></tr></table></figure>
+
+<p>완성된 코드</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs routeros">import requests  <br><span class="hljs-keyword">from</span> bs4 import BeautifulSoup  <br>  <br>def main():  <br>    headers = &#123;  <br>        <span class="hljs-string">&#x27;user-agent&#x27;</span>: <span class="hljs-string">&#x27;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36&#x27;</span>  <br>  &#125;  <br>    url = <span class="hljs-string">&#x27;https://news.naver.com/main/ranking/popularDay.naver&#x27;</span>  <br>  req = requests.<span class="hljs-built_in">get</span>(<span class="hljs-attribute">url</span>=url, <span class="hljs-attribute">headers</span>=headers)  <br>    <span class="hljs-built_in">print</span>(req.status_code)  <br>    soup = BeautifulSoup(req.text, <span class="hljs-string">&#x27;html.parser&#x27;</span>)  <br>    <br>def crawling(soup):  <br>    ranking_boxes = soup.find_all(<span class="hljs-string">&#x27;div&#x27;</span>, <span class="hljs-string">&#x27;rankingnews_box&#x27;</span>)  # class_인 이유는 python 내장변수인 class와 구별 위함  <br>  rankingnewstitle = []  <br>    <span class="hljs-keyword">for</span> rankingbox <span class="hljs-keyword">in</span> ranking_boxes:  <br>        article_list = rankingbox.<span class="hljs-built_in">find</span>(<span class="hljs-string">&quot;ul&quot;</span>, <span class="hljs-string">&quot;rankingnews_list&quot;</span>).find_all(<span class="hljs-string">&quot;li&quot;</span>)  <br>        <span class="hljs-keyword">for</span> arti <span class="hljs-keyword">in</span> article_list:  <br>            content = arti.<span class="hljs-built_in">find</span>(<span class="hljs-string">&quot;div&quot;</span>, <span class="hljs-string">&quot;list_content&quot;</span>)  <br>            # 각 언론사별로 기사 제목 수집해서 ranking_news_titles에 삽입  <br>	 <span class="hljs-keyword">if</span> content:  <br>	  rankingnewstitle.append(content.<span class="hljs-built_in">find</span>(<span class="hljs-string">&quot;a&quot;</span>).text)  <br>    <span class="hljs-keyword">for</span> title <span class="hljs-keyword">in</span> rankingnewstitle:  <br>        <span class="hljs-built_in">print</span>(title)  <br><span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">&quot;__main__&quot;</span>:  <br>    main()<br></code></pre></td></tr></table></figure>
+<p>실행 시 이렇게 제목만 가져오는 것을 확인할 수 있다.<br><img src="https://user-images.githubusercontent.com/65166786/164975681-cc2a5d8c-6330-44fc-94be-888ed2c54894.png" srcset="/img/loading.gif" lazyload alt="출력 결과"></p>
+<h2 id="제목과-내용-둘-다-가져오기"><a href="#제목과-내용-둘-다-가져오기" class="headerlink" title="제목과 내용 둘 다 가져오기"></a>제목과 내용 둘 다 가져오기</h2><p>기사 제목과 내용간의 괴리감이 있을 경우를 생각해서, 내용을 가져와보도록 한다.<br>제목과 달리 내용은 링크를 열어야 볼 수 있으므로, 링크를 연 뒤 내용을 가져오는 코드가 추가로 필요하다.<br>링크를 저장할 리스트를 추가로 만든 뒤</p>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs abnf"><span class="hljs-attribute">rankinglink</span> <span class="hljs-operator">=</span> [ ]<br></code></pre></td></tr></table></figure>
+<p>기사 제목을 수집하는 코드인  <code>rankingnewstitle.append</code> 밑에 <code>rankinglink.append</code>를 추가하여 링크도 수집하게 만든다.</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs css">if <span class="hljs-attribute">content</span>:  <br>            rankingnewstitle.<span class="hljs-built_in">append</span>(content.<span class="hljs-built_in">find</span>(<span class="hljs-string">&quot;a&quot;</span>).text)<br>	        rankinglink.<span class="hljs-built_in">append</span>(content.<span class="hljs-built_in">find</span>(<span class="hljs-string">&quot;a&quot;</span>)[<span class="hljs-string">&quot;href&quot;</span>])<br></code></pre></td></tr></table></figure>
+<p>기사 제목과 내용을 함께 저장할 리스트를 만든다.</p>
+<figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs abnf"><span class="hljs-attribute">news</span>  <span class="hljs-operator">=</span> [ ]<br></code></pre></td></tr></table></figure>
+
+<figure class="highlight applescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><code class="hljs applescript"><span class="hljs-keyword">for</span> title, link <span class="hljs-keyword">in</span> zip(ranking_news_titles, ranking_news_links):  <br>    url = f<span class="hljs-string">&quot;https://news.naver.com&#123;link&#125;&quot;</span> <span class="hljs-comment"># 링크를 완전하게 만든다.  </span><br>  r = requests.<span class="hljs-keyword">get</span>(url, headers=headers)  <br>    <span class="hljs-built_in">time</span>.sleep(<span class="hljs-number">0.5</span>)  <span class="hljs-comment"># 한 번에 너무 많은 요청이 들어오면 네이버에서 IP차단 시킬수도</span><br> <span class="hljs-comment"># 이제 기사 원문을 파싱해보자.  </span><br>  soup = BeautifulSoup(r.<span class="hljs-built_in">text</span>, <span class="hljs-string">&quot;html.parser&quot;</span>)  <br>    article_body = soup.find(<span class="hljs-string">&quot;div&quot;</span>, <span class="hljs-built_in">id</span>=<span class="hljs-string">&quot;articleBodyContents&quot;</span>)  <br>    article_body = article_body.<span class="hljs-built_in">text</span>.strip()  <br>    <span class="hljs-comment"># 파싱한 원문을 articles에 삽입한다. </span><br>  articles.append(  <br>        &#123;  <br>            <span class="hljs-string">&quot;title&quot;</span>: title,  <br>  <span class="hljs-string">&quot;content&quot;</span>: article_body  <br>        &#125;  <br>    )<br></code></pre></td></tr></table></figure>
+<p>이러면 결과가 나와야하는데.. 너무 많은 요청을 전송해서<br><code>requests.exceptions.ConnectionError</code> 에러가 발생했다.<br>나중에 해결하는걸로..</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Python/">Python</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Python/">Python</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Beautifulsoup/">Beautifulsoup</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Web-crawling/">Web crawling</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    달리 명시되지 않는 한 이 블로그의 모든 기사는 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0을 사용합니다.</a> 공유 시 출처를 밝혀주세요！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/04/23/Oracle%20%EB%8D%B0%EC%9D%B4%ED%84%B0%20%ED%83%80%EC%9E%85/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Oracle의 데이터 타입</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/04/21/BeautifulSoup/">
+                        <span class="hidden-mobile">BeautifulSoup</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;TOC</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+    
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

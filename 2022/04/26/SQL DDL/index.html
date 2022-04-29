@@ -1,0 +1,460 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=dark>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="HUISU">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Oracle SQL의 대표적인 데이터 조작 언어를 알아본다.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SQL DML 알아보기">
+<meta property="og:url" content="https://huisu9903.github.io/2022/04/26/SQL%20DDL/index.html">
+<meta property="og:site_name" content="MY FIRST BLOG">
+<meta property="og:description" content="Oracle SQL의 대표적인 데이터 조작 언어를 알아본다.">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-04-26T04:00:00.000Z">
+<meta property="article:modified_time" content="2022-04-27T23:44:41.725Z">
+<meta property="article:author" content="HUISU">
+<meta property="article:tag" content="Oracle">
+<meta property="article:tag" content="DML">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  <title>SQL DML 알아보기 - MY FIRST BLOG</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/hybrid.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"huisu9903.github.io","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":75,"cursorChar":"","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>HUISU</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Categories
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="SQL DML 알아보기">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-04-26 13:00" pubdate>
+        April 26, 2022
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">SQL DML 알아보기</h1>
+            
+            <div class="markdown-body">
+              <h1 id="대표적인-DML"><a href="#대표적인-DML" class="headerlink" title="대표적인 DML"></a>대표적인 DML</h1><h2 id="SELECT"><a href="#SELECT" class="headerlink" title="SELECT"></a>SELECT</h2><p>테이블이나 뷰에 있는 데이터를 조회할 때 <code>SELECT</code>를 사용한다.</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><pre><code class="hljs pgsql"><span class="hljs-keyword">SELECT</span> * 혹은 <span class="hljs-keyword">column</span> <br> <span class="hljs-keyword">FROM</span> [스키마.]테이블명 혹은 [스키마.]뷰명<br><span class="hljs-keyword">WHERE</span> 조건<br><span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> <span class="hljs-keyword">column</span>;<br></code></pre></td></tr></table></figure>
+<p>다수의 테이블에서 데이터 조회하기</p>
+<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs n1ql"><span class="hljs-keyword">SELECT</span> a.employee_id, a.emp_name, a.department_id,<br>           b.department_name<br>      <span class="hljs-keyword">FROM</span> employees a,<br>           departments b<br>     <span class="hljs-keyword">WHERE</span> a.department_id = b.department_id;<br></code></pre></td></tr></table></figure>
+<p><code>a</code>와 <code>b</code>는 <code>employees</code>와 <code>departments</code> 대신 사용되는 별칭이다. column 명에 별칭을 붙일때에는 <code>기존 column명 AS column별칭</code>의 형태로 사용한다.</p>
+<h2 id="INSERT"><a href="#INSERT" class="headerlink" title="INSERT"></a>INSERT</h2><p>데이터의 신규 입력의 경우 <code>INSERT</code>를 사용하는데,<br>크게 기본 형태, column명 생략 형태, INSERT~SELECT 형태로 나눌 수 있다.</p>
+<h3 id="기본-형태"><a href="#기본-형태" class="headerlink" title="기본 형태"></a>기본 형태</h3><figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs n1ql"><span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> [스키마.]테이블명 (column1,column2...)<br><span class="hljs-keyword">VALUES</span> (값<span class="hljs-number">1</span>, 값<span class="hljs-number">2.</span>.);<br></code></pre></td></tr></table></figure>
+<h3 id="column명-생략-형태"><a href="#column명-생략-형태" class="headerlink" title="column명 생략 형태"></a>column명 생략 형태</h3><figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs n1ql"><span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> [스키마.]테이블명<br><span class="hljs-keyword">VALUES</span> (값<span class="hljs-number">1</span>, 값<span class="hljs-number">2</span>, ...);<br></code></pre></td></tr></table></figure>
+<h3 id="INSERT-SELECT-형태"><a href="#INSERT-SELECT-형태" class="headerlink" title="INSERT~SELECT 형태"></a>INSERT~SELECT 형태</h3><figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs n1ql"><span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> [스키마.]테이블명 (column1,column2...)<br><span class="hljs-keyword">SELECT</span> 문;<br></code></pre></td></tr></table></figure>
+<h2 id="UPDATE"><a href="#UPDATE" class="headerlink" title="UPDATE"></a>UPDATE</h2><p>테이블의 기존 데이터를 수정할 때 <code>UPDATE</code>를 사용한다</p>
+<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs n1ql"><span class="hljs-keyword">UPDATE</span> [스키마.]테이블명<br><span class="hljs-keyword">SET</span> 컬럼<span class="hljs-number">1</span> = 변경값<span class="hljs-number">1</span>,<br>    컬럼<span class="hljs-number">2</span> = 변경값<span class="hljs-number">2</span>,<br>...<br><span class="hljs-keyword">WHERE</span> 조건;<br></code></pre></td></tr></table></figure>
+<h2 id="MERGE"><a href="#MERGE" class="headerlink" title="MERGE"></a>MERGE</h2><p>조건을 비교해서 테이블에 해당 조건에 맞는 데이터가 없으면 <code>INSERT</code> 있으면 <code>UPDATE</code>를 수행한다.</p>
+<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs n1ql"><span class="hljs-keyword">MERGE</span> <span class="hljs-keyword">INTO</span> [스키마.]테이블명<br>  <span class="hljs-keyword">USING</span> (<span class="hljs-keyword">update</span>나 <span class="hljs-keyword">insert</span>될 데이터 원천)<br>    <span class="hljs-keyword">ON</span> (<span class="hljs-keyword">update</span>될 조건)<br><span class="hljs-keyword">WHEN</span> <span class="hljs-keyword">MATCHED</span> <span class="hljs-keyword">THEN</span><br>   <span class="hljs-keyword">SET</span> column1 = 값<span class="hljs-number">1</span>, column2 = 값<span class="hljs-number">2</span>, ...<br><span class="hljs-keyword">WHERE</span> <span class="hljs-keyword">update</span> 조건<br>   <span class="hljs-keyword">DELETE</span> <span class="hljs-keyword">WHERE</span> update_delete 조건<br><span class="hljs-keyword">WHEN</span> <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">MATCHED</span> <span class="hljs-keyword">THEN</span><br>  <span class="hljs-keyword">INSERT</span> (column1,column2...) <span class="hljs-keyword">VALUES</span> (값<span class="hljs-number">1</span>, 값<span class="hljs-number">2</span>,...)<br>  <span class="hljs-keyword">WHERE</span> <span class="hljs-keyword">insert</span> 조건;<br></code></pre></td></tr></table></figure>
+
+<h2 id="DELETE"><a href="#DELETE" class="headerlink" title="DELETE"></a>DELETE</h2><p>테이블에 있는 데이터를 삭제할 때 <code>DELETE</code>를 사용한다.</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-comment">-- 일반적으로 쓰임</span><br><span class="hljs-keyword">DELETE</span> [<span class="hljs-keyword">FROM</span>] [스키마.]테이블명<br><span class="hljs-keyword">WHERE</span> <span class="hljs-keyword">delete</span> 조건; <br><br><span class="hljs-comment">-- 특정 파티션만 삭제 할 경우</span><br><span class="hljs-keyword">DELETE</span> [<span class="hljs-keyword">FROM</span>] [스키마.]테이블명 <span class="hljs-keyword">PARTITION</span> (파티션명)<br><span class="hljs-keyword">WHERE</span> <span class="hljs-keyword">delete</span> 조건;<br></code></pre></td></tr></table></figure>
+<h2 id="COMMIT-amp-ROLLBACK"><a href="#COMMIT-amp-ROLLBACK" class="headerlink" title="COMMIT &amp; ROLLBACK"></a>COMMIT &amp; ROLLBACK</h2><p><code>COMMIT</code>는 변경한 데이터를 데이터베이스에 마지막으로 반영할 때<br><code>ROLLBACK</code>는 반대로 변경한 데이터를 변경 전으로 되돌릴 때 사용한다.</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"><span class="hljs-keyword">COMMIT</span> [<span class="hljs-keyword">WORK</span>] [<span class="hljs-keyword">TO</span> <span class="hljs-keyword">SAVEPOINT</span> 세이브포인트명] ;<br><span class="hljs-keyword">ROLLBACK</span> [<span class="hljs-keyword">WORK</span>] [<span class="hljs-keyword">TO</span> <span class="hljs-keyword">SAVEPOINT</span> 세이브포인트명] ;<br></code></pre></td></tr></table></figure>
+
+<h2 id="TRUNCATE"><a href="#TRUNCATE" class="headerlink" title="TRUNCATE"></a>TRUNCATE</h2><p>일반적으로 사용되는 <code>DELETE</code>문의 경우 <code>COMMIT</code>를 실행해야 데이터가 완전히 삭제되고, <code>ROLLBACK</code>을 실행하면 데이터가 다시 복구된다.<br>그러나 <code>TRUNCATE</code>문의 경우 데이터가 바로 삭제되고, <code>ROLLBACK</code>을 실행해도 데이터가 복구되지 않는다. 또한 <code>WHERE</code>조건문을 쓸 수 없으므로 항상 테이블 데이터 전체가 삭제된다.</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs css">TRUNCATE <span class="hljs-selector-tag">TABLE</span> <span class="hljs-selector-attr">[스키마명.]</span>테이블명;<br></code></pre></td></tr></table></figure>
+
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Oracle/">Oracle</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Oracle/">Oracle</a>
+                    
+                      <a class="hover-with-bg" href="/tags/DML/">DML</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    달리 명시되지 않는 한 이 블로그의 모든 기사는 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0을 사용합니다.</a> 공유 시 출처를 밝혀주세요！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/04/27/Oracle%EC%9D%98%20%EC%97%B0%EC%82%B0%EC%9E%90/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Oracle의 다양한 연산자</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/04/23/Oracle%20Sql%20%EA%B8%B0%EB%B3%B8%20%EC%84%A4%EC%A0%95/">
+                        <span class="hidden-mobile">Oracle SQL 기본 설정</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;TOC</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+    
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

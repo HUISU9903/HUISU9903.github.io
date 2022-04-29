@@ -1,0 +1,852 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=dark>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="HUISU">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Oracle의 함수에 대해 알아본다.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Oracle 함수">
+<meta property="og:url" content="https://huisu9903.github.io/2022/04/27/Oracle%20%ED%95%A8%EC%88%98/index.html">
+<meta property="og:site_name" content="MY FIRST BLOG">
+<meta property="og:description" content="Oracle의 함수에 대해 알아본다.">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://user-images.githubusercontent.com/65166786/165432532-5048ecde-297f-4dba-9813-65da9cc215bb.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/65166786/165435002-d7fbe300-e17d-4c2d-b127-411ad3b8986c.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/65166786/165435910-276955af-4678-459a-9833-63bc252027e1.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/65166786/165436028-0db99d38-cafa-44b0-ab67-c9c5729294ef.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/65166786/165444255-5c46995c-6a20-4899-abb9-8aead34b1db9.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/65166786/165445328-484f45ea-7040-4288-b16d-14b0575aa6be.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/65166786/165447162-b1a76df0-6c15-45d0-9aeb-eef07cb66eba.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/65166786/165467899-6d7f65a2-90f2-44f2-9bc9-17c14f90ef93.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/65166786/165467939-67118faa-ed3e-4b01-8e6c-64bf7d158d3e.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/65166786/165470648-0d952325-e560-4a4f-8e75-106f36d83306.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/65166786/165471158-4f2e4cd2-fd28-4f4a-8786-423c43b35da6.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/65166786/165472988-152cfa62-e65f-47e6-97d9-7efb4d9ceb32.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/65166786/165476835-486577c9-9d22-46e5-9679-c67fc9d2c133.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/65166786/165477950-8e44dffa-3a7f-4bc9-b30b-1d27bca721fe.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/65166786/165512183-fa129de6-8982-4030-bad8-749ee8234011.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/65166786/165512266-809fa569-45f0-4079-844a-409be2833545.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/65166786/165513978-1003fb14-b41a-4f74-8e1d-dfd449e60fd6.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/65166786/165514793-1304a135-463a-4690-a522-9f8dfa031b71.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/65166786/165520893-6f10d9ac-402d-4264-a120-9eba126e917f.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/65166786/165521492-54c57b88-af70-4360-8690-fe3371480189.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/65166786/165528777-7db99cea-a14d-4cc8-a600-bd4eafe8e00c.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/65166786/165530030-4d0fc429-ce40-4b33-877d-0df8e34f8881.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/65166786/165532935-718227d3-6326-48c9-93fd-b3f05617a35d.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/65166786/165532998-d7e2b0f6-7f6f-4678-ad6f-a4e405e9d68a.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/65166786/165666872-ad7e0b9d-1180-4b5b-8130-6e9c0dd4b012.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/65166786/165667008-c437fc4d-63a7-4fdd-844b-2adbab03f964.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/65166786/165667280-62563b1c-de79-4652-b8d5-5ed177379362.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/65166786/165667683-b1f23cb9-5d6c-440e-a0ef-6d99c60f7f36.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/65166786/165668201-e8473556-525c-40ff-a5f3-e754b967d804.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/65166786/165668465-3b8d4f48-6632-437c-ab76-77de2526e27b.png">
+<meta property="article:published_time" content="2022-04-27T13:00:00.000Z">
+<meta property="article:modified_time" content="2022-04-29T08:32:03.863Z">
+<meta property="article:author" content="HUISU">
+<meta property="article:tag" content="Oracle">
+<meta property="article:tag" content="Expression">
+<meta property="article:tag" content="Condition">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://user-images.githubusercontent.com/65166786/165432532-5048ecde-297f-4dba-9813-65da9cc215bb.png">
+  
+  
+  <title>Oracle 함수 - MY FIRST BLOG</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/hybrid.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"huisu9903.github.io","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":75,"cursorChar":"","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>HUISU</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Categories
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Oracle 함수">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-04-27 22:00" pubdate>
+        April 27, 2022
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Oracle 함수</h1>
+            
+            <div class="markdown-body">
+              <h1 id="함수"><a href="#함수" class="headerlink" title="함수"></a>함수</h1><p>함수는 연산 대상과 특성에 따라 숫자 함수, 문자 함수, 날짜 함수, NULL 관련 함수, 변환 함수로 나눌 수 있다.</p>
+<h1 id="숫자-함수"><a href="#숫자-함수" class="headerlink" title="숫자 함수"></a>숫자 함수</h1><h2 id="ABS"><a href="#ABS" class="headerlink" title="ABS"></a>ABS</h2><p><code>ABS</code>는 절대값을 반환하는 함수이다.<br><code>ABS(n)</code> 의 형태로 사용한다.</p>
+<div class="hljs code-wrapper"><pre><code class="hljs scss">SELECT <span class="hljs-built_in">ABS</span>(<span class="hljs-number">10</span>) 
+     , <span class="hljs-built_in">ABS</span>(-<span class="hljs-number">10</span>)
+     , <span class="hljs-built_in">ABS</span>(-<span class="hljs-number">10.123</span>)
+     FROM DUAL;</code></pre></div>
+<p>10 &#x2F; 10 &#x2F; 10.123 이 반환되었다.</p>
+<h2 id="CEIL"><a href="#CEIL" class="headerlink" title="CEIL"></a>CEIL</h2><p><code>CEIL</code>은 올림한 결과를 반환한다.<br><code>CEIL(n)</code>의 형태로 사용한다.</p>
+<div class="hljs code-wrapper"><pre><code class="hljs scss">SELECT <span class="hljs-built_in">CEIL</span>(<span class="hljs-number">10.123</span>) 
+     , <span class="hljs-built_in">CEIL</span>(<span class="hljs-number">10.541</span>)
+     , <span class="hljs-built_in">CEIL</span>(<span class="hljs-number">11.001</span>)
+     FROM DUAL;</code></pre></div>
+<p> 11 &#x2F; 11 &#x2F; 12가 반환되었다.</p>
+<h2 id="FLOOR"><a href="#FLOOR" class="headerlink" title="FLOOR"></a>FLOOR</h2><p><code>FLOOR</code>은 버림한 결과를 반환한다.<br><code>FLOOR(n)</code>의 형태로 사용한다.</p>
+<div class="hljs code-wrapper"><pre><code class="hljs scss">SELECT <span class="hljs-built_in">FLOOR</span>(<span class="hljs-number">10.123</span>)
+      ,<span class="hljs-built_in">FLOOR</span>(<span class="hljs-number">10.541</span>)
+      ,<span class="hljs-built_in">FLOOR</span>(<span class="hljs-number">11.001</span>)
+      FROM DUAL;</code></pre></div>
+<p>10 &#x2F; 10 &#x2F; 11이 반환되었다.</p>
+<h2 id="ROUND"><a href="#ROUND" class="headerlink" title="ROUND"></a>ROUND</h2><p><code>ROUND</code>는 반올림한 결과를 반환한다.<br><code>ROUND(n,i)</code>로 사용하며, <code>i</code>를 통해 반올림 할 자릿수의 지정이 가능하다.</p>
+<div class="hljs code-wrapper"><pre><code class="hljs scss">SELECT <span class="hljs-built_in">ROUND</span>(<span class="hljs-number">10.154</span>)
+             ,<span class="hljs-built_in">ROUND</span>(<span class="hljs-number">10.541</span>)
+             ,<span class="hljs-built_in">ROUND</span>(<span class="hljs-number">11.001</span>)
+             ,<span class="hljs-built_in">ROUND</span>(<span class="hljs-number">10.154</span>, <span class="hljs-number">1</span>)
+             ,<span class="hljs-built_in">ROUND</span>(<span class="hljs-number">10.154</span>, <span class="hljs-number">2</span>)
+             ,<span class="hljs-built_in">ROUND</span>(<span class="hljs-number">10.154</span>, <span class="hljs-number">3</span>)
+             FROM DUAL;</code></pre></div>
+<p>10 &#x2F; 11&#x2F; 11 &#x2F; 10.2 &#x2F; 10.15 &#x2F; 10.154 가 출력되었다.</p>
+<div class="hljs code-wrapper"><pre><code class="hljs scss">SELECT <span class="hljs-built_in">ROUND</span>(<span class="hljs-number">0</span>, <span class="hljs-number">3</span>)
+      ,<span class="hljs-built_in">ROUND</span>(<span class="hljs-number">115.155</span>, -<span class="hljs-number">1</span>)
+      ,<span class="hljs-built_in">ROUND</span>(<span class="hljs-number">115.155</span>, -<span class="hljs-number">2</span>)
+      FROM DUAL;</code></pre></div>
+<p>반올림할 자릿수를 음수로 지정하면 자릿수를 왼쪽부터 카운팅한다.<br>0 &#x2F; 120 &#x2F; 100이 출력되었다.</p>
+<h2 id="TRUNC"><a href="#TRUNC" class="headerlink" title="TRUNC"></a>TRUNC</h2><p><code>TRUNC</code>는 반올림을 하지 않고 자릿수를 잘라낸 뒤 반환한다.<br><code>TRUNC(n,i)</code>로 사용하며, <code>i</code>에 자릿수를 지정하면 그 자릿수에서 잘라낸 결과를 반환한다. </p>
+<div class="hljs code-wrapper"><pre><code class="hljs scss">SELECT <span class="hljs-built_in">TRUNC</span>(<span class="hljs-number">115.155</span>)
+      ,<span class="hljs-built_in">TRUNC</span>(<span class="hljs-number">115.155</span>, <span class="hljs-number">1</span>)
+      ,<span class="hljs-built_in">TRUNC</span>(<span class="hljs-number">115.155</span>, <span class="hljs-number">2</span>)
+      ,<span class="hljs-built_in">TRUNC</span>(<span class="hljs-number">115.155</span>, -<span class="hljs-number">2</span>)
+FROM DUAL;</code></pre></div>
+<p>115 &#x2F; 115.1 &#x2F; 115.15 &#x2F; 100 이 반환되었다.</p>
+<h2 id="POWER"><a href="#POWER" class="headerlink" title="POWER"></a>POWER</h2><p><code>POWER</code>는 n1을 n2 제곱한 결과를 반환한다.<br>n1이 음수 일때 n2는 정수만 올 수 있다.<br><code>POWER(n1,n2)</code>로 사용한다.</p>
+<div class="hljs code-wrapper"><pre><code class="hljs apache"><span class="hljs-attribute">SELECT</span> POWER(<span class="hljs-number">2</span>,<span class="hljs-number">3</span>), POWER(<span class="hljs-number">3</span>,<span class="hljs-number">3</span>)
+ <span class="hljs-attribute">FROM</span> DUAL;</code></pre></div>
+<p> 8 &#x2F; 27이 반환되었다.<br> <div class="hljs code-wrapper"><pre><code class="hljs apache"><span class="hljs-attribute">SELECT</span> POWER(-<span class="hljs-number">3</span>, <span class="hljs-number">3</span>.<span class="hljs-number">0001</span>)
+ <span class="hljs-attribute">FROM</span> DUAL;</code></pre></div><br> <img src="https://user-images.githubusercontent.com/65166786/165432532-5048ecde-297f-4dba-9813-65da9cc215bb.png" srcset="/img/loading.gif" lazyload><br>n1이 음수일 때 n2를 정수가 아닌 실수로 할 경우<br>“인수가 범위를 벗어났습니다” 라는 에러가 발생한다.</p>
+<h2 id="SQRT"><a href="#SQRT" class="headerlink" title="SQRT"></a>SQRT</h2><p><code>SQRT</code>는 n의 제곱근을 반환한다.<br><code>SQRT(n)</code>으로 사용한다.</p>
+<div class="hljs code-wrapper"><pre><code class="hljs n1ql"><span class="hljs-keyword">SELECT</span> <span class="hljs-built_in">SQRT</span>(<span class="hljs-number">2</span>), <span class="hljs-built_in">SQRT</span>(<span class="hljs-number">5</span>)
+ <span class="hljs-keyword">FROM</span> DUAL;</code></pre></div>
+<p>1.73205 &#x2F; 2.64575 이 반환되었다.</p>
+<h2 id="MOD"><a href="#MOD" class="headerlink" title="MOD"></a>MOD</h2><p><code>MOD</code>는 n1을 n2로 나눈 나머지 값을 반환한다.<br><code>MOD(n1,n2)</code>로 사용한다.</p>
+<div class="hljs code-wrapper"><pre><code class="hljs apache"><span class="hljs-attribute">SELECT</span> MOD(<span class="hljs-number">17</span>,<span class="hljs-number">3</span>), MOD(<span class="hljs-number">21</span>.<span class="hljs-number">123</span>, <span class="hljs-number">5</span>.<span class="hljs-number">2</span>)
+ <span class="hljs-attribute">FROM</span> DUAL;</code></pre></div>
+<p> 2 &#x2F; 0.323 이 반환되었다.</p>
+<h2 id="REMAINDER"><a href="#REMAINDER" class="headerlink" title="REMAINDER"></a>REMAINDER</h2><p><code>REMAINDER</code> 또한 나머지 값을 반환한다.<br><code>MOD</code>와는 차이점이 있다.<br><code>REMAINDER(n1,n2)</code>로 사용한다.</p>
+<p> <code>MOD</code>의 경우 n1 - n2 * FLOOR(n1&#x2F;n2)로 <code>n1/n2</code>에 대해 버림을 시행하지만,<br><code>REMAINDER</code>의 경우 n1 - n2 * ROUND(n1&#x2F;n2)로 <code>n1/n2</code>에 대해 반올림을 시행하는 차이점이 있다.<br>  <div class="hljs code-wrapper"><pre><code class="hljs apache"><span class="hljs-attribute">SELECT</span> REMAINDER(<span class="hljs-number">17</span>,<span class="hljs-number">3</span>), REMAINDER(<span class="hljs-number">19</span>.<span class="hljs-number">123</span>, <span class="hljs-number">4</span>.<span class="hljs-number">2</span>)
+<span class="hljs-attribute">FROM</span> DUAL;</code></pre></div><br> 값이 반올림되어 -1 &#x2F; 0.323이 반환되었다.</p>
+<h1 id="문자-함수"><a href="#문자-함수" class="headerlink" title="문자 함수"></a>문자 함수</h1><h2 id="INITCAP"><a href="#INITCAP" class="headerlink" title="INITCAP"></a>INITCAP</h2><p><code>INITCAP</code>는 문자의 첫 문자는 대문자, 나머지는 소문자로 반환하는 함수이다. 첫 문자의 기준은 공백이나 알파벳이 아닌 문자이다.<br><code>INITCAP(char)</code>로 사용한다.</p>
+<div class="hljs code-wrapper"><pre><code class="hljs reasonml">SELECT <span class="hljs-constructor">INITCAP(&#x27;<span class="hljs-params">good</span> <span class="hljs-params">moring</span> <span class="hljs-params">today</span>&#x27;)</span>, <span class="hljs-constructor">INITCAP(&#x27;<span class="hljs-params">good</span>뷁<span class="hljs-params">moring</span><span class="hljs-operator">*</span><span class="hljs-params">today</span>&#x27;)</span>
+ FROM DUAL;</code></pre></div>
+<p> <img src="https://user-images.githubusercontent.com/65166786/165435002-d7fbe300-e17d-4c2d-b127-411ad3b8986c.png" srcset="/img/loading.gif" lazyload><br> 왼쪽 출력을 보면 공백을 기준으로 <code>G``M``T</code>가 대문자로 변경된 것을 확인 할 수가 있고, 오른쪽 출력을 보면 한글 <code>뷁</code>과 <code>*</code>을 기준으로 대문자로 변경된 것을 확인 할 수 있다.</p>
+<h2 id="LOWER-amp-UPPER"><a href="#LOWER-amp-UPPER" class="headerlink" title="LOWER &amp; UPPER"></a>LOWER &amp; UPPER</h2><p><code>LOWER</code>는 문자를 모두 소문자로, <code>UPPER</code>는 문자를 모두 대문자로 변환한다.<br><code>LOWER(char), UPPER(char)</code>로 사용한다.</p>
+<div class="hljs code-wrapper"><pre><code class="hljs n1ql"><span class="hljs-keyword">SELECT</span> <span class="hljs-built_in">LOWER</span>(<span class="hljs-string">&#x27;GOOD MORING TODAY&#x27;</span>), <span class="hljs-built_in">UPPER</span>(<span class="hljs-string">&#x27;good moring today&#x27;</span>)
+ <span class="hljs-keyword">FROM</span> DUAL;</code></pre></div>
+<p><img src="https://user-images.githubusercontent.com/65166786/165435910-276955af-4678-459a-9833-63bc252027e1.png" srcset="/img/loading.gif" lazyload><br>왼쪽 출력을 보면 모두 소문자로 변환된 것을 확인 할 수 있고, 오른쪽 출력을 보면 대문자로 변환된 것도 확인 할 수 있다.</p>
+<h2 id="CONCAT"><a href="#CONCAT" class="headerlink" title="CONCAT"></a>CONCAT</h2><p><code>CONCAT</code>은 두 문자를 붙여서 반환한다.<br><code>CONCAT(char1, char2)</code>로 사용한다.</p>
+<div class="hljs code-wrapper"><pre><code class="hljs oxygene"><span class="hljs-keyword">SELECT</span> <span class="hljs-keyword">CONCAT</span>(<span class="hljs-string">&#x27;I Want&#x27;</span>, <span class="hljs-string">&#x27; Go Home&#x27;</span>), <span class="hljs-string">&#x27;I Want&#x27;</span> || <span class="hljs-string">&#x27; Go Home&#x27;</span>
+ <span class="hljs-keyword">FROM</span> DUAL<span class="hljs-punctuation">;</span></code></pre></div>
+<p><img src="https://user-images.githubusercontent.com/65166786/165436028-0db99d38-cafa-44b0-ab67-c9c5729294ef.png" srcset="/img/loading.gif" lazyload><br>문자 연산자인 <code>||</code>과 동일한 역할을 한다는 것을 알 수 있다. </p>
+<h2 id="SUBSTR-amp-SUBSTRB"><a href="#SUBSTR-amp-SUBSTRB" class="headerlink" title="SUBSTR &amp; SUBSTRB"></a>SUBSTR &amp; SUBSTRB</h2><p><code>SUBSTR</code>은 문자열의 <code>pos</code>번째 문자부터 <code>len</code>길이만큼 잘라낸 결과를 반환한다. <code>pos</code>값이 0일 경우 첫번째 문자를 가르키며 , 음수일 경우 문자열의 맨 끝부터 역순으로 카운팅한다. 또한 <code>len</code>값이 생략될 경우 <code>pos</code>번째부터 나머지 모든 문자를 반환한다.<br><code>SUBSTR(char, pos, len)</code>, <code>SUBSTRB(char, pos, len)</code>으로 사용한다. </p>
+<div class="hljs code-wrapper"><pre><code class="hljs n1ql"><span class="hljs-keyword">SELECT</span> <span class="hljs-built_in">SUBSTR</span>(<span class="hljs-string">&#x27;ABCDEFG&#x27;</span>, <span class="hljs-number">1</span>, <span class="hljs-number">4</span>), <span class="hljs-built_in">SUBSTR</span>(<span class="hljs-string">&#x27;ABCDEFG&#x27;</span>, <span class="hljs-number">-1</span>, <span class="hljs-number">4</span>)
+ <span class="hljs-keyword">FROM</span> DUAL;</code></pre></div>
+<p><img src="https://user-images.githubusercontent.com/65166786/165444255-5c46995c-6a20-4899-abb9-8aead34b1db9.png" srcset="/img/loading.gif" lazyload><br>왼쪽 출력을 보면 첫번째 문자(1)에서 길이 4까지 반환하기에 <code>ABCD</code>가 반환되었다.<br>오른쪽 출력을 보면 역순으로 뒤에서 첫번째 문자에서(-1) 길이 4를 반환하나, 문자가 하나밖에 없기에 <code>G</code>만 반환된다.</p>
+<p><code>SUBSTR</code>은 문자의 개수로 문자열을 자르지만,<br><code>SUBSTRB</code>는 문자 개수가 아닌 문자열의 Byte를 기준으로<br>문자열을 잘라낸다.</p>
+<div class="hljs code-wrapper"><pre><code class="hljs apache"><span class="hljs-attribute">SELECT</span> SUBSTRB (&#x27;ABCDEFG&#x27;, <span class="hljs-number">1</span>, <span class="hljs-number">4</span>), SUBSTRB(&#x27;가나다라마바사&#x27;, <span class="hljs-number">1</span>, <span class="hljs-number">4</span>)
+ <span class="hljs-attribute">FROM</span> DUAL;</code></pre></div>
+<p><img src="https://user-images.githubusercontent.com/65166786/165445328-484f45ea-7040-4288-b16d-14b0575aa6be.png" srcset="/img/loading.gif" lazyload><br>왼쪽 출력을 보면 첫번째 문자(1)에서 4byte만 반환하기에 <code>ABCD</code>가 반환되었다.<br>오른쪽 출력을 보면 첫번째 문자(1)에서 4byte만 반환하기에 <code>가나</code>가 출력되어야 하지만(한글은 통상적으로 한 글자당 2byte이다.) Oracle 인코딩에 따라 한글 한 문자 당 3byte의 저장공간을 가지게 될수도 있다고 한다. 문자 하나당3byte의 저장공간을 가지게 되어서 <code>가</code>만 출력되었다.</p>
+<h2 id="LTRIM-amp-RTRIM"><a href="#LTRIM-amp-RTRIM" class="headerlink" title="LTRIM &amp; RTRIM"></a>LTRIM &amp; RTRIM</h2><p><code>LTRIM</code>은 문자열에서 <code>set</code>로 지정된 문자열을 왼쪽 끝에서 제거한 후 나머지 문자열을 반환한다.<br><code>set</code>를 생략할 경우 기본값으로 공백 한 문자가 사용된다.<br><code>RTRIM</code>은 <code>LTRIM</code>과 반대로 오른쪽 끝에서 제거한 후 나머지 문자열을 반환한다.<br><code>LTRIM(char, set)</code> , <code>RTRIM(char, set)</code>으로 사용한다.</p>
+<div class="hljs code-wrapper"><pre><code class="hljs n1ql"><span class="hljs-keyword">SELECT</span> <span class="hljs-built_in">LTRIM</span>(<span class="hljs-string">&#x27;QWERTYGOODQWERTY&#x27;</span>, <span class="hljs-string">&#x27;QWERTY&#x27;</span>)
+      ,<span class="hljs-built_in">LTRIM</span>(<span class="hljs-string">&#x27;기러기&#x27;</span>, <span class="hljs-string">&#x27;기&#x27;</span>)
+      ,<span class="hljs-built_in">RTRIM</span>(<span class="hljs-string">&#x27;QWERTYGOODQWERTY&#x27;</span>, <span class="hljs-string">&#x27;QWERTY&#x27;</span>)
+      ,<span class="hljs-built_in">RTRIM</span>(<span class="hljs-string">&#x27;기러기&#x27;</span>, <span class="hljs-string">&#x27;기&#x27;</span>)
+ <span class="hljs-keyword">FROM</span> DUAL;</code></pre></div>
+<p><img src="https://user-images.githubusercontent.com/65166786/165447162-b1a76df0-6c15-45d0-9aeb-eef07cb66eba.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="LPAD-amp-RPAD"><a href="#LPAD-amp-RPAD" class="headerlink" title="LPAD &amp; RPAD"></a>LPAD &amp; RPAD</h2><p><code>LPAD</code>,<code>RPAD</code>는 매개변수로 들어온 문자열을 n자리만큼 왼쪽&#x2F; 오른쪽부터 채운 후 반환한다.<br><code>LPAD(expr1,n,expr2)</code> , <code>RPAD(expr1,n,expr2)</code>로 사용한다.</p>
+<div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> ex4_1 (
+ alpha VARCHAR2(<span class="hljs-number">30</span>)
+);
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> ex4_1 <span class="hljs-keyword">VALUES</span> (<span class="hljs-string">&#x27;ABC&#x27;</span>);
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> ex4_1 <span class="hljs-keyword">VALUES</span> (<span class="hljs-string">&#x27;DEF&#x27;</span>);
+<span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> ex4_1 <span class="hljs-keyword">VALUES</span> (<span class="hljs-string">&#x27;GHI&#x27;</span>);</code></pre></div>
+<div class="hljs code-wrapper"><pre><code class="hljs pgsql"><span class="hljs-keyword">SELECT</span> LPAD(alpha, <span class="hljs-number">7</span>, <span class="hljs-string">&#x27;Play&#x27;</span>)
+ <span class="hljs-keyword">FROM</span> ex4_1;</code></pre></div>
+<p><img src="https://user-images.githubusercontent.com/65166786/165467899-6d7f65a2-90f2-44f2-9bc9-17c14f90ef93.png" srcset="/img/loading.gif" lazyload></p>
+<div class="hljs code-wrapper"><pre><code class="hljs pgsql"><span class="hljs-keyword">SELECT</span> RPAD(alpha, <span class="hljs-number">7</span>, <span class="hljs-string">&#x27;Play&#x27;</span>)
+ <span class="hljs-keyword">FROM</span> ex4_1;</code></pre></div>
+<p><img src="https://user-images.githubusercontent.com/65166786/165467939-67118faa-ed3e-4b01-8e6c-64bf7d158d3e.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="REPLACE"><a href="#REPLACE" class="headerlink" title="REPLACE"></a>REPLACE</h2><p><code>REPLACE</code>는 <code>char</code>에서 <code>search_str</code>을 찾아 <code>replace_str</code>로 대체한 결과를 반환한다.<br><code>REPLACE(char,search_str,replace_str)</code>으로 사용한다.</p>
+<div class="hljs code-wrapper"><pre><code class="hljs n1ql"><span class="hljs-keyword">SELECT</span> <span class="hljs-built_in">REPLACE</span> (<span class="hljs-string">&#x27;얼음 공주같은 눈빛은 말고 한번쯤은 웃어도봐요 오금저리고 얼어붙어&#x27;</span>, <span class="hljs-string">&#x27;얼음 공주&#x27;</span>, <span class="hljs-string">&#x27;당근 공주&#x27;</span>)
+ <span class="hljs-keyword">FROM</span> DUAL;</code></pre></div>
+<p><img src="https://user-images.githubusercontent.com/65166786/165470648-0d952325-e560-4a4f-8e75-106f36d83306.png" srcset="/img/loading.gif" lazyload><br> <code>얼음 공주</code>가 <code>당근 공주</code>로 대체된 것을 확인 할 수 있다.</p>
+<div class="hljs code-wrapper"><pre><code class="hljs n1ql"><span class="hljs-keyword">SELECT</span> <span class="hljs-built_in">LTRIM</span>(<span class="hljs-string">&#x27; ABC DEF &#x27;</span>)
+       ,<span class="hljs-built_in">RTRIM</span>(<span class="hljs-string">&#x27; ABC DEF &#x27;</span>)
+       ,<span class="hljs-built_in">REPLACE</span>(<span class="hljs-string">&#x27; ABC DEF &#x27;</span>, <span class="hljs-string">&#x27; &#x27;</span>, <span class="hljs-string">&#x27;&#x27;</span>)
+ <span class="hljs-keyword">FROM</span> DUAL;</code></pre></div>
+<p><img src="https://user-images.githubusercontent.com/65166786/165471158-4f2e4cd2-fd28-4f4a-8786-423c43b35da6.png" srcset="/img/loading.gif" lazyload><br><code>LTRIM</code>, <code>RTRIM</code>의 경우 문자열 중간의 공백이 제거되지 않지만, <code>REPLACE</code>의 경우 문자열 중간의 공백도 제거된 채로 출력되는 것을 확인 할 수 있다.</p>
+<h2 id="TRANSLATE"><a href="#TRANSLATE" class="headerlink" title="TRANSLATE"></a>TRANSLATE</h2><p><code>TRANSLATE</code>는 <code>expr</code>에서 <code>from_str</code>을 찾아 <code>to_str</code>로 대체한 결과를 반환한다.<br><code>TRANSLATE(expr,from_str,to_str)</code>으로 사용한다.</p>
+<div class="hljs code-wrapper"><pre><code class="hljs pgsql"><span class="hljs-keyword">SELECT</span> REPLACE(<span class="hljs-string">&#x27;얼음 공주같은 눈빛은 말고 한번쯤은 웃어도봐요 오금저리고 얼어붙어&#x27;</span>, <span class="hljs-string">&#x27;얼음 공주&#x27;</span>, <span class="hljs-string">&#x27;당근 공주&#x27;</span>) <span class="hljs-keyword">AS</span> rep
+      ,TRANSLATE(<span class="hljs-string">&#x27;얼음 공주같은 눈빛은 말고 한번쯤은 웃어도봐요 오금저리고 얼어붙어&#x27;</span>, <span class="hljs-string">&#x27;얼음 공주&#x27;</span>, <span class="hljs-string">&#x27;당근 공주&#x27;</span>) <span class="hljs-keyword">AS</span> trn
+ <span class="hljs-keyword">FROM</span> DUAL;</code></pre></div>
+
+<p><img src="https://user-images.githubusercontent.com/65166786/165472988-152cfa62-e65f-47e6-97d9-7efb4d9ceb32.png" srcset="/img/loading.gif" lazyload><br><code>REPLACE</code>의 경우 단어 단위로 바뀌지만, <code>TRANSLATE</code>는 한 글자씩 바뀌기에<br>오른쪽 출력을 보면 ‘얼어붙어’가 아닌 ‘당어붙어’가 된 것을 확인 할 수 있다.</p>
+<h2 id="INSTR"><a href="#INSTR" class="headerlink" title="INSTR"></a>INSTR</h2><p><code>INSTR</code>은 str 문자열에서 substr과 일치하는 위치를 반환한다.<br><code>INSTR(str,substr,pos,occur)</code>으로 사용한다.<br><code>pos</code>는 시작위치이고, <code>occur</code>은 몇 번째 일치하는지를 명시한다.</p>
+<div class="hljs code-wrapper"><pre><code class="hljs n1ql"><span class="hljs-keyword">SELECT</span> INSTR(<span class="hljs-string">&#x27;내가 만약 외로울 때면. 내가 만약 괴로울 때면. 내가 만약 즐거울때면&#x27;</span>, <span class="hljs-string">&#x27;만약&#x27;</span>) <span class="hljs-keyword">AS</span> INSTR1
+      ,INSTR(<span class="hljs-string">&#x27;내가 만약 외로울 때면. 내가 만약 괴로울 때면. 내가 만약 즐거울때면&#x27;</span>, <span class="hljs-string">&#x27;만약&#x27;</span>, <span class="hljs-number">5</span>) <span class="hljs-keyword">AS</span> INSTR2
+      ,INSTR(<span class="hljs-string">&#x27;내가 만약 외로울 때면. 내가 만약 괴로울 때면. 내가 만약 즐거울때면&#x27;</span>, <span class="hljs-string">&#x27;만약&#x27;</span>, <span class="hljs-number">5</span>, <span class="hljs-number">2</span>) <span class="hljs-keyword">AS</span> INSTR3
+ <span class="hljs-keyword">FROM</span> DUAL;</code></pre></div>
+<p><img src="https://user-images.githubusercontent.com/65166786/165476835-486577c9-9d22-46e5-9679-c67fc9d2c133.png" srcset="/img/loading.gif" lazyload><br>첫번째는 <code>pos</code>, <code>occur</code>둘 다 없으므로 기본값 1이 적용되어, 첫번째 만약이 있는 위치인 4가 반환되었다.<br>두번째는 <code>pos</code>에 5가 적용되어 5번째 글자부터 탐색하므로,<br>첫번째 만약을 건너뛴다. 그러므로 두번째 만약이 있는 위치인 18이 반환되었다.<br>세번째는 <code>pos</code>에 5, <code>occur</code>에 2를 적용했으므로 첫번째 만약을 건너뛰고, 두번째 만약도 건너뛴 세번째 만약의 위치인 32가 반환되었다.</p>
+<h2 id="LENGTH-amp-LENGTHB"><a href="#LENGTH-amp-LENGTHB" class="headerlink" title="LENGTH &amp; LENGTHB"></a>LENGTH &amp; LENGTHB</h2><p><code>LENGTH</code>은 문자열의 개수를 반환한다.<br><code>LENGTHB</code>는 문자열의 바이트수를 반환한다.<br><code>LENGTH(chr)</code> , <code>LENGTHB(chr)</code>으로 사용한다.</p>
+<div class="hljs code-wrapper"><pre><code class="hljs n1ql"><span class="hljs-keyword">SELECT</span> <span class="hljs-built_in">LENGTH</span>(<span class="hljs-string">&#x27;대한민국&#x27;</span>)
+      ,LENGTHB(<span class="hljs-string">&#x27;대한민국&#x27;</span>)
+ <span class="hljs-keyword">FROM</span> DUAL;</code></pre></div>
+<p> <img src="https://user-images.githubusercontent.com/65166786/165477950-8e44dffa-3a7f-4bc9-b30b-1d27bca721fe.png" srcset="/img/loading.gif" lazyload><br> <code>LENGTH</code>에서 문자열의 개수 4가 반환되었고,<br> <code>LENGTHB</code>에서 문자열의 바이트 수 12가 반환된 것을 확인할 수 있다.</p>
+<h1 id="날짜-함수"><a href="#날짜-함수" class="headerlink" title="날짜 함수"></a>날짜 함수</h1><p>날짜 함수는 날짜형을 대상으로 연산을 수행하는 함수이다.</p>
+<h2 id="SYSDATE-SYSTIMESTAMP"><a href="#SYSDATE-SYSTIMESTAMP" class="headerlink" title="SYSDATE , SYSTIMESTAMP"></a>SYSDATE , SYSTIMESTAMP</h2><p><code>SYSDATE</code>, <code>SYSTIMESTAMP</code>는 현재일자와 시간을 각각 <code>DATE</code> <code>TIMESTAMP</code>형으로 반환한다.</p>
+<div class="hljs code-wrapper"><pre><code class="hljs n1ql"><span class="hljs-keyword">SELECT</span> SYSDATE, SYSTIMESTAMP
+ <span class="hljs-keyword">FROM</span> DUAL;</code></pre></div>
+<p><img src="https://user-images.githubusercontent.com/65166786/165512183-fa129de6-8982-4030-bad8-749ee8234011.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="ADD-MONTHS"><a href="#ADD-MONTHS" class="headerlink" title="ADD_MONTHS"></a>ADD_MONTHS</h2><p><code>ADD_MONTHS</code>는 날짜에 <code>integer</code> 만큼의 월을 더한 뒤 반환한다.<br><code>ADD_MONTHS(date, integer)</code>으로 사용한다.</p>
+<div class="hljs code-wrapper"><pre><code class="hljs scss">SELECT <span class="hljs-built_in">ADD_MONTHS</span>(SYSDATE, <span class="hljs-number">1</span>), <span class="hljs-built_in">ADD_MONTHS</span>(SYSDATE, -<span class="hljs-number">1</span>)
+ FROM DUAL;</code></pre></div>
+<p><img src="https://user-images.githubusercontent.com/65166786/165512266-809fa569-45f0-4079-844a-409be2833545.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="MONTHS-BETWEEN"><a href="#MONTHS-BETWEEN" class="headerlink" title="MONTHS_BETWEEN"></a>MONTHS_BETWEEN</h2><p><code>MONTHS_BETWEEN</code>는 두 날짜 사이의 개월 수를 반환한다.<br><code>MONTHS_BETWEEN(date1, date2)</code>로 사용하며, <code>date1</code>이 <code>date2</code>보다 빠른 날짜여야 한다.</p>
+<div class="hljs code-wrapper"><pre><code class="hljs sas"><span class="hljs-keyword">SELECT</span> MONTHS_BETWEE<span class="hljs-meta">N</span>(SYSDATE, ADD_MONTHS(SYSDATE, 1)) mon1,
+       MONTHS_BETWEE<span class="hljs-meta">N</span>(ADD_MONTHS(SYSDATE, 1), SYSDATE) mon2
+ <span class="hljs-keyword">FROM</span> DUAL;</code></pre></div>
+<p><img src="https://user-images.githubusercontent.com/65166786/165513978-1003fb14-b41a-4f74-8e1d-dfd449e60fd6.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="LAST-DAY"><a href="#LAST-DAY" class="headerlink" title="LAST_DAY"></a>LAST_DAY</h2><p><code>date</code> 날짜를 기준으로 해당 월을 마지막 일자를 반환한다.<br><code>LAST_DAY(date)</code>으로 사용한다.</p>
+<div class="hljs code-wrapper"><pre><code class="hljs sas"><span class="hljs-keyword">SELECT</span> LAST_<span class="hljs-meta">DAY</span>(SYSDATE)
+      <span class="hljs-keyword">FROM</span> DUAL;</code></pre></div>
+<p><img src="https://user-images.githubusercontent.com/65166786/165514793-1304a135-463a-4690-a522-9f8dfa031b71.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="ROUND-amp-TRUNC"><a href="#ROUND-amp-TRUNC" class="headerlink" title="ROUND &amp; TRUNC"></a>ROUND &amp; TRUNC</h2><p><code>ROUND</code>와 <code>TRUNC</code>는 숫자 함수이면서 날짜 함수로도 쓰인다. <code>ROUND</code>는 반올림 날짜를, <code>TRUNC</code>는 잘라낸 날짜를 반환한다.<br><code>ROUND(data,format)</code>, <code>TRUNC(data,format)</code>로 사용한다.<br><img src="https://user-images.githubusercontent.com/65166786/165520893-6f10d9ac-402d-4264-a120-9eba126e917f.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="NEXT-DAY"><a href="#NEXT-DAY" class="headerlink" title="NEXT_DAY"></a>NEXT_DAY</h2><p><code>data</code>를 <code>char</code>에 명시한 날짜로 다음주 주중 일자를 반환한다.<br><code>NEXT_DAY(char)</code>으로 사용한다.<br><code>char</code>에 오는 요일 값은 사용자 환경에 따라 한글이 될 수도 있고, 영어도 될 수도 있다.</p>
+<div class="hljs code-wrapper"><pre><code class="hljs sas"><span class="hljs-keyword">SELECT</span> NEXT_<span class="hljs-meta">DAY</span>(SYSDATE, <span class="hljs-string">&#x27;금요일&#x27;</span>)
+ <span class="hljs-keyword">FROM</span> DUAL;</code></pre></div>
+<p><img src="https://user-images.githubusercontent.com/65166786/165521492-54c57b88-af70-4360-8690-fe3371480189.png" srcset="/img/loading.gif" lazyload></p>
+<h1 id="변환-함수"><a href="#변환-함수" class="headerlink" title="변환 함수"></a>변환 함수</h1><p>서로 다른 유형의 데이터 타입으로 변환해서 결과를 반환하는 함수이다.<br>변환 함수를 통해 형변환을 직접 처리하는 것을 <code>명시적 형변환</code>이라고 한다.<br>반대로 일정한 규칙에 따라 자동으로 형변환이 처리되는것은 <code>묵시적 형변환</code>이라고 한다.</p>
+<ul>
+<li>날짜 변환 형식</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>포맷</th>
+<th>설명</th>
+<th>예시</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>AM, A.M.</td>
+<td>오전</td>
+<td>TO_CHAR(SYSDATE, ‘AM’) → 오전</td>
+</tr>
+<tr>
+<td>PM, P.M.</td>
+<td>오후</td>
+<td>TO_CHAR(SYSDATE, ‘PM’) → 오후</td>
+</tr>
+<tr>
+<td>YYYY, YYY, YY, Y</td>
+<td>연도</td>
+<td>TO_CHAR(SYSDATE, ‘YYYY’) → 2014</td>
+</tr>
+<tr>
+<td>MONTH, MON</td>
+<td>월</td>
+<td>TO_CHAR(SYSDATE, ‘MONTH’) → 2월</td>
+</tr>
+<tr>
+<td>MM</td>
+<td>01~12 형태의 월</td>
+<td>TO_CHAR(SYSDATE, ‘MM’) → 02</td>
+</tr>
+<tr>
+<td>D</td>
+<td>주 중의 일을 1~7로</td>
+<td>TO_CHAR(SYSDATE, ‘D’) → 2</td>
+</tr>
+<tr>
+<td>DAY</td>
+<td>주 중 일을 요일로 표시</td>
+<td>TO_CHAR(SYSDATE, ‘DAY’) → 월요일</td>
+</tr>
+<tr>
+<td>DD</td>
+<td>일을 01~31 형태로 표시</td>
+<td>TO_CHAR(SYSDATE, ‘DD’) → 01</td>
+</tr>
+<tr>
+<td>DDD</td>
+<td>일을 001~365 형태로</td>
+<td>TO_CHAR(SYSDATE, ‘DDD’) → 041</td>
+</tr>
+<tr>
+<td>DL</td>
+<td>현재 날짜를 요일까지 표시</td>
+<td>TO_CHAR(SYSDATE, ‘DL’) → 2014년 2월 10일 월요일</td>
+</tr>
+<tr>
+<td>HH, HH12</td>
+<td>시간을 01~12시 형태로</td>
+<td>TO_CHAR(SYSDATE, ‘HH’) → 04</td>
+</tr>
+<tr>
+<td>HH24</td>
+<td>시간을 01~23시 형태로</td>
+<td>TO_CHAR(SYSDATE, ‘HH24’) → 16</td>
+</tr>
+<tr>
+<td>MI</td>
+<td>분을 00~59분 형태로</td>
+<td>TO_CHAR(SYSDATE, ‘MI’) → 56</td>
+</tr>
+<tr>
+<td>SS</td>
+<td>초를 00~59초 형태로</td>
+<td>TO_CHAR(SYSDATE, ‘SS’) → 33</td>
+</tr>
+<tr>
+<td>WW</td>
+<td>주를 01~52주 형태로</td>
+<td>TO_CHAR(SYSDATE, ‘WW’) → 06</td>
+</tr>
+</tbody></table>
+<ul>
+<li>숫자 변환 형식</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>포맷</th>
+<th>설명</th>
+<th>예시</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>,</td>
+<td>콤마로 표시</td>
+<td>TO_CHAR(123456, ‘999,999’) → 123,456</td>
+</tr>
+<tr>
+<td>.</td>
+<td>소수점 표시</td>
+<td>TO_CHAR(123456.4, ‘999,999.9’) → 123,456.4</td>
+</tr>
+<tr>
+<td>9</td>
+<td>한 자리 숫자, 실제 값보다 크거나 같게 명시</td>
+<td>TO_CHAR(123456, ‘999,999’) → 123,456</td>
+</tr>
+<tr>
+<td>PR</td>
+<td>음수일 때 &lt; &gt;로 표시</td>
+<td>TO_CHAR(-123, ‘999PR’) → &lt;123&gt;</td>
+</tr>
+<tr>
+<td>RN, rn</td>
+<td>로마 숫자로 표시</td>
+<td>TO_CHAR(123, ‘RN’)→CXXIII</td>
+</tr>
+<tr>
+<td>S</td>
+<td>양수이면 +, 음수이면 - 표시</td>
+<td>TO_CHAR(123, ‘S999’) → +123</td>
+</tr>
+</tbody></table>
+<h2 id="TO-CHAR"><a href="#TO-CHAR" class="headerlink" title="TO_CHAR"></a>TO_CHAR</h2><p>숫자나 날짜를 문자로 변환한다.<br><code>TO_CHAR(숫자 혹은 날짜, format) </code>으로 사용한다.</p>
+<div class="hljs code-wrapper"><pre><code class="hljs apache"><span class="hljs-attribute">SELECT</span> TO_CHAR(<span class="hljs-number">123456789</span>, &#x27;<span class="hljs-number">999</span>,<span class="hljs-number">999</span>,<span class="hljs-number">999</span>&#x27;)
+ <span class="hljs-attribute">FROM</span> DUAL;</code></pre></div>
+<p><img src="https://user-images.githubusercontent.com/65166786/165528777-7db99cea-a14d-4cc8-a600-bd4eafe8e00c.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="TO-NUMBER"><a href="#TO-NUMBER" class="headerlink" title="TO_NUMBER"></a>TO_NUMBER</h2><p>문자나 다른 유형의 숫자를 <code>NUMBER</code> 형태로 변환한다.<br><code>TO_NUMBER(expr,format)</code>으로 사용한다.</p>
+<div class="hljs code-wrapper"><pre><code class="hljs pgsql"><span class="hljs-keyword">SELECT</span> TO_NUMBER(<span class="hljs-string">&#x27;123456&#x27;</span>)
+ <span class="hljs-keyword">FROM</span> DUAL;</code></pre></div>
+<p><img src="https://user-images.githubusercontent.com/65166786/165530030-4d0fc429-ce40-4b33-877d-0df8e34f8881.png" srcset="/img/loading.gif" lazyload></p>
+<h2 id="TO-DATE-amp-TO-TIMESTAMP"><a href="#TO-DATE-amp-TO-TIMESTAMP" class="headerlink" title="TO_DATE &amp; TO_TIMESTAMP"></a>TO_DATE &amp; TO_TIMESTAMP</h2><p>문자를 날짜형으로 변환한다.<br><code>TO_DATE(char, format)</code> , <code>TO_TIMESTAMP(char, format)</code>으로 사용한다. </p>
+<div class="hljs code-wrapper"><pre><code class="hljs pgsql"><span class="hljs-keyword">SELECT</span> TO_DATE(<span class="hljs-string">&#x27;20140101&#x27;</span>, <span class="hljs-string">&#x27;YYYY-MM-DD&#x27;</span>)
+ <span class="hljs-keyword">FROM</span> DUAL;
+<span class="hljs-keyword">SELECT</span> TO_TIMESTAMP(<span class="hljs-string">&#x27;20140101 13:44:50&#x27;</span>, <span class="hljs-string">&#x27;YYYY-MM-DD HH24:MI:SS&#x27;</span>)
+ <span class="hljs-keyword">FROM</span> DUAL;</code></pre></div>
+<p><img src="https://user-images.githubusercontent.com/65166786/165532935-718227d3-6326-48c9-93fd-b3f05617a35d.png" srcset="/img/loading.gif" lazyload><br><img src="https://user-images.githubusercontent.com/65166786/165532998-d7e2b0f6-7f6f-4678-ad6f-a4e405e9d68a.png" srcset="/img/loading.gif" lazyload></p>
+<p><code>TIMESTAMP</code>를 실행 했을 때 시간이 표시되지 않으면 실행한다.</p>
+<div class="hljs code-wrapper"><pre><code class="hljs pgsql"><span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">SESSION</span> <span class="hljs-keyword">SET</span> NLS_DATE_FORMAT = <span class="hljs-string">&#x27;YYYY-MM-DD HH24:MI:SS&#x27;</span>;</code></pre></div>
+<h1 id="NULL-관련-함수"><a href="#NULL-관련-함수" class="headerlink" title="NULL 관련 함수"></a>NULL 관련 함수</h1><p>Oracle에서는 NULL을 연산 대상으로 처리할 수 있는 SQL 함수를 제공하고 있다.</p>
+<h2 id="NVL-amp-NVL2"><a href="#NVL-amp-NVL2" class="headerlink" title="NVL &amp; NVL2"></a>NVL &amp; NVL2</h2><p><code>expr1</code>이 <code>NULL</code>일 때 <code>expr2</code>를 반환한다.<br><code>NVL(expr1,expr2)</code>으로 사용한다. </p>
+<div class="hljs code-wrapper"><pre><code class="hljs n1ql"><span class="hljs-keyword">SELECT</span> NVL(manager_id, employee_id)
+ <span class="hljs-keyword">FROM</span> employees
+<span class="hljs-keyword">WHERE</span> manager_id <span class="hljs-keyword">IS</span> <span class="hljs-literal">NULL</span>;</code></pre></div>
+<p><code>NVL2</code>는 <code>NVL</code>의 업그레이드로 <code>NVL2(expr1, expr2, expr3 ...)</code>으로 사용한다.</p>
+<div class="hljs code-wrapper"><pre><code class="hljs reasonml">SELECT employee_id
+     ,<span class="hljs-constructor">NVL2(<span class="hljs-params">commission_pct</span>, <span class="hljs-params">salary</span> +(<span class="hljs-params">salary</span> <span class="hljs-operator">*</span> <span class="hljs-params">commission_pct</span>)</span>, salary) AS salary2
+ FROM employees;</code></pre></div>
+<h2 id="COALESCE"><a href="#COALESCE" class="headerlink" title="COALESCE"></a>COALESCE</h2><p><code>COALESCE</code>는 매개변수로 들어오는 표현식에서 NULL이 아닌 첫 번째 표현식을 반환한다.<br><code>COALESCE(expr1, expr2..)</code>의 형태로 사용한다.</p>
+<div class="hljs code-wrapper"><pre><code class="hljs pgsql"><span class="hljs-keyword">SELECT</span> employee_id, salary, commission_pct
+       ,COALESCE(salary * commission_pct, salary) <span class="hljs-keyword">AS</span> salary2
+ <span class="hljs-keyword">FROM</span> employees;</code></pre></div>
+<h2 id="LNNVL"><a href="#LNNVL" class="headerlink" title="LNNVL"></a>LNNVL</h2><p><code>LNNVL</code>은 매개변수로 들어오는 조건식의 결과가 FASLE나 UNKNOWN이면 TRUE를, TRUE이면 FALSE를 반환한다.<br><code>LNNVL(조건식)</code>의 형태로 사용한다.</p>
+<div class="hljs code-wrapper"><pre><code class="hljs n1ql"><span class="hljs-keyword">SELECT</span> <span class="hljs-built_in">COUNT</span>(*)
+ <span class="hljs-keyword">FROM</span> employees
+<span class="hljs-keyword">WHERE</span> LNNVL(commission_pct&gt;= <span class="hljs-number">0.2</span>);</code></pre></div>
+
+<h2 id="NULLIF"><a href="#NULLIF" class="headerlink" title="NULLIF"></a>NULLIF</h2><p><code>NULLIF</code>는 <code>expr1</code>과 <code>expr2</code>를 비교해 같으면 <code>NULL</code>을 다르면 <code>expr1</code>을 반환한다.<br><code>NULLIF(expr1, expr2)</code>의 형태로 사용한다.</p>
+<div class="hljs code-wrapper"><pre><code class="hljs pgsql"><span class="hljs-keyword">SELECT</span> employee_id
+    ,TO_CHAR(start_date, <span class="hljs-string">&#x27;YYYY&#x27;</span>) start_year
+      ,TO_CHAR(end_date, <span class="hljs-string">&#x27;YYYY&#x27;</span>) end_year
+      ,NULLIF(TO_CHAR(end_date, <span class="hljs-string">&#x27;YYYY&#x27;</span>), TO_CHAR(start_date, <span class="hljs-string">&#x27;YYYY&#x27;</span>) ) nullif_year
+ <span class="hljs-keyword">FROM</span> job_history;</code></pre></div>
+<h1 id="기타-함수"><a href="#기타-함수" class="headerlink" title="기타 함수"></a>기타 함수</h1><h2 id="GREATEST-amp-LEAST"><a href="#GREATEST-amp-LEAST" class="headerlink" title="GREATEST &amp; LEAST"></a>GREATEST &amp; LEAST</h2><p><code>GREATEST</code>는 매개변수로 들어오는 표현식에서 가장 큰 값을, <code>LEAST</code>는 가장 작은 값을 반환한다. 숫자뿐만 아니라 문자의 형태도 비교 가능하다.</p>
+<div class="hljs code-wrapper"><pre><code class="hljs n1ql"><span class="hljs-keyword">SELECT</span> <span class="hljs-built_in">GREATEST</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">2</span>)
+      ,<span class="hljs-built_in">LEAST</span>(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">2</span>)
+<span class="hljs-keyword">FROM</span> DUAL;</code></pre></div>
+<h2 id="DECODE"><a href="#DECODE" class="headerlink" title="DECODE"></a>DECODE</h2><p><code>DECODE</code>는 <code>expr</code>과 <code>search1</code>을 비교해 두 값이 같으면 <code>result1</code>을 다르면 <code>search2</code>와 비교해서 <code>result2</code>를 이런식으로 비교하다가 최종적으로 같은 값이 없을 경우 <code>defalut</code> 값을 반환한다. if문 중 elif문을 생각하면 이해가 쉬울 듯 하다.<br><code>DECODE(expr, search1,result1,search2,result2....,default</code>)의 형태로 사용한다.</p>
+<div class="hljs code-wrapper"><pre><code class="hljs pgsql"><span class="hljs-keyword">SELECT</span> prod_id
+      ,DECODE(channel_id, <span class="hljs-number">3</span>, <span class="hljs-string">&#x27;Direct&#x27;</span>,
+                          <span class="hljs-number">9</span>, <span class="hljs-string">&#x27;Direct&#x27;</span>,
+                          <span class="hljs-number">5</span>, <span class="hljs-string">&#x27;InDirect&#x27;</span>,
+                          <span class="hljs-number">4</span>, <span class="hljs-string">&#x27;InDirect&#x27;</span>,
+                             <span class="hljs-string">&#x27;Others&#x27;</span>) decodes
+ <span class="hljs-keyword">FROM</span> sales
+<span class="hljs-keyword">WHERE</span> prod_id = <span class="hljs-number">125</span>;</code></pre></div>
+<h1 id="기본-집계-함수"><a href="#기본-집계-함수" class="headerlink" title="기본 집계 함수"></a>기본 집계 함수</h1><p>대상 데이터를 특정 그룹으로 묶은 다음, 그룹에 대해 총합, 평균, 최댓값, 최솟값 등을 구하는 함수를 말한다.</p>
+<h2 id="COUNT"><a href="#COUNT" class="headerlink" title="COUNT"></a>COUNT</h2><p>NULL 값을 제외한, 전체 ROW 수를 반환한다.<br><code>WHERE</code> 조건으로 걸러진 ROW수도 반환한다.<br><code>COUNT(expr)</code>로 사용한다.<br><code>COUNT(DISTINCT expr)</code>로 사용할 시 데이터내의 유일한 값만 반환한다.</p>
+<div class="hljs code-wrapper"><pre><code class="hljs n1ql"><span class="hljs-keyword">SELECT</span> <span class="hljs-built_in">COUNT</span>(*)
+ <span class="hljs-keyword">FROM</span> employees;</code></pre></div>
+
+<div class="hljs code-wrapper"><pre><code class="hljs n1ql"><span class="hljs-keyword">SELECT</span> <span class="hljs-built_in">COUNT</span>(<span class="hljs-keyword">DISTINCT</span> department_id)
+ <span class="hljs-keyword">FROM</span> employees;</code></pre></div>
+
+<h2 id="SUM"><a href="#SUM" class="headerlink" title="SUM"></a>SUM</h2><p><code>SUM</code>은 전체 합계를 반환한다<br><code>SUM(expr)</code>으로 사용한다. <code>expr</code>에는 숫자형만 가능하다. <code>DISTINCT</code>를 사용시 중복값을 제외한 합계를 반환한다.</p>
+<div class="hljs code-wrapper"><pre><code class="hljs n1ql"><span class="hljs-keyword">SELECT</span> <span class="hljs-built_in">SUM</span>(salary), <span class="hljs-built_in">SUM</span>(<span class="hljs-keyword">DISTINCT</span> salary)
+ <span class="hljs-keyword">FROM</span> employees;</code></pre></div>
+<p><img src="https://user-images.githubusercontent.com/65166786/165666872-ad7e0b9d-1180-4b5b-8130-6e9c0dd4b012.png" srcset="/img/loading.gif" lazyload alt="image"></p>
+<h2 id="AVG"><a href="#AVG" class="headerlink" title="AVG"></a>AVG</h2><p><code>AVG</code>는 평균값을 반환한다.  <code>AVG(expr)</code>으로 사용한다.  </p>
+<div class="hljs code-wrapper"><pre><code class="hljs n1ql"><span class="hljs-keyword">SELECT</span> <span class="hljs-built_in">AVG</span>(salary), <span class="hljs-built_in">AVG</span>(<span class="hljs-keyword">DISTINCT</span> salary)
+ <span class="hljs-keyword">FROM</span> employees;</code></pre></div>
+<p><img src="https://user-images.githubusercontent.com/65166786/165667008-c437fc4d-63a7-4fdd-844b-2adbab03f964.png" srcset="/img/loading.gif" lazyload alt="image"></p>
+<h2 id="MIN-amp-MAX"><a href="#MIN-amp-MAX" class="headerlink" title="MIN &amp; MAX"></a>MIN &amp; MAX</h2><p><code>MIN</code>은 최솟값을 <code>MAX</code>는 최댓값을 반환한다.<br><code>MIN(expr)</code>, <code>MAX(expr)</code>으로 사용한다.</p>
+<div class="hljs code-wrapper"><pre><code class="hljs n1ql"><span class="hljs-keyword">SELECT</span> <span class="hljs-built_in">MIN</span>(salary), <span class="hljs-built_in">MAX</span>( salary)
+ <span class="hljs-keyword">FROM</span> employees;</code></pre></div>
+<p><img src="https://user-images.githubusercontent.com/65166786/165667280-62563b1c-de79-4652-b8d5-5ed177379362.png" srcset="/img/loading.gif" lazyload alt="image"></p>
+<h2 id="VARIANCE-amp-STDDEV"><a href="#VARIANCE-amp-STDDEV" class="headerlink" title="VARIANCE &amp; STDDEV"></a>VARIANCE &amp; STDDEV</h2><p><code>VARIANCE</code>는 분산을, <code>STDDEV</code>는 표준편차를 반환한다.<br><code>VARIANCE(expr)</code>, <code>STDDEV(expr)</code>으로 사용한다.</p>
+<div class="hljs code-wrapper"><pre><code class="hljs pgsql"><span class="hljs-keyword">SELECT</span> VARIANCE(salary), STDDEV(salary)
+ <span class="hljs-keyword">FROM</span> employees;</code></pre></div>
+<p><img src="https://user-images.githubusercontent.com/65166786/165667683-b1f23cb9-5d6c-440e-a0ef-6d99c60f7f36.png" srcset="/img/loading.gif" lazyload alt="image"></p>
+<h2 id="GROUP-BY"><a href="#GROUP-BY" class="headerlink" title="GROUP BY"></a>GROUP BY</h2><p><code>GROUP BY</code>는 데이터를 그룹화하여 집계한다.</p>
+<div class="hljs code-wrapper"><pre><code class="hljs n1ql"><span class="hljs-keyword">SELECT</span> department_id, <span class="hljs-built_in">SUM</span>(salary)
+ <span class="hljs-keyword">FROM</span> employees
+<span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> department_id
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> department_id;</code></pre></div>
+<p><img src="https://user-images.githubusercontent.com/65166786/165668201-e8473556-525c-40ff-a5f3-e754b967d804.png" srcset="/img/loading.gif" lazyload alt="image"></p>
+<h2 id="HAVING"><a href="#HAVING" class="headerlink" title="HAVING"></a>HAVING</h2><p><code>HAVING</code>은<code>GROUP BY</code> 다음에 위치하여, <code>GROUP BY</code> 결과를 대상으로 다시 필터를 거는 역할을 한다.</p>
+<div class="hljs code-wrapper"><pre><code class="hljs sql"><span class="hljs-keyword">SELECT</span> <span class="hljs-keyword">period</span>, region, <span class="hljs-built_in">SUM</span>(loan_jan_amt) total_jan
+ <span class="hljs-keyword">FROM</span> kor_loan_status
+<span class="hljs-keyword">WHERE</span> <span class="hljs-keyword">period</span> <span class="hljs-operator">=</span> <span class="hljs-string">&#x27;201311&#x27;</span>
+<span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> <span class="hljs-keyword">period</span>, region
+<span class="hljs-keyword">HAVING</span> <span class="hljs-built_in">SUM</span>(loan_jan_amt) <span class="hljs-operator">&gt;</span> <span class="hljs-number">1000000</span>
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> region;</code></pre></div>
+<p><img src="https://user-images.githubusercontent.com/65166786/165668465-3b8d4f48-6632-437c-ab76-77de2526e27b.png" srcset="/img/loading.gif" lazyload alt="image"></p>
+<h2 id="ROLLUP"><a href="#ROLLUP" class="headerlink" title="ROLLUP"></a>ROLLUP</h2><p><code>ROLLUP</code>은 <code>GROUP BY</code>절에 쓰이며  <code>expr</code>로 명시한 표현식을 기준으로 집계한 결과를 보여준다.  표현식의 수와 순서에 따라 레벨별로 집계한 결과가 반환된다.</p>
+<h2 id="CUBE"><a href="#CUBE" class="headerlink" title="CUBE"></a>CUBE</h2><p><code>CUBE</code>는 <code>ROLLUP</code>과 비슷하다. <code>ROLLUP</code>이 레벨로 나누어 순차적 집계를 했다면, <code>CUBE</code>는 표현식의 개수로 가능한 모든 조합을 집계한 결과를 반환한다.<br><code>CUBE</code>는 2의 (expr) 제곱 만큼 종류별로 집계된다.</p>
+<h2 id="GROUPING-SETS"><a href="#GROUPING-SETS" class="headerlink" title="GROUPING SETS"></a>GROUPING SETS</h2><p><code>GROUPING SETS</code>은 <code>ROLLUP</code>이나 <code>CUBE</code>처럼 <code>GROUP BY</code>절에 명시하여 그룹 쿼리에 사용되는 절이다.<br><code>GROUPING SETS(expr1, expr2, expr3)</code>를 <code>GROUP BY</code>절에 명시했을 때 괄호 안의 세 표현식 별로 각각 집계가 이루어진다.</p>
+<h1 id="집합-연산자"><a href="#집합-연산자" class="headerlink" title="집합 연산자"></a>집합 연산자</h1><h2 id="UNION"><a href="#UNION" class="headerlink" title="UNION"></a>UNION</h2><p><code>UNION</code>은 합집합을 의미한다.</p>
+<h2 id="UNION-ALL"><a href="#UNION-ALL" class="headerlink" title="UNION ALL"></a>UNION ALL</h2><p><code>UNION ALL</code>은 <code>UNION</code>과 비슷하나 중복 항목도 모두 조회할 수 있다.</p>
+<h2 id="INTERSECT"><a href="#INTERSECT" class="headerlink" title="INTERSECT"></a>INTERSECT</h2><p><code>INTERSECT</code>는 교집합을 의미한다.</p>
+<h2 id="MINUS"><a href="#MINUS" class="headerlink" title="MINUS"></a>MINUS</h2><p><code>MINUS</code>는 차집합을 의미한다.</p>
+<h2 id="집합-연산자의-제한사항"><a href="#집합-연산자의-제한사항" class="headerlink" title="집합 연산자의 제한사항"></a>집합 연산자의 제한사항</h2><ul>
+<li>집합 연산자로 연결되는 각 SELECT문의 SELECT 리스트의 개수와 데이터 타입은 일치해야 한다.</li>
+<li>집합 연산자로 SELECT 문을 연결할 때 ORDER BY 절은 맨 마지막 문장에서만 사용할 수 있다.</li>
+<li>BLOB, CLOB, BFILE 타입의 Column에 대해서는 집합 연사자를 사용할 수 없다.</li>
+<li>UNION, INTERSECT, MINUS 연산자는 LONG형 컬럼에는 사용할 수 없다.</li>
+<li></li>
+</ul>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Oracle/">Oracle</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Oracle/">Oracle</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Expression/">Expression</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Condition/">Condition</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    달리 명시되지 않는 한 이 블로그의 모든 기사는 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0을 사용합니다.</a> 공유 시 출처를 밝혀주세요！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/04/29/Oracle%20test%20from%20Oracle%20SQL/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Oracle 함수 예제</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/04/27/Oracle%20%ED%91%9C%ED%98%84%EC%8B%9D%20&amp;%20%EC%A1%B0%EA%B1%B4%EC%8B%9D/">
+                        <span class="hidden-mobile">Oracle의 표현식 & 조건식</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;TOC</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+    
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

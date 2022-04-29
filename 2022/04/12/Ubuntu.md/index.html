@@ -1,0 +1,463 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=dark>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="HUISU">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Ubuntu 20.04를 듀얼 부팅으로 설치하는 방법을 알아본다.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ubuntu 20.04 설치하기">
+<meta property="og:url" content="https://huisu9903.github.io/2022/04/12/Ubuntu.md/index.html">
+<meta property="og:site_name" content="MY FIRST BLOG">
+<meta property="og:description" content="Ubuntu 20.04를 듀얼 부팅으로 설치하는 방법을 알아본다.">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://rufus.ie/pics/rufus_ko.png">
+<meta property="og:image" content="http://ccm3.net/wp-content/uploads/04-137.png">
+<meta property="og:image" content="http://ccm3.net/wp-content/uploads/05-117.png">
+<meta property="og:image" content="http://ccm3.net/wp-content/uploads/05_6.png">
+<meta property="og:image" content="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https://t1.daumcdn.net/cfile/tistory/23425D3E596746D220">
+<meta property="og:image" content="https://blog.kakaocdn.net/dn/42Zhk/btqxYVs3ynL/K4Kp5hjMNGbcI8fARA3Gh0/img.jpg">
+<meta property="og:image" content="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https://t1.daumcdn.net/cfile/tistory/24250F4B59674A3E08">
+<meta property="og:image" content="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https://t1.daumcdn.net/cfile/tistory/9987C84F5CAD8F6412">
+<meta property="og:image" content="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https://t1.daumcdn.net/cfile/tistory/2408D63D596753C427">
+<meta property="og:image" content="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https://t1.daumcdn.net/cfile/tistory/257C03455967559F23">
+<meta property="og:image" content="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https://t1.daumcdn.net/cfile/tistory/2751853C5967614D2C">
+<meta property="article:published_time" content="2022-04-12T11:00:00.000Z">
+<meta property="article:modified_time" content="2022-04-27T23:44:41.725Z">
+<meta property="article:author" content="HUISU">
+<meta property="article:tag" content="Setting">
+<meta property="article:tag" content="Ubuntu">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://rufus.ie/pics/rufus_ko.png">
+  
+  
+  <title>Ubuntu 20.04 설치하기 - MY FIRST BLOG</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/hybrid.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"huisu9903.github.io","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":75,"cursorChar":"","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>HUISU</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Categories
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Ubuntu 20.04 설치하기">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-04-12 20:00" pubdate>
+        April 12, 2022
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Ubuntu 20.04 설치하기</h1>
+            
+            <div class="markdown-body">
+              <p>﻿# Ubuntu 20.04 듀얼 부팅으로 설치하기</p>
+<h2 id="설치-전-해야할-일"><a href="#설치-전-해야할-일" class="headerlink" title="설치 전 해야할 일"></a>설치 전 해야할 일</h2><p>우분투를 듀얼 부팅으로 설치하기 위해서는 부팅용 USB가 필요하다.<br>가급적 4GB 이상의 USB를 권장한다. 부팅용으로 만드는 과정에서 포맷이 된다는 점에 주의한다. </p>
+<h2 id="부팅-디스크-만들기"><a href="#부팅-디스크-만들기" class="headerlink" title="부팅 디스크 만들기"></a>부팅 디스크 만들기</h2><p><a target="_blank" rel="noopener" href="https://ubuntu.com/#download">https://ubuntu.com/#download</a><br>우분투 공식사이트에 접속하여 iso파일을 다운로드 한다.<br><a target="_blank" rel="noopener" href="https://rufus.ie/ko/">https://rufus.ie/ko/</a><br>다운로드한 iso를 부팅 USB로 만들기 위해 rufus를 다운로드 한다.<br><img src="https://rufus.ie/pics/rufus_ko.png" srcset="/img/loading.gif" lazyload alt="[출처 : rufus 공식 홈페이지 ]"><br>부팅 디스크를 만들 usb와 iso를 선택한 뒤 시작 버튼을 눌러주면 자동으로 부팅 디스크가 생성된다.</p>
+<h2 id="파티션-분할하기"><a href="#파티션-분할하기" class="headerlink" title="파티션 분할하기"></a>파티션 분할하기</h2><p>키보드의 윈도우버튼(시작버튼)을 누른 뒤, <strong>하드디스크 파티션 만들기 및 포맷</strong>을 검색한다.<br><img src="http://ccm3.net/wp-content/uploads/04-137.png" srcset="/img/loading.gif" lazyload alt="https://ccm3.net/archives/23854"><br>설치를 원하는 파티션에서 우클릭을 눌러, 불륨 축소를 선택하여 파티션을 분할한다.<br> <img src="http://ccm3.net/wp-content/uploads/05-117.png" srcset="/img/loading.gif" lazyload alt="https://ccm3.net/archives/23854"><br>축소할 공간 입력에 MB(메가바이트)단위로 새로 만들 파티션의 크기를 입력 한 후 축소를 클릭해준다.<br><img src="http://ccm3.net/wp-content/uploads/05_6.png" srcset="/img/loading.gif" lazyload alt="https://ccm3.net/archives/23854"><br>입력한 크기 만큼의 공간이 새로 만들어지게 된다.</p>
+<h2 id="BIOS-설정"><a href="#BIOS-설정" class="headerlink" title="BIOS 설정"></a>BIOS 설정</h2><p><a target="_blank" rel="noopener" href="https://blog.naver.com/tmdcjfdl3/221366662549">https://blog.naver.com/tmdcjfdl3/221366662549</a><br>상단의 링크를 참조하여 바이오스에 진입해준다.<br>그 후 바이오스 설정에서 boot~ 관련 메뉴로 진입하여<br>USB를 최상단으로 이동한 뒤 save 및 exit를 해준다.<br>이 부분은 바이오스마다 다르므로 각자 찾아보길 바란다.</p>
+<h2 id="우분투-설치"><a href="#우분투-설치" class="headerlink" title="우분투 설치"></a>우분투 설치</h2><p>바이오스를 설정하고, 부팅 USB를 꽂은 다음 부팅을 하면<br>로딩 후에, Ubuntu로고가 뜨며, 설치 화면이 뜰 것이다.!<img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https://t1.daumcdn.net/cfile/tistory/23425D3E596746D220" srcset="/img/loading.gif" lazyload><br>해당 화면이 뜨면 체험하기가 아닌 설치를 눌러준다.<br><img src="https://blog.kakaocdn.net/dn/42Zhk/btqxYVs3ynL/K4Kp5hjMNGbcI8fARA3Gh0/img.jpg" srcset="/img/loading.gif" lazyload><br>일반 설치와 최소 설치 중 자신이 원하는 옵션을 선택한다.<br>게임이나 미디어 플레이어 등을 필요로 하지 않기에 최소 설치로 선택하는 편이다.<br>기타 설정의 체크 항목은 둘 다 체크 해주는 것이 좋다.</p>
+<p><img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https://t1.daumcdn.net/cfile/tistory/24250F4B59674A3E08" srcset="/img/loading.gif" lazyload alt="https://jimnong.tistory.com/676"><br>앞서 윈도우에서 분할한 별도의 파티션에 윈도우를 설치 할 예정이기 때문에 기타를 선택한다.<br><img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https://t1.daumcdn.net/cfile/tistory/9987C84F5CAD8F6412" srcset="/img/loading.gif" lazyload></p>
+<p>먼저 스왑 파티션을 생성한다. <a target="_blank" rel="noopener" href="https://sergeswin.com/1034/">스왑 파티션이란?</a><br>하단의 남은 공간을 클릭한 후 + 를 클릭하면 대화창이 뜬다.<br>용도는 스왑 영역, 파티션 종류는 논리 파티션, 파티션 위치는 이 공간이 시작하는 지점, 크기는 RAM이 2GB 미만일 경우 RAM의 2배, 2~8GB일 경우 RAM과 동일, RAM이 8GB 초과일 경우 최소 4GB 이상으로 설정 한다.<br>그리고 OK버튼을 누르면 스왑 파티션 생성이 완료된다.</p>
+<p><img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https://t1.daumcdn.net/cfile/tistory/2408D63D596753C427" srcset="/img/loading.gif" lazyload><br>이제 루트 파티션을 생성한다. 크기를 남은 공간 전체로 세팅하고, 파티션의 종류는 논리 파티션, 파티션의 위치는 이 공간이 시작하는 지점, 용도는 ext4, 마운트 위치는 “ &#x2F; “ 로 지정한다. 그리고 OK버튼을 누르면 루트 파티션 생성이 완료된다.<br><img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https://t1.daumcdn.net/cfile/tistory/257C03455967559F23" srcset="/img/loading.gif" lazyload><br>파티션 생성이 완료 되었으면 루트 파티션을 클릭한 후, 지금 설치를 클릭하면 되는데, 이때 중요한 점이 부트로더의 위치이다. 여러개의 하드디스크를 사용하는 경우 가끔 오류로 부트로더가 다른 위치에 잡히는 경우가 있는데, 꼭 <strong>윈도우가 설치된</strong> 하드디스크의 최상단에 부트로더를 설치해야 부팅 실패를 겪지 않는다.</p>
+<h2 id="나머지-설치"><a href="#나머지-설치" class="headerlink" title="나머지 설치"></a>나머지 설치</h2><p>지도 그림이 나올 경우 영어로 서울을 입력하거나 대한민국을 마우스로 찍는다.</p>
+<p>키보드 레이아웃의 경우 “한국어 101&#x2F;104키”가 아닌 그냥 “한국어”를 선택해준다.</p>
+<p>우분투 로그인 계정을 설정한다. 사용자 이름과 암호의 경우 많은 곳에서 쓰이기 때문에 잊어버리지 않게 주의한다.</p>
+<h2 id="재부팅"><a href="#재부팅" class="headerlink" title="재부팅"></a>재부팅</h2><p><img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https://t1.daumcdn.net/cfile/tistory/2751853C5967614D2C" srcset="/img/loading.gif" lazyload alt="https://jimnong.tistory.com/676"><br>재부팅 후 모니터 상에 GRUB가 뜬다면 우분투가 제대로 설치 된 것이다.<br>↑ 키와 ↓키를 이용하여 우분투와 윈도우가 제대로 작동하는지 확인해 보길 바란다.</p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Setting/">Setting</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Setting/">Setting</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Ubuntu/">Ubuntu</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    달리 명시되지 않는 한 이 블로그의 모든 기사는 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0을 사용합니다.</a> 공유 시 출처를 밝혀주세요！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/04/16/Spark/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Ubuntu 20.04에 Spark 설치 및 환경 구성</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/03/14/Github%20blog%20Theme.md/">
+                        <span class="hidden-mobile">Hexo Blog 테마 설정 하기</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;TOC</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+    
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

@@ -1,0 +1,488 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=dark>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="HUISU">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Ubuntu 20.04 버전에 Hadoop를 설치하는 방법을 알아본다.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Ubuntu 20.04에 Hadoop 설치 및 환경 구성">
+<meta property="og:url" content="https://huisu9903.github.io/2022/04/16/hadoop%20%EC%84%A4%EC%B9%98/index.html">
+<meta property="og:site_name" content="MY FIRST BLOG">
+<meta property="og:description" content="Ubuntu 20.04 버전에 Hadoop를 설치하는 방법을 알아본다.">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://user-images.githubusercontent.com/65166786/164246153-e43c1845-81c1-4c36-9e1b-019b81abdb21.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/65166786/164246320-f054fb8e-3888-4021-967a-b0b4ffb8466a.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/65166786/164246356-b2f4a58f-81a4-45ec-b2c8-99f0be061f9f.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/65166786/164247306-c6ea8d8e-2053-4ab0-96c3-adccfa88a18f.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/65166786/164248281-2453456a-7454-46d1-abe6-f4efb8f396a7.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/65166786/164248932-6e4f9f36-ae95-4633-bb3c-2361600bd146.png">
+<meta property="article:published_time" content="2022-04-16T11:00:00.000Z">
+<meta property="article:modified_time" content="2022-04-27T23:44:41.725Z">
+<meta property="article:author" content="HUISU">
+<meta property="article:tag" content="Setting">
+<meta property="article:tag" content="Hadoop">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://user-images.githubusercontent.com/65166786/164246153-e43c1845-81c1-4c36-9e1b-019b81abdb21.png">
+  
+  
+  <title>Ubuntu 20.04에 Hadoop 설치 및 환경 구성 - MY FIRST BLOG</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/hybrid.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"huisu9903.github.io","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":75,"cursorChar":"","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>HUISU</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Categories
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Ubuntu 20.04에 Hadoop 설치 및 환경 구성">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-04-16 20:00" pubdate>
+        April 16, 2022
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Ubuntu 20.04에 Hadoop 설치 및 환경 구성</h1>
+            
+            <div class="markdown-body">
+              <h1 id="Hadoop-설치하기-및-환경-구성하기"><a href="#Hadoop-설치하기-및-환경-구성하기" class="headerlink" title="Hadoop 설치하기 및 환경 구성하기"></a>Hadoop 설치하기 및 환경 구성하기</h1><h2 id="JAVA-설치"><a href="#JAVA-설치" class="headerlink" title="JAVA 설치"></a>JAVA 설치</h2><figure class="highlight crystal"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></div></td><td class="code"><pre><code class="hljs crystal"><span class="hljs-variable">$ </span>sudo apt update<br><span class="hljs-variable">$ </span>sudo apt install openjdk-<span class="hljs-number">11</span>-jdk<br><span class="hljs-variable">$ </span>java -version<br></code></pre></td></tr></table></figure>
+<p>상단의 코드를 실행하여 자바를 설치한 후, 제대로 설치되었는지 확인한다.</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash">vi ~/.bashrc</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">export JAVA_HOME=<span class="hljs-regexp">/usr/</span>lib<span class="hljs-regexp">/jvm/</span>java-<span class="hljs-number">11</span>-openjdk-amd64<br></code></pre></td></tr></table></figure>
+<p>제대로 설치되었다면, .bashrc 파일에 자바 환경변수를 추가해준다.</p>
+<h2 id="SSH-설치"><a href="#SSH-설치" class="headerlink" title="SSH 설치"></a>SSH 설치</h2><figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs routeros">sudo apt-<span class="hljs-built_in">get</span> install ssh<br>sudo apt-<span class="hljs-built_in">get</span> install pdsh<br></code></pre></td></tr></table></figure>
+<h2 id="ssh-키-생성-및-권한-부여"><a href="#ssh-키-생성-및-권한-부여" class="headerlink" title="ssh 키 생성 및 권한 부여"></a>ssh 키 생성 및 권한 부여</h2><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs awk">$ sudo chmod -R <span class="hljs-number">777</span> <span class="hljs-regexp">/home/</span>huisu/.bashrc <br>$ ssh-keygen -t rsa -P <span class="hljs-string">&quot;&quot;</span> <br>$ cat ~<span class="hljs-regexp">/.ssh/i</span>d_rsa.pub &gt;&gt; ~<span class="hljs-regexp">/.ssh/</span>authorized_keys <br>$ ssh localhost <br><span class="hljs-keyword">exit</span> <br>$ sudo apt-get update  <br></code></pre></td></tr></table></figure>
+<h2 id="Hadoop-다운로드-및-압축해제"><a href="#Hadoop-다운로드-및-압축해제" class="headerlink" title="Hadoop 다운로드 및 압축해제"></a>Hadoop 다운로드 및 압축해제</h2><p><a target="_blank" rel="noopener" href="https://hadoop.apache.org/releases.html">Hadoop 공식 다운로드 사이트</a>에 접속하여 원하는 버전을 binary로 다운 받은 후 압축을 해제한다.</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs awk">$ wget https:<span class="hljs-regexp">//</span>dlcdn.apache.org<span class="hljs-regexp">/hadoop/</span>common<span class="hljs-regexp">/hadoop-3.3.2/</span>hadoop-<span class="hljs-number">3.3</span>.<span class="hljs-number">2</span>.tar.gz<br>$ tar zxf hadoof-<span class="hljs-number">3.3</span>.<span class="hljs-number">2</span>.tar.gz <br></code></pre></td></tr></table></figure>
+<h2 id="Hadoop-설정하기"><a href="#Hadoop-설정하기" class="headerlink" title="Hadoop 설정하기"></a>Hadoop 설정하기</h2><h3 id="bashrc"><a href="#bashrc" class="headerlink" title="bashrc"></a>bashrc</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs shell"><span class="hljs-meta prompt_">$ </span><span class="language-bash">vi ~/.bashrc</span><br></code></pre></td></tr></table></figure>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs routeros"><span class="hljs-built_in">export</span> <span class="hljs-attribute">HADOOP_HOME</span>=<span class="hljs-string">&quot;/home/huisu/hadoop&quot;</span><br><span class="hljs-built_in">export</span> <span class="hljs-attribute">HADOOP_INSTALL</span>=<span class="hljs-variable">$HADOOP_HOME</span><br><span class="hljs-built_in">export</span> <span class="hljs-attribute">HADOOP_MAPRED_HOME</span>=<span class="hljs-variable">$&#123;HADOOP_HOME&#125;</span><br><span class="hljs-built_in">export</span> <span class="hljs-attribute">HADOOP_COMMON_HOME</span>=<span class="hljs-variable">$&#123;HADOOP_HOME&#125;</span><br><span class="hljs-built_in">export</span> <span class="hljs-attribute">HADOOP_HDFS_HOME</span>=<span class="hljs-variable">$&#123;HADOOP_HOME&#125;</span><br><span class="hljs-built_in">export</span> <span class="hljs-attribute">YARN_HOME</span>=<span class="hljs-variable">$&#123;HADOOP_HOME&#125;</span><br><span class="hljs-built_in">export</span> <span class="hljs-attribute">HADOOP_COMMON_LIB_NATIVE_DIR</span>=<span class="hljs-variable">$HADOOP_HOME</span>/lib/native<br><span class="hljs-built_in">export</span> <span class="hljs-attribute">PATH</span>=<span class="hljs-variable">$PATH</span>:$HADOOP_HOME/bin<br><span class="hljs-built_in">export</span> <span class="hljs-attribute">PATH</span>=<span class="hljs-variable">$PATH</span>:$HADOOP_HOME/sbin<br><span class="hljs-built_in">export</span> <span class="hljs-attribute">PDSH_RCMD_TYPE</span>=ssh<br></code></pre></td></tr></table></figure>
+<p>.bashrc 파일에 환경변수를 추가해준다.</p>
+<h3 id="hadoop-env-sh"><a href="#hadoop-env-sh" class="headerlink" title="hadoop-env.sh"></a>hadoop-env.sh</h3><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">$ vi <span class="hljs-variable">$HADOOP_HOME</span><span class="hljs-regexp">/etc/</span>hadoop/hadoop-env.sh <br></code></pre></td></tr></table></figure>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">export JAVA_HOME=<span class="hljs-regexp">/usr/</span>lib<span class="hljs-regexp">/jvm/</span>java-<span class="hljs-number">11</span>-openjdk-amd64<br></code></pre></td></tr></table></figure>
+<p><code>hadoop-env.sh</code>파일에 JAVA 환경변수를 추가해준다.</p>
+<h3 id="core-site-xml"><a href="#core-site-xml" class="headerlink" title="core-site.xml"></a>core-site.xml</h3><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">$ vi <span class="hljs-variable">$HADOOP_HOME</span><span class="hljs-regexp">/etc/</span>hadoop/core-site.xml<br></code></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">configuration</span>&gt;</span><br>	<span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span><br>       <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>hadoop.tmp.dir<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span><br>       <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>/home/huisu/hadoop/tmpdata<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span><br>    <span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span><br>       <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>fs.default.name<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span><br>       <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>hdfs://127.0.0.1:9000<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span><br>    <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">configuration</span>&gt;</span><br></code></pre></td></tr></table></figure>
+<p><code>core-site.xml</code>파일에 상단의 코드를 추가하며, 만약 <code>/home/huisu/hadoop/tmpdata</code> 해당 경로에 tmpdata 폴더가 존재하지 않을 경우 <code>mkdir</code>을 이용하여 폴더를 만들어주어야 한다.</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">mkdir -p <span class="hljs-regexp">/home/</span>huisu<span class="hljs-regexp">/hadoop/</span>tmpdata<br></code></pre></td></tr></table></figure>
+<h3 id="hdfs-site-xml"><a href="#hdfs-site-xml" class="headerlink" title="hdfs-site.xml"></a>hdfs-site.xml</h3><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">$ vi <span class="hljs-variable">$HADOOP_HOME</span><span class="hljs-regexp">/etc/</span>hadoop/hdfs-site.xml<br></code></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">configuration</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span><br>         <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>dfs.data.dir<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span><br>         <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>/home/huisu/hadoop/hdfs/namenode<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span><br>      <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span><br>          <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>dfs.data.dir<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span><br>          <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>/home/huisu/hadoop/hdfs/datanode<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span><br>      <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span><br>          <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>dfs.replication<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span><br>          <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>1<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span><br>      <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">configuration</span>&gt;</span><br></code></pre></td></tr></table></figure>
+<p><code>hdfs-site.xml</code>파일에 상단의 코드를 추가하며, 만약 <code>/home/huisu/hdfs/namenode</code> <code>/home/huisu/hdfs/datanode</code>에 각각 namenode, datanode가 존재하지 않을 경우, <code>mkdir</code>을 이용하여 폴더를 만들어주어야 한다.</p>
+<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs awk">mkdir -p <span class="hljs-regexp">/home/</span>huisu<span class="hljs-regexp">/hadoop/</span>hdfs/namenode <br>mkdir -p <span class="hljs-regexp">/home/</span>huisu<span class="hljs-regexp">/hadoop/</span>hdfs/datanode  <br></code></pre></td></tr></table></figure>
+<h3 id="mapred-site-xml"><a href="#mapred-site-xml" class="headerlink" title="mapred-site.xml"></a>mapred-site.xml</h3><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">$ vi <span class="hljs-variable">$HADOOP_HOME</span><span class="hljs-regexp">/etc/</span>hadoop/mapred-site.xml<br></code></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><code class="hljs xml"><span class="hljs-tag">&lt;<span class="hljs-name">configuration</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>mapreduce.framework.name<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>yarn<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span><br>      <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>yarn.app.mapreduce.am.env<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>HADOOP_MAPRED_HOME=/home/huisu/hadoop<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span><br>      <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>mapreduce.map.env<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>HADOOP_MAPRED_HOME=/home/huisu/hadoop<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span><br>      <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span><br>      <span class="hljs-tag">&lt;<span class="hljs-name">property</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">name</span>&gt;</span>mapreduce.reduce.env<span class="hljs-tag">&lt;/<span class="hljs-name">name</span>&gt;</span><br>        <span class="hljs-tag">&lt;<span class="hljs-name">value</span>&gt;</span>HADOOP_MAPRED_HOME=/home/huisu/hadoop<span class="hljs-tag">&lt;/<span class="hljs-name">value</span>&gt;</span><br>      <span class="hljs-tag">&lt;/<span class="hljs-name">property</span>&gt;</span><br><span class="hljs-tag">&lt;/<span class="hljs-name">configuration</span>&gt;</span><br></code></pre></td></tr></table></figure>
+<p><code>mapred-site.xml</code>파일에 상단의 코드를 추가한다.</p>
+<h3 id="yarn-site-xml"><a href="#yarn-site-xml" class="headerlink" title="yarn-site.xml"></a>yarn-site.xml</h3><figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs awk">$ vi <span class="hljs-variable">$HADOOP_HOME</span><span class="hljs-regexp">/etc/</span>hadoop/yarn-site.xml<br></code></pre></td></tr></table></figure>
+<figure class="highlight bnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><code class="hljs bnf"> <span class="hljs-attribute">&lt;configuration&gt;</span><br>	  <span class="hljs-attribute">&lt;!-- Site specific YARN configuration properties --&gt;</span><br>      <span class="hljs-attribute">&lt;property&gt;</span><br>         <span class="hljs-attribute">&lt;name&gt;</span>yarn.nodemanager.aux-services<span class="hljs-attribute">&lt;/name&gt;</span><br>         <span class="hljs-attribute">&lt;value&gt;</span>mapreduce_shuffle<span class="hljs-attribute">&lt;/value&gt;</span><br>      <span class="hljs-attribute">&lt;/property&gt;</span><br>      <span class="hljs-attribute">&lt;property&gt;</span><br>         <span class="hljs-attribute">&lt;name&gt;</span>yarn.nodemanager.aux-services.mapreduce.shuffle.class<span class="hljs-attribute">&lt;/name&gt;</span><br>         <span class="hljs-attribute">&lt;value&gt;</span>org.apache.hadoop.mapred.ShuffleHandler<span class="hljs-attribute">&lt;/value&gt;</span><br>      <span class="hljs-attribute">&lt;/property&gt;</span><br>      <span class="hljs-attribute">&lt;!--</span><br><span class="hljs-attribute">      &lt;property&gt;</span> <br>	     <span class="hljs-attribute">&lt;name&gt;</span>yarn.resourcemanager.hostname<span class="hljs-attribute">&lt;/name&gt;</span><br>	     <span class="hljs-attribute">&lt;value&gt;</span>127.0.0.1<span class="hljs-attribute">&lt;/value&gt;</span>  <br>	  <span class="hljs-attribute">&lt;/property&gt;</span><br>	  <span class="hljs-attribute">&lt;property&gt;</span> <br>		<span class="hljs-attribute">&lt;name&gt;</span>yarn.acl.enable<span class="hljs-attribute">&lt;/name&gt;</span> <br>	    <span class="hljs-attribute">&lt;value&gt;</span>0<span class="hljs-attribute">&lt;/value&gt;</span> <br>     <span class="hljs-attribute">&lt;/property&gt;</span> <br>     <span class="hljs-attribute">&lt;property&gt;</span> <br>	    <span class="hljs-attribute">&lt;name&gt;</span>yarn.nodemanager.env-whitelist<span class="hljs-attribute">&lt;/name&gt;</span>             <br>	    <span class="hljs-attribute">&lt;value&gt;</span>JAVA_HOME,HADOOP_COMMON_HOME,HADOOP_HDFS_HOME,<br>	    HADOOP_CONF_DIR,CLASSPATH_PERPEND_DISTCACHE,HADOOP_YARN_HOME,HADOOP_MAPRED_HOME<br>	    <span class="hljs-attribute">&lt;/value&gt;</span> <br>	 <span class="hljs-attribute">&lt;/property&gt;</span><br><span class="hljs-attribute">&lt;/configuration&gt;</span><br></code></pre></td></tr></table></figure>
+<p><code>yarn-site.xml</code>파일에 상단의 코드를 추가한다.</p>
+<h2 id="Hadoop-실행하기"><a href="#Hadoop-실행하기" class="headerlink" title="Hadoop 실행하기"></a>Hadoop 실행하기</h2><p>NameNode를 한번 포맷 한다.(Hadoop 서비스를 처음 시작하기 전에 NameNode의 포맷이 중요하다.)</p>
+<figure class="highlight dos"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs dos">hdfs namenode -<span class="hljs-built_in">format</span><br></code></pre></td></tr></table></figure>
+<p>NameNode 및 DataNode를 실행한다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">sbin/start-dfs.sh<br></code></pre></td></tr></table></figure>
+<p><img src="https://user-images.githubusercontent.com/65166786/164246153-e43c1845-81c1-4c36-9e1b-019b81abdb21.png" srcset="/img/loading.gif" lazyload alt="dfs"></p>
+<p>YARN도 실행하여 확인해 준다.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs bash">sbin/start-yarn.sh<br></code></pre></td></tr></table></figure>
+<p><img src="https://user-images.githubusercontent.com/65166786/164246320-f054fb8e-3888-4021-967a-b0b4ffb8466a.png" srcset="/img/loading.gif" lazyload alt="yarn.sh"></p>
+<p>모든 데몬이 활성 상태이고 프로그램이 JAVA 프로세스로 실행 중인지 확인한다.</p>
+<figure class="highlight ebnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs ebnf"><span class="hljs-attribute">jps</span><br></code></pre></td></tr></table></figure>
+<p><img src="https://user-images.githubusercontent.com/65166786/164246356-b2f4a58f-81a4-45ec-b2c8-99f0be061f9f.png" srcset="/img/loading.gif" lazyload alt="jps"></p>
+<h2 id="웹에서-Hadoop-사용"><a href="#웹에서-Hadoop-사용" class="headerlink" title="웹에서 Hadoop 사용"></a>웹에서 Hadoop 사용</h2><h3 id="NameNode-UI"><a href="#NameNode-UI" class="headerlink" title="NameNode UI"></a>NameNode UI</h3><p>제대로 실행이 되었을 경우 <a href="http://localhost:9870로">http://localhost:9870로</a> 접속하면 아래와 같은 화면이 뜨는 것을 확인할 수 있다.<br>NameNode UI는 전체 클러스터에 대한 포괄적인 개요를 제공한다.<br><img src="https://user-images.githubusercontent.com/65166786/164247306-c6ea8d8e-2053-4ab0-96c3-adccfa88a18f.png" srcset="/img/loading.gif" lazyload alt="NameNode UI"></p>
+<p><a href="http://localhost:9864의">http://localhost:9864의</a> 경우 직접 개별 DataNode에 액세스하는데 사용된다.<br><img src="https://user-images.githubusercontent.com/65166786/164248281-2453456a-7454-46d1-abe6-f4efb8f396a7.png" srcset="/img/loading.gif" lazyload alt="DataNode"></p>
+<p>YARN Resource Manager의 경우 <a href="http://localhost:8088에서">http://localhost:8088에서</a> 가능하다.<br>Resource Manager는 Hadoop 클러스터에서 실행 중인 모든 프로세스를 모니터링할 수 있다.<br><img src="https://user-images.githubusercontent.com/65166786/164248932-6e4f9f36-ae95-4633-bb3c-2361600bd146.png" srcset="/img/loading.gif" lazyload alt="image"></p>
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Setting/">Setting</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Setting/">Setting</a>
+                    
+                      <a class="hover-with-bg" href="/tags/Hadoop/">Hadoop</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    달리 명시되지 않는 한 이 블로그의 모든 기사는 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0을 사용합니다.</a> 공유 시 출처를 밝혀주세요！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/04/20/Kafka/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Ubuntu 20.04에 Kafka 설치 및 환경 구성</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/04/16/Spark/">
+                        <span class="hidden-mobile">Ubuntu 20.04에 Spark 설치 및 환경 구성</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;TOC</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+    
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

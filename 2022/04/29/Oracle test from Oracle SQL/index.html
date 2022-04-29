@@ -1,0 +1,661 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=dark>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="HUISU">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Oracle의 함수 예제 문제">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Oracle 함수 예제">
+<meta property="og:url" content="https://huisu9903.github.io/2022/04/29/Oracle%20test%20from%20Oracle%20SQL/index.html">
+<meta property="og:site_name" content="MY FIRST BLOG">
+<meta property="og:description" content="Oracle의 함수 예제 문제">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2022-04-29T04:00:00.000Z">
+<meta property="article:modified_time" content="2022-04-29T08:35:39.652Z">
+<meta property="article:author" content="HUISU">
+<meta property="article:tag" content="Oracle">
+<meta property="article:tag" content="test">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+  <title>Oracle 함수 예제 - MY FIRST BLOG</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/hybrid.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"huisu9903.github.io","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":75,"cursorChar":"","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>HUISU</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Categories
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Oracle 함수 예제">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-04-29 13:00" pubdate>
+        April 29, 2022
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Oracle 함수 예제</h1>
+            
+            <div class="markdown-body">
+              <h1 id="6장"><a href="#6장" class="headerlink" title="6장"></a>6장</h1><h2 id="1번"><a href="#1번" class="headerlink" title="1번"></a>1번</h2><p>질문 :<br>101번 사원에 대해<br><code>사번</code> <code>사원명</code> <code>job명칭</code> <code>job시작일자</code> <code>job종료일자</code> <code>job수행부서명</code>을 산출하는 쿼리를 작성해보자.</p>
+<p>답 : </p>
+<div class="hljs code-wrapper"><pre><code class="hljs mipsasm">SELECT a.employee_id, a.emp_name, d.<span class="hljs-keyword">job_title, </span><span class="hljs-keyword">b.start_date, </span><span class="hljs-keyword">b.end_date, </span>c.department_name
+  FROM employees a
+       ,<span class="hljs-keyword">job_history </span><span class="hljs-keyword">b</span>
+<span class="hljs-keyword"></span>       ,departments c
+       ,<span class="hljs-keyword">jobs </span>d
+ WHERE a.employee_id   = <span class="hljs-keyword">b.employee_id</span>
+<span class="hljs-keyword"></span>   <span class="hljs-keyword">and </span><span class="hljs-keyword">b.department_id </span>= c.department_id
+   <span class="hljs-keyword">and </span><span class="hljs-keyword">b.job_id </span>       = d.<span class="hljs-keyword">job_id</span>
+<span class="hljs-keyword"></span>   <span class="hljs-keyword">and </span>a.employee_id = <span class="hljs-number">101</span>;</code></pre></div>
+<p>  <code>SELECT</code> 문에 <code>employee_id</code>, <code>emp_name</code>, <code>job_title</code>, <code>start_date</code>, <code>end_date</code>, <code>department_name</code>을 넣어주고 <code>WHERE</code>문에  <code>조인 연결</code>과 101번 사원을 명시해주면 된다.</p>
+<h2 id="2번"><a href="#2번" class="headerlink" title="2번"></a>2번</h2><p> 질문 :<br>하단의 쿼리를 실행하면 오류가 발생한다.<br>그 이유는 무엇인가?<br>   <div class="hljs code-wrapper"><pre><code class="hljs mipsasm">SELECT a.employee_id, a.emp_name, <span class="hljs-keyword">b.job_id, </span><span class="hljs-keyword">b.department_id</span>
+<span class="hljs-keyword"></span>      FROM employees a,
+           <span class="hljs-keyword">job_history </span><span class="hljs-keyword">b</span>
+<span class="hljs-keyword"></span>     WHERE a.employee_id      = <span class="hljs-keyword">b.employee_id(+)</span>
+<span class="hljs-keyword"></span>       <span class="hljs-keyword">and </span>a.department_id(+) = <span class="hljs-keyword">b.department_id;</span></code></pre></div></p>
+<p>답 :<br><code>(+)</code>연산자의 경우 조인 대상 테이블 중 데이터가 없는 테이블에만 붙일 수가 있는데 </p>
+<div class="hljs code-wrapper"><pre><code class="hljs n1ql"><span class="hljs-keyword">SELECT</span> department_id <span class="hljs-keyword">FROM</span> job_history;
+<span class="hljs-keyword">SELECT</span> department_id <span class="hljs-keyword">FROM</span> employees;</code></pre></div>
+<p>으로 <code>employees</code>와 <code>job_history</code>의 <code>department_id</code>를 조회해보면 <code>employees</code>의 데이터가 더 많다는 것을 알 수 있다. 그러므로  <code>employees</code>가 아닌 <code>job_history</code>에 <code>(+)</code>를 붙여야 오류가 발생하지 않는다.</p>
+<h2 id="3번"><a href="#3번" class="headerlink" title="3번"></a>3번</h2><p>질문 :<br>외부 조인을 사용할 때에 <code>(+)</code>연산자를 같이 사용할 수 없으나, <code>IN</code> 절에 사용하는 값이 한 개이면 사용이 가능하다.<br>그 이유는 무엇인가</p>
+<p>답 : <code>(+)</code> 연산자와 <code>OR</code>은 함께 사용할 수 없다.<br>그러므로 <code>IN</code>절에 사용하는 값이 여러 개이면 <code>OR</code> 조건으로 들어가게 되기에 <code>IN</code>절 또한 사용할 수 없다.<br>하지만 <code>IN</code>절에 하나의 값만 있을 경우에는 <code>OR</code>조건이 아니기에 사용이 가능하다.</p>
+<h2 id="4번"><a href="#4번" class="headerlink" title="4번"></a>4번</h2><p>질문 :  다음의 쿼리를 ANSI 문법으로 변경해 보자.</p>
+<div class="hljs code-wrapper"><pre><code class="hljs mipsasm">SELECT a.department_id, a.department_name
+      FROM departments a, employees <span class="hljs-keyword">b</span>
+<span class="hljs-keyword"></span>     WHERE a.department_id = <span class="hljs-keyword">b.department_id</span>
+<span class="hljs-keyword"></span>       <span class="hljs-keyword">AND </span><span class="hljs-keyword">b.salary </span>&gt; <span class="hljs-number">3000</span>
+    <span class="hljs-keyword">ORDER </span><span class="hljs-keyword">BY </span>a.department_name;</code></pre></div>
+<p> 답 : ANSI 문법으로 변경하라는 것은 ANSI 조인으로 변경하라는 뜻이다.<br> <div class="hljs code-wrapper"><pre><code class="hljs n1ql"><span class="hljs-keyword">SELECT</span> a.department_id, a.department_name
+<span class="hljs-keyword">FROM</span> departments a
+     <span class="hljs-keyword">INNER</span> <span class="hljs-keyword">JOIN</span> employees b
+     <span class="hljs-keyword">ON</span> (a.department_id = b.department_id)
+     <span class="hljs-keyword">WHERE</span> b.salary &gt; <span class="hljs-number">3000</span>
+     <span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> a.department_name;</code></pre></div><br><code>FROM</code>절에서 INNER JOIN을 쓴 다음, 기존에 <code>WHERE</code>절에 썼던 조인 조건을 <code>ON</code>절에 써준다. 나머지 다른 조건의 경우 기존대로 <code>WHERE</code>절에 써준다.</p>
+<h2 id="5번"><a href="#5번" class="headerlink" title="5번"></a>5번</h2><p>질문 : 다음은 연관성 있는 서브 쿼리이다. 이를 연관성 없는 서브 쿼리로 변환해 보자</p>
+<div class="hljs code-wrapper"><pre><code class="hljs n1ql"><span class="hljs-keyword">SELECT</span> a.department_id, a.department_name
+    <span class="hljs-keyword">FROM</span> departments a
+   <span class="hljs-keyword">WHERE</span> <span class="hljs-keyword">EXISTS</span> ( <span class="hljs-keyword">SELECT</span> <span class="hljs-number">1</span>
+                  <span class="hljs-keyword">FROM</span> job_history b
+                  <span class="hljs-keyword">WHERE</span> a.department_id = b.department_id );</code></pre></div>
+<p>답 : </p>
+<div class="hljs code-wrapper"><pre><code class="hljs css">SELECT <span class="hljs-selector-tag">a</span><span class="hljs-selector-class">.department_id</span>, <span class="hljs-selector-tag">a</span><span class="hljs-selector-class">.department_name</span>
+ <span class="hljs-selector-tag">FROM</span> departments <span class="hljs-selector-tag">a</span>
+WHERE <span class="hljs-selector-tag">a</span><span class="hljs-selector-class">.department_id</span> IN ( SELECT department_id
+                            <span class="hljs-selector-tag">FROM</span> job_history  );</code></pre></div>
+<p> 서브 쿼리는 <code>메인 쿼리와의 연관성</code>에 따라, 연관성 있는 서브 쿼리와 없는 서브 쿼리로 나뉜다. 연관성 없는 서브 쿼리는 <code>조인 조건</code>을 찾아 볼 수 없는 것이 특징이다.</p>
+<h2 id="6번"><a href="#6번" class="headerlink" title="6번"></a>6번</h2><p>질문 :  연도별 이탈리아 최대매출액과 사원을 작성하는 쿼리를 학습했다. 이 쿼리를 기준으로 최대매출액 뿐만 아니라 최소 매출액과 해당사원을 조회하는 쿼리를 작성해보자.</p>
+<div class="hljs code-wrapper"><pre><code class="hljs pgsql"><span class="hljs-keyword">SELECT</span> emp.years  <span class="hljs-comment">-- 연도</span>
+      ,emp.employee_id <span class="hljs-comment">-- 사원 아이디</span>
+      ,emp2.emp_name <span class="hljs-comment">-- 사원 이름</span>
+      ,emp.amount_sold  <span class="hljs-comment">-- 매출액</span>
+<span class="hljs-keyword">FROM</span>( 
+    <span class="hljs-keyword">SELECT</span> SUBSTR(a.sales_month, <span class="hljs-number">1</span>, <span class="hljs-number">4</span>) <span class="hljs-keyword">as</span> years <span class="hljs-comment">-- 연도 추출</span>
+    , a.employee_id
+    , SUM(a.amount_sold) <span class="hljs-keyword">AS</span> amount_sold
+    <span class="hljs-keyword">FROM</span> 
+      sales a
+    , customers b
+    , countries c
+    <span class="hljs-keyword">WHERE</span> a.cust_id = b.cust_id
+      <span class="hljs-keyword">AND</span> b.country_id = c.country_id
+      <span class="hljs-keyword">AND</span> c.country_name = <span class="hljs-string">&#x27;Italy&#x27;</span>
+    <span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> SUBSTR(a.sales_month, <span class="hljs-number">1</span>, <span class="hljs-number">4</span>), a.employee_id
+    ) emp,<span class="hljs-comment">-- </span>
+    (<span class="hljs-keyword">SELECT</span> years,
+             MAX(amount_sold) <span class="hljs-keyword">AS</span> max_sold
+     <span class="hljs-keyword">FROM</span> (  <span class="hljs-comment">-- 인라인 뷰</span>
+       <span class="hljs-keyword">SELECT</span>  
+              SUBSTR(a.sales_month, <span class="hljs-number">1</span>, <span class="hljs-number">4</span>) <span class="hljs-keyword">as</span> years
+            , a.employee_id
+            , SUM(a.amount_sold) <span class="hljs-keyword">AS</span> amount_sold
+        <span class="hljs-keyword">FROM</span> 
+             sales a
+           , customers b
+           , countries c
+        <span class="hljs-keyword">WHERE</span> a.cust_id = b.cust_id
+        <span class="hljs-keyword">AND</span> b.country_id = c.country_id
+        <span class="hljs-keyword">AND</span> c.country_name = <span class="hljs-string">&#x27;Italy&#x27;</span>
+      <span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> SUBSTR(a.sales_month, <span class="hljs-number">1</span>, <span class="hljs-number">4</span>), a.employee_id
+      ) K 
+      <span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> years
+      ) sale,emp2 
+<span class="hljs-keyword">WHERE</span> emp.years = sale.years
+  <span class="hljs-keyword">AND</span> emp.amount_sold = sale.max_sold
+  <span class="hljs-keyword">AND</span> emp.employee_id = emp2.employee_id
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> years;</code></pre></div>
+<p>답 :</p>
+<div class="hljs code-wrapper"><pre><code class="hljs pgsql"><span class="hljs-keyword">SELECT</span> emp.years  <span class="hljs-comment">-- 연도</span>
+      ,emp.employee_id <span class="hljs-comment">-- 사원 아이디</span>
+      ,emp2.emp_name <span class="hljs-comment">-- 사원 이름</span>
+      ,emp.amount_sold  <span class="hljs-comment">-- 매출액</span>
+<span class="hljs-keyword">FROM</span>( 
+    <span class="hljs-keyword">SELECT</span> SUBSTR(a.sales_month, <span class="hljs-number">1</span>, <span class="hljs-number">4</span>) <span class="hljs-keyword">as</span> years <span class="hljs-comment">-- 연도 추출</span>
+    , a.employee_id
+    , SUM(a.amount_sold) <span class="hljs-keyword">AS</span> amount_sold
+    <span class="hljs-keyword">FROM</span> 
+      sales a
+    , customers b
+    , countries c
+    <span class="hljs-keyword">WHERE</span> a.cust_id = b.cust_id
+      <span class="hljs-keyword">AND</span> b.country_id = c.country_id
+      <span class="hljs-keyword">AND</span> c.country_name = <span class="hljs-string">&#x27;Italy&#x27;</span>
+    <span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> SUBSTR(a.sales_month, <span class="hljs-number">1</span>, <span class="hljs-number">4</span>), a.employee_id
+    ) emp,<span class="hljs-comment">-- </span>
+    (<span class="hljs-keyword">SELECT</span> years,
+             MAX(amount_sold) <span class="hljs-keyword">AS</span> max_sold
+             MIN(amount_sold) <span class="hljs-keyword">AS</span> min_sold
+     <span class="hljs-keyword">FROM</span> (  <span class="hljs-comment">-- 인라인 뷰</span>
+       <span class="hljs-keyword">SELECT</span>  
+              SUBSTR(a.sales_month, <span class="hljs-number">1</span>, <span class="hljs-number">4</span>) <span class="hljs-keyword">as</span> years
+            , a.employee_id
+            , SUM(a.amount_sold) <span class="hljs-keyword">AS</span> amount_sold
+        <span class="hljs-keyword">FROM</span> 
+             sales a
+           , customers b
+           , countries c
+        <span class="hljs-keyword">WHERE</span> a.cust_id = b.cust_id
+        <span class="hljs-keyword">AND</span> b.country_id = c.country_id
+        <span class="hljs-keyword">AND</span> c.country_name = <span class="hljs-string">&#x27;Italy&#x27;</span>
+      <span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> SUBSTR(a.sales_month, <span class="hljs-number">1</span>, <span class="hljs-number">4</span>), a.employee_id
+      ) K 
+      <span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> years
+      ) sale,emp2 
+<span class="hljs-keyword">WHERE</span> emp.years = sale.years
+  <span class="hljs-keyword">AND</span> (emp.amount_sold = sale.max_sold <span class="hljs-keyword">OR</span> emp.amount_sold = sale.min_sold)
+  <span class="hljs-keyword">AND</span> emp.employee_id = emp2.employee_id
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> years;</code></pre></div>
+<p>최소매출액을 조회하게 하려면 <code>MIN</code> 함수를 이용해주면 된다. <code>sale</code> 쿼리에서 매출의 총 합계인 <code>amount_sold</code>에 <code>MIN</code>을 적용해 준뒤 마지막 부분의 <code>조인 조건</code>에서 <code>emp</code> 서브 쿼리의 <code>amount_sold</code>와 연결 시켜주면 된다.</p>
+<h1 id="7장"><a href="#7장" class="headerlink" title="7장"></a>7장</h1><h2 id="1번-1"><a href="#1번-1" class="headerlink" title="1번"></a>1번</h2><p>문제 :<br>계층형 쿼리 응용편에서 LISTAGG 함수를 사용해 다음과 같이 ROW를 COlUMN으로 분리했다.</p>
+<div class="hljs code-wrapper"><pre><code class="hljs n1ql"><span class="hljs-keyword">SELECT</span> department_id, LISTAGG(emp_name, <span class="hljs-string">&#x27;,&#x27;</span>) <span class="hljs-keyword">WITHIN</span> <span class="hljs-keyword">GROUP</span> (<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> emp_name) <span class="hljs-keyword">as</span> empnames
+      <span class="hljs-keyword">FROM</span> employees
+     <span class="hljs-keyword">WHERE</span> department_id <span class="hljs-keyword">IS</span> <span class="hljs-keyword">NOT</span> <span class="hljs-literal">NULL</span>
+     <span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> department_id;</code></pre></div>
+<p>LISTAGG 함수 대신 계층형 쿼리, 분석 함수를 사용해서 위 쿼리와 동일한 결과를 산출하는 쿼리를 작성해 보자.</p>
+<p>답:</p>
+<div class="hljs code-wrapper"><pre><code class="hljs pgsql"><span class="hljs-keyword">SELECT</span> department_id, 
+       SUBSTR(SYS_CONNECT_BY_PATH(emp_name, <span class="hljs-string">&#x27;,&#x27;</span>),<span class="hljs-number">2</span>) empnames <span class="hljs-comment">-- 어떤 경로가 찍혀서, 2칸이 잘리는건지?</span>
+ <span class="hljs-keyword">FROM</span> ( <span class="hljs-keyword">SELECT</span> emp_name, 
+               department_id, 
+               COUNT(*) <span class="hljs-keyword">OVER</span> ( <span class="hljs-keyword">partition</span> <span class="hljs-keyword">BY</span> department_id ) cnt, 
+               ROW_NUMBER () <span class="hljs-keyword">OVER</span> ( <span class="hljs-keyword">partition</span> <span class="hljs-keyword">BY</span> department_id <span class="hljs-keyword">order</span> <span class="hljs-keyword">BY</span> emp_name) rowseq 
+          <span class="hljs-keyword">FROM</span> employees
+         <span class="hljs-keyword">WHERE</span> department_id <span class="hljs-keyword">IS</span> <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span>) 
+ <span class="hljs-keyword">WHERE</span> rowseq = cnt 
+ <span class="hljs-keyword">START</span> <span class="hljs-keyword">WITH</span> rowseq = <span class="hljs-number">1</span> 
+<span class="hljs-keyword">CONNECT</span> <span class="hljs-keyword">BY</span> PRIOR rowseq + <span class="hljs-number">1</span> = rowseq 
+    <span class="hljs-keyword">AND</span> PRIOR department_id = department_id;</code></pre></div>
+<h2 id="2번-1"><a href="#2번-1" class="headerlink" title="2번"></a>2번</h2><p>문제:<br>다음 쿼리는 사원 테이블에서 JOB_ID가 <code>SH_CLERK</code>인 사원을 조회하는 쿼리이다.</p>
+<div class="hljs code-wrapper"><pre><code class="hljs n1ql"><span class="hljs-keyword">SELECT</span> employee_id, emp_name, hire_date
+<span class="hljs-keyword">FROM</span> employees
+<span class="hljs-keyword">WHERE</span> job_id = <span class="hljs-string">&#x27;SH_CLERK&#x27;</span>
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">By</span> hire_date;</code></pre></div>
+<p>사원 테이블에서 퇴사일자(retire_date)는 모두 비어 있는데, 위 결과에서 사원번호가 184번인 사원의 퇴사일자는 다음으로 입사일자가 빠른 192번 사원의 입사일자라고 가정해서 다음과 같은 형태로 결과를 추출하도록 쿼리를 작성해 보자(입사일자가 가장 최근인 183번 사원의 퇴사일자는 NULL이다).<br>답 :</p>
+<div class="hljs code-wrapper"><pre><code class="hljs pgsql"><span class="hljs-keyword">SELECT</span> employee_id, emp_name, hire_date,
+LEAD(hire_date, <span class="hljs-number">1</span>, <span class="hljs-keyword">null</span>) <span class="hljs-keyword">OVER</span> (<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> hire_date) <span class="hljs-keyword">AS</span> Retire_DATE
+<span class="hljs-keyword">FROM</span> employees
+<span class="hljs-keyword">WHERE</span> job_id = <span class="hljs-string">&#x27;SH_CLERK&#x27;</span>
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> hire_date;</code></pre></div>
+<p><code>LEAD</code>는 다른 ROW의 값을 참조할 때 사용하는 함수로,<br>뒤에 있는 ROW의 값을 참조할 때 사용한다.<br><code>LEAD</code>를 이용하여 한 칸 뒤에 있는 입사 날짜를 참조하여 퇴사 날짜를 만들었다.</p>
+<h2 id="3번-1"><a href="#3번-1" class="headerlink" title="3번"></a>3번</h2><p>질문 :<br>sales 테이블에는 판매 데이터, customers 테이블에는 고객정보가 있다. 2001년 12월(SALES_MONTH &#x3D; ‘200112’) 판매 데이터 중 현재일자를 기준으로 고객의 나이(customers.cust_year_of_birth)를 계산해서 다음과 같이 연령대별 매출금액을 보여주는 쿼리를 작성해 보자.</p>
+<p>답 :</p>
+<div class="hljs code-wrapper"><pre><code class="hljs pgsql"><span class="hljs-keyword">WITH</span> basis <span class="hljs-keyword">AS</span> ( <span class="hljs-keyword">SELECT</span> WIDTH_BUCKET(to_char(sysdate, <span class="hljs-string">&#x27;yyyy&#x27;</span>) - b.cust_year_of_birth, <span class="hljs-number">10</span>, <span class="hljs-number">90</span>, <span class="hljs-number">8</span>) <span class="hljs-keyword">AS</span> old_seg, s.amount_sold
+   <span class="hljs-keyword">FROM</span> sales s, 
+        customers b
+   <span class="hljs-keyword">WHERE</span> s.sales_month = <span class="hljs-string">&#x27;200112&#x27;</span>
+   <span class="hljs-keyword">AND</span> s.cust_id = b.CUST_ID
+    ),
+ real_data <span class="hljs-keyword">AS</span> ( <span class="hljs-keyword">SELECT</span> old_seg * <span class="hljs-number">10</span> || <span class="hljs-string">&#x27;대&#x27;</span> <span class="hljs-keyword">AS</span>              old_segment,  SUM(amount_sold) <span class="hljs-keyword">as</span> old_seg_amt
+              <span class="hljs-keyword">FROM</span> basis <span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> old_seg
+              )
+ <span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> real_data
+ <span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> old_segment;</code></pre></div>
+<p><code>sysdate</code>를 <code>to_char</code>를 이용해 문자열 타입으로 전환한 다음,  <code>cust_year_of_birth</code>를 <code>sysdate</code>에서 빼주어서<br>현재 나이를 계산해준다음<code>WIDTH_BUCKET</code>으로 나이대를 나눈 것을 <code>old_seg</code>로 이름 붙인다.  2001년 12월의 판매 데이터로 조건을 걸어준다.</p>
+<p>그 다음 <code>old_seg</code>와 <code>amount_sold</code>를 이용해서 매출금액을 표현해준다.</p>
+<h2 id="4번-1"><a href="#4번-1" class="headerlink" title="4번"></a>4번</h2><div class="hljs code-wrapper"><pre><code class="hljs pgsql"><span class="hljs-keyword">WITH</span> basis <span class="hljs-keyword">AS</span> ( <span class="hljs-keyword">SELECT</span> c.country_region, s.sales_month, SUM(s.amount_solD) <span class="hljs-keyword">AS</span> amt
+                  <span class="hljs-keyword">FROM</span> sales s, 
+                       customers b,
+                       countries c
+                 <span class="hljs-keyword">WHERE</span> s.cust_id = b.CUST_ID
+                   <span class="hljs-keyword">AND</span> b.COUNTRY_ID = c.COUNTRY_ID
+                 <span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> c.country_region, s.sales_month
+              ),
+     real_data <span class="hljs-keyword">AS</span> ( <span class="hljs-keyword">SELECT</span> sales_month, 
+                           country_region,
+                           amt,
+                           RANK() <span class="hljs-keyword">OVER</span> ( <span class="hljs-keyword">PARTITION</span> <span class="hljs-keyword">BY</span> sales_month <span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> amt ) ranks
+                      <span class="hljs-keyword">FROM</span> basis
+                   )
+ <span class="hljs-keyword">select</span> *
+ <span class="hljs-keyword">from</span> real_data
+ <span class="hljs-keyword">where</span> ranks = <span class="hljs-number">1</span>;</code></pre></div>
+
+<h2 id="5번-1"><a href="#5번-1" class="headerlink" title="5번"></a>5번</h2><div class="hljs code-wrapper"><pre><code class="hljs pgsql"><span class="hljs-keyword">WITH</span> basis <span class="hljs-keyword">AS</span> (
+<span class="hljs-keyword">SELECT</span> REGION, GUBUN,
+       SUM(AMT1) <span class="hljs-keyword">AS</span> AMT1, 
+       SUM(AMT2) <span class="hljs-keyword">AS</span> AMT2, 
+       SUM(AMT3) <span class="hljs-keyword">AS</span> AMT3, 
+       SUM(AMT4) <span class="hljs-keyword">AS</span> AMT4, 
+       SUM(AMT5) <span class="hljs-keyword">AS</span> AMT5, 
+       SUM(AMT6) <span class="hljs-keyword">AS</span> AMT6, 
+       SUM(AMT6) <span class="hljs-keyword">AS</span> AMT7 
+  <span class="hljs-keyword">FROM</span> ( 
+         <span class="hljs-keyword">SELECT</span> REGION,
+                GUBUN,
+                <span class="hljs-keyword">CASE</span> <span class="hljs-keyword">WHEN</span> PERIOD = <span class="hljs-string">&#x27;201111&#x27;</span> <span class="hljs-keyword">THEN</span> LOAN_JAN_AMT <span class="hljs-keyword">ELSE</span> <span class="hljs-number">0</span> <span class="hljs-keyword">END</span> AMT1,
+                <span class="hljs-keyword">CASE</span> <span class="hljs-keyword">WHEN</span> PERIOD = <span class="hljs-string">&#x27;201112&#x27;</span> <span class="hljs-keyword">THEN</span> LOAN_JAN_AMT <span class="hljs-keyword">ELSE</span> <span class="hljs-number">0</span> <span class="hljs-keyword">END</span> AMT2,
+                <span class="hljs-keyword">CASE</span> <span class="hljs-keyword">WHEN</span> PERIOD = <span class="hljs-string">&#x27;201210&#x27;</span> <span class="hljs-keyword">THEN</span> LOAN_JAN_AMT <span class="hljs-keyword">ELSE</span> <span class="hljs-number">0</span> <span class="hljs-keyword">END</span> AMT3, 
+                <span class="hljs-keyword">CASE</span> <span class="hljs-keyword">WHEN</span> PERIOD = <span class="hljs-string">&#x27;201211&#x27;</span> <span class="hljs-keyword">THEN</span> LOAN_JAN_AMT <span class="hljs-keyword">ELSE</span> <span class="hljs-number">0</span> <span class="hljs-keyword">END</span> AMT4, 
+                <span class="hljs-keyword">CASE</span> <span class="hljs-keyword">WHEN</span> PERIOD = <span class="hljs-string">&#x27;201212&#x27;</span> <span class="hljs-keyword">THEN</span> LOAN_JAN_AMT <span class="hljs-keyword">ELSE</span> <span class="hljs-number">0</span> <span class="hljs-keyword">END</span> AMT5, 
+                <span class="hljs-keyword">CASE</span> <span class="hljs-keyword">WHEN</span> PERIOD = <span class="hljs-string">&#x27;201310&#x27;</span> <span class="hljs-keyword">THEN</span> LOAN_JAN_AMT <span class="hljs-keyword">ELSE</span> <span class="hljs-number">0</span> <span class="hljs-keyword">END</span> AMT6,
+                <span class="hljs-keyword">CASE</span> <span class="hljs-keyword">WHEN</span> PERIOD = <span class="hljs-string">&#x27;201311&#x27;</span> <span class="hljs-keyword">THEN</span> LOAN_JAN_AMT <span class="hljs-keyword">ELSE</span> <span class="hljs-number">0</span> <span class="hljs-keyword">END</span> AMT7
+         <span class="hljs-keyword">FROM</span> KOR_LOAN_STATUS
+       )
+<span class="hljs-keyword">GROUP</span> <span class="hljs-keyword">BY</span> REGION, GUBUN
+)   
+<span class="hljs-keyword">SELECT</span> REGION, 
+       GUBUN,
+       AMT1 || <span class="hljs-string">&#x27;( &#x27;</span> || ROUND(RATIO_TO_REPORT(amt1) <span class="hljs-keyword">OVER</span> ( <span class="hljs-keyword">PARTITION</span> <span class="hljs-keyword">BY</span> REGION ),<span class="hljs-number">2</span>) * <span class="hljs-number">100</span> || <span class="hljs-string">&#x27;% )&#x27;</span> <span class="hljs-keyword">AS</span> &quot;201111&quot;,
+       AMT2 || <span class="hljs-string">&#x27;( &#x27;</span> || ROUND(RATIO_TO_REPORT(amt2) <span class="hljs-keyword">OVER</span> ( <span class="hljs-keyword">PARTITION</span> <span class="hljs-keyword">BY</span> REGION ),<span class="hljs-number">2</span>) * <span class="hljs-number">100</span> || <span class="hljs-string">&#x27;% )&#x27;</span> <span class="hljs-keyword">AS</span> &quot;201112&quot;,
+       AMT3 || <span class="hljs-string">&#x27;( &#x27;</span> || ROUND(RATIO_TO_REPORT(amt3) <span class="hljs-keyword">OVER</span> ( <span class="hljs-keyword">PARTITION</span> <span class="hljs-keyword">BY</span> REGION ),<span class="hljs-number">2</span>) * <span class="hljs-number">100</span> || <span class="hljs-string">&#x27;% )&#x27;</span> <span class="hljs-keyword">AS</span> &quot;201210&quot;,
+       AMT4 || <span class="hljs-string">&#x27;( &#x27;</span> || ROUND(RATIO_TO_REPORT(amt4) <span class="hljs-keyword">OVER</span> ( <span class="hljs-keyword">PARTITION</span> <span class="hljs-keyword">BY</span> REGION ),<span class="hljs-number">2</span>) * <span class="hljs-number">100</span> || <span class="hljs-string">&#x27;% )&#x27;</span> <span class="hljs-keyword">AS</span> &quot;201211&quot;,
+       AMT5 || <span class="hljs-string">&#x27;( &#x27;</span> || ROUND(RATIO_TO_REPORT(amt5) <span class="hljs-keyword">OVER</span> ( <span class="hljs-keyword">PARTITION</span> <span class="hljs-keyword">BY</span> REGION ),<span class="hljs-number">2</span>) * <span class="hljs-number">100</span> || <span class="hljs-string">&#x27;% )&#x27;</span> <span class="hljs-keyword">AS</span> &quot;201212&quot;,
+       AMT6 || <span class="hljs-string">&#x27;( &#x27;</span> || ROUND(RATIO_TO_REPORT(amt6) <span class="hljs-keyword">OVER</span> ( <span class="hljs-keyword">PARTITION</span> <span class="hljs-keyword">BY</span> REGION ),<span class="hljs-number">2</span>) * <span class="hljs-number">100</span> || <span class="hljs-string">&#x27;% )&#x27;</span> <span class="hljs-keyword">AS</span> &quot;201310&quot;,
+       AMT7 || <span class="hljs-string">&#x27;( &#x27;</span> || ROUND(RATIO_TO_REPORT(amt7) <span class="hljs-keyword">OVER</span> ( <span class="hljs-keyword">PARTITION</span> <span class="hljs-keyword">BY</span> REGION ),<span class="hljs-number">2</span>) * <span class="hljs-number">100</span> || <span class="hljs-string">&#x27;% )&#x27;</span> <span class="hljs-keyword">AS</span> &quot;201311&quot;
+<span class="hljs-keyword">FROM</span> basis
+<span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> REGION;</code></pre></div>
+
+
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Oracle/">Oracle</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Oracle/">Oracle</a>
+                    
+                      <a class="hover-with-bg" href="/tags/test/">test</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    달리 명시되지 않는 한 이 블로그의 모든 기사는 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0을 사용합니다.</a> 공유 시 출처를 밝혀주세요！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/04/27/Oracle%20%ED%95%A8%EC%88%98/">
+                        <span class="hidden-mobile">Oracle 함수</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;TOC</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+    
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>

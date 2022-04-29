@@ -1,0 +1,607 @@
+
+
+<!DOCTYPE html>
+<html lang="en" data-default-color-scheme=dark>
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/img/favicon.png">
+  <link rel="icon" href="/img/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="author" content="HUISU">
+  <meta name="keywords" content="">
+  
+    <meta name="description" content="Oracle에서 제공되는 다양한 데이터 타입과 그 활용법에 대해 알아본다.">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Oracle의 데이터 타입">
+<meta property="og:url" content="https://huisu9903.github.io/2022/04/23/Oracle%20%EB%8D%B0%EC%9D%B4%ED%84%B0%20%ED%83%80%EC%9E%85/index.html">
+<meta property="og:site_name" content="MY FIRST BLOG">
+<meta property="og:description" content="Oracle에서 제공되는 다양한 데이터 타입과 그 활용법에 대해 알아본다.">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://user-images.githubusercontent.com/65166786/165080984-167a59f7-6fda-43a5-92b1-711340149411.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/65166786/165047780-af36d7a9-dec9-4eab-bd71-3333bfbd1a16.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/65166786/165048939-0f0bf2ba-37da-4ac7-a2d3-8d4fd1f9af63.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/65166786/165050377-88f7e068-d246-460f-977d-f91f542bcf5d.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/65166786/165050609-225c3f79-a4ef-4958-bfc4-87d2b3275eef.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/65166786/165050763-00f05529-e157-44c3-b322-ae1fc8f43d22.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/65166786/165197677-a0fbfe77-a504-4cb0-881f-8c8ae212c703.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/65166786/165195636-d8dbfe14-adbb-4121-829d-52a93ee740d4.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/65166786/165197586-9bf4ac36-4d9d-4ebc-bc29-3b873b7d33c5.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/65166786/165196463-5e2744e0-11e6-4b1a-9db3-0374b1c48a1b.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/65166786/165213115-e2d42b43-f5d4-4a31-9c86-22351cd95f01.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/65166786/165211571-29a1ec60-670a-4903-90bb-784f7383a9ad.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/65166786/165213728-86d7379d-8c5c-42e6-bce8-173e61f2c570.png">
+<meta property="article:published_time" content="2022-04-23T01:00:00.000Z">
+<meta property="article:modified_time" content="2022-04-27T23:44:41.725Z">
+<meta property="article:author" content="HUISU">
+<meta property="article:tag" content="Oracle">
+<meta property="article:tag" content="SQL">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://user-images.githubusercontent.com/65166786/165080984-167a59f7-6fda-43a5-92b1-711340149411.png">
+  
+  
+  <title>Oracle의 데이터 타입 - MY FIRST BLOG</title>
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/css/bootstrap.min.css" />
+
+
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/github-markdown-css@4/github-markdown.min.css" />
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/hint.css@2/hint.min.css" />
+
+  
+    
+    
+      
+      <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/highlight.js@10/styles/hybrid.min.css" />
+    
+  
+
+  
+    <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.css" />
+  
+
+
+<!-- 主题依赖的图标库，不要自行修改 -->
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1749284_ba1fz6golrf.css">
+
+
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1736178_lbnruvf0jn.css">
+
+
+<link  rel="stylesheet" href="/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+  <script id="fluid-configs">
+    var Fluid = window.Fluid || {};
+    var CONFIG = {"hostname":"huisu9903.github.io","root":"/","version":"1.8.14","typing":{"enable":true,"typeSpeed":75,"cursorChar":"","loop":false},"anchorjs":{"enable":true,"element":"h1,h2,h3,h4,h5,h6","placement":"right","visible":"hover","icon":""},"progressbar":{"enable":true,"height_px":3,"color":"#29d","options":{"showSpinner":false,"trickleSpeed":100}},"copy_btn":true,"image_zoom":{"enable":true,"img_url_replace":["",""]},"toc":{"enable":true,"headingSelector":"h1,h2,h3,h4,h5,h6","collapseDepth":0},"lazyload":{"enable":true,"loading_img":"/img/loading.gif","onlypost":false,"offset_factor":2},"web_analytics":{"enable":false,"baidu":null,"google":null,"gtag":null,"tencent":{"sid":null,"cid":null},"woyaola":null,"cnzz":null,"leancloud":{"app_id":null,"app_key":null,"server_url":null,"path":"window.location.pathname","ignore_local":false}},"search_path":"/local-search.xml"};
+  </script>
+  <script  src="/js/utils.js" ></script>
+  <script  src="/js/color-schema.js" ></script>
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand" href="/">
+      <strong>HUISU</strong>
+    </a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/">
+                <i class="iconfont icon-home-fill"></i>
+                Home
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/archives/">
+                <i class="iconfont icon-archive-fill"></i>
+                Archives
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/categories/">
+                <i class="iconfont icon-category-fill"></i>
+                Categories
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/tags/">
+                <i class="iconfont icon-tags-fill"></i>
+                tags
+              </a>
+            </li>
+          
+        
+          
+          
+          
+          
+            <li class="nav-item">
+              <a class="nav-link" href="/about/">
+                <i class="iconfont icon-user-fill"></i>
+                About
+              </a>
+            </li>
+          
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" target="_self" href="javascript:;" data-toggle="modal" data-target="#modalSearch" aria-label="Search">
+              &nbsp;<i class="iconfont icon-search"></i>&nbsp;
+            </a>
+          </li>
+        
+        
+          <li class="nav-item" id="color-toggle-btn">
+            <a class="nav-link" target="_self" href="javascript:;" aria-label="Color Toggle">&nbsp;<i
+                class="iconfont icon-dark" id="color-toggle-icon"></i>&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="banner" id="banner" parallax=true
+         style="background: url('/img/default.png') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center" style="background-color: rgba(0, 0, 0, 0.3)">
+          <div class="page-header text-center fade-in-up">
+            <span class="h2" id="subtitle" title="Oracle의 데이터 타입">
+              
+            </span>
+
+            
+              <div class="mt-3">
+  
+  
+    <span class="post-meta">
+      <i class="iconfont icon-date-fill" aria-hidden="true"></i>
+      <time datetime="2022-04-23 10:00" pubdate>
+        April 23, 2022
+      </time>
+    </span>
+  
+</div>
+
+<div class="mt-1">
+  
+
+  
+
+  
+  
+</div>
+
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid nopadding-x">
+  <div class="row nomargin-x">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-x-md">
+      <div class="container nopadding-x-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <article class="post-content mx-auto">
+            <!-- SEO header -->
+            <h1 style="display: none">Oracle의 데이터 타입</h1>
+            
+            <div class="markdown-body">
+              <h1 id="Oracle-데이터-타입"><a href="#Oracle-데이터-타입" class="headerlink" title="Oracle 데이터 타입"></a>Oracle 데이터 타입</h1><h2 id="문자-데이터-타입"><a href="#문자-데이터-타입" class="headerlink" title="문자 데이터 타입"></a>문자 데이터 타입</h2><table>
+<thead>
+<tr>
+<th>데이터 타입</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>CHAR (크기[ BYTE , CHAR ])</td>
+<td>고정길이 문자, 최대 2000byte, default 값은 1byte</td>
+</tr>
+<tr>
+<td>VARCARCHAR2 (크기[ BYTE , CHAR ])</td>
+<td>가변길이 문자, 최대 4000byte, default  값은 1byte</td>
+</tr>
+<tr>
+<td>NCHAR (크기)</td>
+<td>고정길이 유니코드 문자(다국어 입력가능), 최대 2000byte, default  값은 1</td>
+</tr>
+<tr>
+<td>NVARCARCHAR2 (크기)</td>
+<td>가변길이 유니코드 문자(다국어 입력 가능), 최대 4000byte, default  값은 1</td>
+</tr>
+<tr>
+<td>LONG</td>
+<td>최대 2GB 크기의 가변길이 문자형, 잘 사용하지 않는다.</td>
+</tr>
+</tbody></table>
+<p>고정길이의 경우 10byte라고 설정하면 <code>abc</code> 세 글자를 입력했을때 실제 크기가3byte이더라도  항상 10byte의 공간을 차지하게 되나,<br><code>VARCARCHAR2(가변길이)</code>의 경우 똑같이 10byte라고 설정해도 <code>abc</code> 세 글자를 입력했을때 3byte의 공간만 차지하게 된다.</p>
+<h2 id="CHAR-amp-VARCHAR"><a href="#CHAR-amp-VARCHAR" class="headerlink" title="CHAR &amp; VARCHAR"></a>CHAR &amp; VARCHAR</h2><p>고정길이(CHAR)와 가변길이(VARCHAR)로 이루어진 테이블을 생성한다.</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><div class="code-wrapper"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></div></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> ex2_1 (<br>    COLUMN1 <span class="hljs-type">CHAR</span>(<span class="hljs-number">10</span>),<br>    COLUMN2 <span class="hljs-type">VARCHAR</span>(<span class="hljs-number">10</span>)<br>);<br></code></pre></td></tr></table></figure>
+<p><code>abc</code>를 고정길이(CHAR)와 가변길이(VARCHAR)에 입력한다.</p>
+<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs n1ql"><span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> ex2_1 (column1, column2) <span class="hljs-keyword">VALUES</span> (<span class="hljs-string">&#x27;abc&#x27;</span>, <span class="hljs-string">&#x27;abc&#x27;</span>);<br></code></pre></td></tr></table></figure>
+<p>고정길이(CHAR)과 가변길이(VARCHAR)에 각각 <code>abc</code>를 입력했을때<br>고정길이는 10의 길이를 가지나, 가변길이는 <code>abc</code>의 길이는 3의 길이를 가지는 것을 확인할 수 있다.</p>
+<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs n1ql"><span class="hljs-keyword">SELECT</span> column1<br>       , <span class="hljs-built_in">LENGTH</span>(column1) <span class="hljs-keyword">as</span> len1<br>       , column2<br>       , <span class="hljs-built_in">LENGTH</span>(column2) <span class="hljs-keyword">as</span> len2<br> <span class="hljs-keyword">FROM</span> ex2_1;<br></code></pre></td></tr></table></figure>
+<p><img src="https://user-images.githubusercontent.com/65166786/165080984-167a59f7-6fda-43a5-92b1-711340149411.png" srcset="/img/loading.gif" lazyload alt="고정길이와 가변길이"></p>
+<h2 id="VARCHAR2"><a href="#VARCHAR2" class="headerlink" title="VARCHAR2"></a>VARCHAR2</h2><p><code>NVARCHAR2</code>는 유니코드 문자형으로 다국어 입력이 가능하다.</p>
+<figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs scss">CREATE <span class="hljs-selector-tag">TABLE</span> <span class="hljs-built_in">ex2_2</span>(<br>        COLUMN1    VARCHAR2(<span class="hljs-number">3</span>), # default 값인 byte가 적용된다.<br>        COLUMN2    <span class="hljs-built_in">VARCHAR2</span>(<span class="hljs-number">3</span> byte),<br>        COLUMN3    <span class="hljs-built_in">VARCHAR2</span>(<span class="hljs-number">3</span> char)<br>);<br></code></pre></td></tr></table></figure>
+<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs n1ql"><span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> ex2_2 <span class="hljs-keyword">VALUES</span>(<span class="hljs-string">&#x27;abc&#x27;</span>, <span class="hljs-string">&#x27;abc&#x27;</span>, <span class="hljs-string">&#x27;abc&#x27;</span>);<br></code></pre></td></tr></table></figure>
+<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs n1ql"><span class="hljs-keyword">SELECT</span> column1, <span class="hljs-built_in">LENGTH</span>(column1) <span class="hljs-keyword">AS</span> len1<br>        ,column2, <span class="hljs-built_in">LENGTH</span>(column2) <span class="hljs-keyword">AS</span> len2<br>        ,column3, <span class="hljs-built_in">LENGTH</span>(column3) <span class="hljs-keyword">AS</span> len3<br>    <span class="hljs-keyword">FROM</span> ex2_2;<br></code></pre></td></tr></table></figure>
+<p>영문자 <code>abc</code>의 경우 크기가 모두 3byte로 나오는 것을 확인할 수 있다.<br><img src="https://user-images.githubusercontent.com/65166786/165047780-af36d7a9-dec9-4eab-bd71-3333bfbd1a16.png" srcset="/img/loading.gif" lazyload alt="image"></p>
+<p>이번에는 영문자가 아닌 한글을 넣어본다. 영어는 문자 하나당 1byte의 공간을 가지지만, 한글의 경우 2byte의 공간을 차지한다.</p>
+<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs n1ql"><span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> ex2_2 <span class="hljs-keyword">VALUES</span> (<span class="hljs-string">&#x27;홍길동&#x27;</span>, <span class="hljs-string">&#x27;홍길동&#x27;</span>, <span class="hljs-string">&#x27;홍길동&#x27;</span>);<br></code></pre></td></tr></table></figure>
+<p>문자 하나당 2byte의 저장공간이기에 3byte의 공간으로 정의된 <code>column1,column2</code>에 들어갈 수 없어 오류가 발생하고 말았다.</p>
+<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs n1ql"><span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> ex2_2 (column3) <span class="hljs-keyword">VALUES</span> (<span class="hljs-string">&#x27;홍길동&#x27;</span>);<br></code></pre></td></tr></table></figure>
+<p>하지만 <code>column3</code>에서는 <code>byte</code>가 아닌 <code>char</code>을 명시했기에 입력이 가능하다.</p>
+<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs n1ql"><span class="hljs-keyword">SELECT</span> column3, <br>    <span class="hljs-built_in">LENGTH</span>(column3) <span class="hljs-keyword">AS</span> len3, <br>    LENGTHB(column3) <span class="hljs-keyword">AS</span> bytelen<br><span class="hljs-keyword">FROM</span> ex2_2;<br></code></pre></td></tr></table></figure>
+<p><img src="https://user-images.githubusercontent.com/65166786/165048939-0f0bf2ba-37da-4ac7-a2d3-8d4fd1f9af63.png" srcset="/img/loading.gif" lazyload alt="홍길동"><br>이전에 한글 한 문자는 2byte의 공간을 가진다고 했지만,<br>DB의 설정에 따라 3byte의 공간을 가지는 경우도 있다.</p>
+<h2 id="숫자-데이터-타입"><a href="#숫자-데이터-타입" class="headerlink" title="숫자 데이터 타입"></a>숫자 데이터 타입</h2><table>
+<thead>
+<tr>
+<th>데이터 타입</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>NUMBER [(p, [s])]</td>
+<td>가변숫자 , p(1<del>38, default 값은 38)와 s(-84</del>127, default 값은 0)는 십진수 기준, 최대 22byte</td>
+</tr>
+<tr>
+<td>FLOAT[(p)]</td>
+<td>NUMBER의 하위 타입. p는 1~128. default 값은 128. 이진수 기준. 최대 22byte</td>
+</tr>
+<tr>
+<td>BINARY_FLOAT</td>
+<td>32비트 부동소수점 수. 최대 4byte</td>
+</tr>
+<tr>
+<td>BINARY_DOUBLE</td>
+<td>64비트 부동소수점 수. 최대 8byte</td>
+</tr>
+</tbody></table>
+<p>총 4가지의 숫자 타입 중 NUMBER만 사용할 때가 많다.<br><code>INTEGER</code>같은 정수형, <code>DECIMAL</code>같은 실수형도 있지만,<br>모두 내부적으로는 <code>NUMBER</code>으로 변환되어 생성된다.</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> ex2_3(<br>    COL_INT <span class="hljs-type">INTEGER</span><br>    , COL_DEC <span class="hljs-type">DECIMAL</span><br>    , COL_NUM NUMBER<br>);<br></code></pre></td></tr></table></figure>
+<p>생성된 테이블 컬럼의 타입과 길이는 user_tab_cols라는 시스템 뷰를 조회하면 알 수 있다.</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"><span class="hljs-keyword">SELECT</span><br>    column_id<br>    ,<span class="hljs-built_in">column_name</span><br>    ,data_type<br>    ,data_length<br>    <span class="hljs-keyword">FROM</span> user_tab_cols<br><span class="hljs-keyword">WHERE</span> <span class="hljs-built_in">table_name</span> = <span class="hljs-string">&#x27;EX2_3&#x27;</span><br><span class="hljs-keyword">ORDER</span> <span class="hljs-keyword">BY</span> column_id;<br></code></pre></td></tr></table></figure>
+<p>모두 <code>NUMBER</code>형으로 생성되었고 크기는 22인것을 확인할 수 있다.<br><code>NUMBER</code>형은 따로 크기를 명시하지 않으면 최대 크기인 22byte로 생성된다. 그리고 NUMBER (p, s) 형식으로 크기를 지정할 수도 있는데,<br>p(precision)는 최대 유효숫자 자릿수를 s(scale)는 소수점 기준 자릿수를 의미한다.<br><img src="https://user-images.githubusercontent.com/65166786/165050377-88f7e068-d246-460f-977d-f91f542bcf5d.png" srcset="/img/loading.gif" lazyload alt="image"></p>
+<h2 id="FLOAT형으로-인한-오류"><a href="#FLOAT형으로-인한-오류" class="headerlink" title="FLOAT형으로 인한 오류"></a>FLOAT형으로 인한 오류</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> ex2_4 (<br>    COL_FLOT1 <span class="hljs-type">FLOAT</span>(<span class="hljs-number">32</span>) #p값을 <span class="hljs-number">32</span>로 지정<br>    ,COL_FLOT2 <span class="hljs-type">FLOAT</span><br>);<br></code></pre></td></tr></table></figure>
+<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs n1ql"><span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> ex2_4 (col_flot1, col_flot2) <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">1234567891234</span>, <span class="hljs-number">1234567891234</span>);<br></code></pre></td></tr></table></figure>
+<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs n1ql"><span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> ex2_4;<br></code></pre></td></tr></table></figure>
+<p><img src="https://user-images.githubusercontent.com/65166786/165050609-225c3f79-a4ef-4958-bfc4-87d2b3275eef.png" srcset="/img/loading.gif" lazyload alt="image"><br>FLOAT(p)에서는 p에 들어가는 자릿수는 이진수를 기준으로 한다. 이진수 기준 32자리를 십진수로 변환 하려면 0.30103을 곱해야 한다. 32 * 030103 &#x3D; 9.63296 이므로<br>1234567891234에서 열번째 자리만 제대로 들어가고<br>나머지는 0으로 들어가는 것을 확인 할 수 있다.</p>
+<p>FLOAT 타입에서 p의 default값은 126(37.92978)이다.</p>
+<h2 id="날짜-데이터-타입"><a href="#날짜-데이터-타입" class="headerlink" title="날짜 데이터 타입"></a>날짜 데이터 타입</h2><table>
+<thead>
+<tr>
+<th>데이터 타입</th>
+<th>설명</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>DATE</td>
+<td>BC 4712년 1월 1일부터 9999년 12월 31일, 연도,월,일,시,분,초까지 입력 가능하다.</td>
+</tr>
+<tr>
+<td>TIMESTAMP [(fractional_seconds_precision)]</td>
+<td>연도,월,일,시,분,초,밀리초까지 입력 가능하다. fractional_seconds_precision은 0~9까지 입력할 수 있고 default 값은 6이다.</td>
+</tr>
+</tbody></table>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> ex2_5(<br>    COL_DATE <span class="hljs-type">DATE</span><br>    ,COL_TIMESTAMP <span class="hljs-type">TIMESTAMP</span><br>);<br></code></pre></td></tr></table></figure>
+<p><code>SYSDATE</code>와 <code>SYSTIMESTAMP</code>는 현재 일자와 시간을 반환하는 오라클 내부 함수 이다.</p>
+<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs n1ql"><span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> ex2_5 <span class="hljs-keyword">VALUES</span> (SYSDATE, SYSTIMESTAMP);<br></code></pre></td></tr></table></figure>
+<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs n1ql"><span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> ex2_5;<br></code></pre></td></tr></table></figure>
+<p><img src="https://user-images.githubusercontent.com/65166786/165050763-00f05529-e157-44c3-b322-ae1fc8f43d22.png" srcset="/img/loading.gif" lazyload alt="image"></p>
+<h2 id="제약-조건"><a href="#제약-조건" class="headerlink" title="제약 조건"></a>제약 조건</h2><h3 id="NOT-NULL"><a href="#NOT-NULL" class="headerlink" title="NOT NULL"></a>NOT NULL</h3><p>Column에 <code>NOT NULL</code> 제약조건을 명시할 경우 반드시 데이터를 입력해야 한다.</p>
+<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs lisp">CREATE TABLE ex2_6 (<br>    <span class="hljs-name">COL_NULL</span> VARCHAR2(<span class="hljs-number">10</span>)<br>    ,COL_NOT_NULL VARCHAR2(<span class="hljs-number">10</span>) NOT NULL<br>)<span class="hljs-comment">;</span><br></code></pre></td></tr></table></figure>
+<p> 테이블에 데이터를 삽입한다.</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> ex2_6 <span class="hljs-keyword">VALUES</span> (<span class="hljs-string">&#x27;AA&#x27;</span>, <span class="hljs-string">&#x27; &#x27;</span>); <span class="hljs-comment">-- null 값 테스트</span><br><br><span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> ex2_6 <span class="hljs-keyword">VALUES</span> (<span class="hljs-string">&#x27;AA&#x27;</span>, <span class="hljs-string">&#x27;BB&#x27;</span>);<br></code></pre></td></tr></table></figure>
+<p><img src="https://user-images.githubusercontent.com/65166786/165197677-a0fbfe77-a504-4cb0-881f-8c8ae212c703.png" srcset="/img/loading.gif" lazyload alt="image"><br>첫번째 코드를 실행하면<br>“ORA-01400: NULL을 (“ORA_USER”.”EX2_6”.”COL_NOT_NULL”) 안에 삽입할 수 없습니다” 라는 오류가 발생한다. NOT_NULL 값의 경우<br>NULL 값을 넣을 수 없기에 발생하는 오류이다.</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"><span class="hljs-keyword">SELECT</span> <span class="hljs-built_in">constraint_name</span>, constraint_type, <span class="hljs-built_in">table_name</span>, search_condition<br>    <span class="hljs-keyword">FROM</span> user_constraints<br><span class="hljs-keyword">WHERE</span> <span class="hljs-built_in">table_name</span> = <span class="hljs-string">&#x27;EX2_6&#x27;</span>;<br></code></pre></td></tr></table></figure>
+<p><img src="https://user-images.githubusercontent.com/65166786/165195636-d8dbfe14-adbb-4121-829d-52a93ee740d4.png" srcset="/img/loading.gif" lazyload alt="image"></p>
+<h3 id="UNIQUE"><a href="#UNIQUE" class="headerlink" title="UNIQUE"></a>UNIQUE</h3><p>Column에 UNIQUE을 명시할 경우, 같은 내용을 입력할 수 없다.</p>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> ex2_7 (<br>    COL_UNIQUE_NULL VARCHAR2(<span class="hljs-number">10</span>) <span class="hljs-keyword">UNIQUE</span><br>    ,COL_UNIQUE_NNULL VARCHAR2(<span class="hljs-number">10</span>) <span class="hljs-keyword">UNIQUE</span> <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span><br>    ,COL_UNIQUE VARCHAR2(<span class="hljs-number">10</span>)<br>    ,CONSTRAINTS unique_nm1 <span class="hljs-keyword">UNIQUE</span> (COL_UNIQUE)<br>);<br></code></pre></td></tr></table></figure>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"><span class="hljs-keyword">SELECT</span> <span class="hljs-built_in">constraint_name</span>, constraint_type, <span class="hljs-built_in">table_name</span>, search_condition<br>    <span class="hljs-keyword">FROM</span> user_constraints<br><span class="hljs-keyword">WHERE</span> <span class="hljs-built_in">table_name</span> = <span class="hljs-string">&#x27;EX2_7&#x27;</span>;<br></code></pre></td></tr></table></figure>
+<p>같은 내용의 key값을 두 번 삽입한다 .</p>
+<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs n1ql"><span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> ex2_7 <span class="hljs-keyword">VALUES</span> (<span class="hljs-string">&#x27;AA&#x27;</span>, <span class="hljs-string">&#x27;AA&#x27;</span>, <span class="hljs-string">&#x27;AA&#x27;</span>);<br></code></pre></td></tr></table></figure>
+<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs n1ql"><span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> ex2_7 <span class="hljs-keyword">VALUES</span> (<span class="hljs-string">&#x27;AA&#x27;</span>, <span class="hljs-string">&#x27;AA&#x27;</span>, <span class="hljs-string">&#x27;AA&#x27;</span>);<br></code></pre></td></tr></table></figure>
+<p><img src="https://user-images.githubusercontent.com/65166786/165197586-9bf4ac36-4d9d-4ebc-bc29-3b873b7d33c5.png" srcset="/img/loading.gif" lazyload alt="image"><br>첫번째 코드를 실행한 뒤 두번째 코드를 실행하면<br> “ORA-00001: 무결성 제약 조건(ORA_USER.SYS_C007451)에 위배됩니다” 라는 에러 메시지가 발생한다. 같은 내용의 key값을 삽입하면 발생하는 오류이다. 테이블 내에 같은 내용이 없는지 확인해봐야 한다.</p>
+<p> 이번에는 같은 내용의 NULL값을 두 번 삽입한다.</p>
+<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs n1ql"><span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> ex2_7 <span class="hljs-keyword">VALUES</span> (<span class="hljs-string">&#x27;&#x27;</span>, <span class="hljs-string">&#x27;BB&#x27;</span>, <span class="hljs-string">&#x27;BB&#x27;</span>);<br></code></pre></td></tr></table></figure>
+<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs n1ql"><span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> ex2_7 <span class="hljs-keyword">VALUES</span> (<span class="hljs-string">&#x27;&#x27;</span>,<span class="hljs-string">&#x27;CC&#x27;</span>, <span class="hljs-string">&#x27;CC&#x27;</span>);<br></code></pre></td></tr></table></figure>
+<p>NULL 값의 경우 같은 내용을 두 번 삽입하여도 UNIQUE 비교 대상에서<br>제외되는 것을 확인 할 수 있다.</p>
+<h3 id="Primary-key"><a href="#Primary-key" class="headerlink" title="Primary key"></a>Primary key</h3><p>Column에 Primary key를 명시할 경우, Column은UNIQUE와 NOT NULL 속성을 동시에 가지게 된다.</p>
+<figure class="highlight sas"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs sas"><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> ex2_8 (<br>    COL1 VARCHAR2(10) <span class="hljs-keyword">PRIMARY</span> <span class="hljs-keyword">KEY</span>,<br>    COL2 VARCHAR2(10)<br>);<br></code></pre></td></tr></table></figure>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"><span class="hljs-keyword">SELECT</span> <span class="hljs-built_in">constraint_name</span>, constraint_type, <span class="hljs-built_in">table_name</span>, search_condition<br>    <span class="hljs-keyword">FROM</span> user_constraints<br><span class="hljs-keyword">WHERE</span> <span class="hljs-built_in">table_name</span> = <span class="hljs-string">&#x27;EX2_8&#x27;</span>;<br></code></pre></td></tr></table></figure>
+<p>기본키는 <code>CONSTRAINT_TYPE</code>이 P(Primary key)로 생성된다.<br><img src="https://user-images.githubusercontent.com/65166786/165196463-5e2744e0-11e6-4b1a-9db3-0374b1c48a1b.png" srcset="/img/loading.gif" lazyload alt="image"></p>
+<p>기본키는 <code>NOT NULL</code> 속성이기에 <code>NULL</code> 값 입력이 불가능하다.</p>
+<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs n1ql"><span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> ex2_8 <span class="hljs-keyword">VALUES</span> (<span class="hljs-string">&#x27;&#x27;</span>, <span class="hljs-string">&#x27;AA&#x27;</span>);<br></code></pre></td></tr></table></figure>
+<p>또한 값이 같은 데이터도 입력 불가능하다.</p>
+<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs n1ql"><span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> ex2_8 <span class="hljs-keyword">VALUES</span> (<span class="hljs-string">&#x27;AA&#x27;</span>, <span class="hljs-string">&#x27;AA&#x27;</span>); <br></code></pre></td></tr></table></figure>
+<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs n1ql"><span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> ex2_8 <span class="hljs-keyword">VALUES</span> (<span class="hljs-string">&#x27;AA&#x27;</span>, <span class="hljs-string">&#x27;AA&#x27;</span>); <br></code></pre></td></tr></table></figure>
+<h3 id="Foreign-key"><a href="#Foreign-key" class="headerlink" title="Foreign key"></a>Foreign key</h3><p>외래키는 테이블 간의 참조 데이터 무결성을 위한 제약조건이다.</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">CONSTRAINT</span> 외래키이름 <span class="hljs-keyword">FOREIGN</span> KEY (<span class="hljs-keyword">Column</span>이름..)<br><span class="hljs-keyword">REFERENCES</span> 참조테이블(참조테이블 <span class="hljs-keyword">Column</span>이름..)<br></code></pre></td></tr></table></figure>
+<h3 id="Check"><a href="#Check" class="headerlink" title="Check"></a>Check</h3><p>check1은 CHECK 범위를 숫자 1~9만 입력 가능하도록 한다.<br>check2는 CHECK 범위를 <code>MALE</code>와 <code>FEMALE</code>만 입력 가능하도록 한다.</p>
+<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><code class="hljs lisp">CREATE TABLE ex2_9 (<br> <span class="hljs-name">num1</span> NUMBER <br> ,CONSTRAINTS check1 CHECK ( <span class="hljs-name">num1</span> BETWEEN <span class="hljs-number">1</span> AND <span class="hljs-number">9</span>)<br> ,gender VARCHAR2(<span class="hljs-number">10</span>)<br> ,CONSTRAINTS check2 CHECK ( <span class="hljs-name">gender</span> IN (&#x27;MALE&#x27;, &#x27;FEMALE&#x27;))        <br>)<span class="hljs-comment">; </span><br></code></pre></td></tr></table></figure>
+<figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"><span class="hljs-keyword">SELECT</span> <span class="hljs-built_in">constraint_name</span>, constraint_type, <span class="hljs-built_in">table_name</span>, search_condition<br>  <span class="hljs-keyword">FROM</span> user_constraints<br> <span class="hljs-keyword">WHERE</span> <span class="hljs-built_in">table_name</span> = <span class="hljs-string">&#x27;EX2_9&#x27;</span>;<br></code></pre></td></tr></table></figure>
+<p><img src="https://user-images.githubusercontent.com/65166786/165213115-e2d42b43-f5d4-4a31-9c86-22351cd95f01.png" srcset="/img/loading.gif" lazyload alt="image"><br> <figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs n1ql"><span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> ex2_9 <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">10</span>, <span class="hljs-string">&#x27;MAN&#x27;</span>);<br></code></pre></td></tr></table></figure><br> 숫자 <code>10</code>이 1~9의 범위를 벗어나고, <code>MAN</code>은 <code>MALE</code>이나 <code>FEMALE</code>이 아니기 때문에<br>“ORA-02290: 체크 제약조건(C##ORA_USER.CHECK4)이 위배되었습니다”라고 오류가 발생한다.<br><img src="https://user-images.githubusercontent.com/65166786/165211571-29a1ec60-670a-4903-90bb-784f7383a9ad.png" srcset="/img/loading.gif" lazyload alt="image"><br> 데이터를 제약조건에 맞게 수정해주면 오류가 발생하지 않는다.<br> <figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs n1ql"><span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> ex2_9 <span class="hljs-keyword">VALUES</span> (<span class="hljs-number">5</span>, <span class="hljs-string">&#x27;FEMALE&#x27;</span>);<br></code></pre></td></tr></table></figure></p>
+<h3 id="Default"><a href="#Default" class="headerlink" title="Default"></a>Default</h3><p>제약조건에는 포함되지 않지만 Column 속성으로 <code>DEFAULT</code><br>가 존재한다. 이는 Column의 Default값을 명시하는데 사용된다. </p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> ex2_10 (<br>   Col1        VARCHAR2(<span class="hljs-number">10</span>) <span class="hljs-keyword">NOT</span> <span class="hljs-keyword">NULL</span>, <br>   Col2        VARCHAR2(<span class="hljs-number">10</span>) <span class="hljs-keyword">NULL</span>, <br>   Create_date <span class="hljs-type">DATE</span> <span class="hljs-keyword">DEFAULT</span> SYSDATE);<br></code></pre></td></tr></table></figure>
+<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs n1ql"><span class="hljs-keyword">INSERT</span> <span class="hljs-keyword">INTO</span> ex2_10 (col1, col2) <span class="hljs-keyword">VALUES</span> (<span class="hljs-string">&#x27;AA&#x27;</span>, <span class="hljs-string">&#x27;AA&#x27;</span>); <br></code></pre></td></tr></table></figure>
+<figure class="highlight n1ql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs n1ql"><span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> ex2_10;<br></code></pre></td></tr></table></figure>
+<p><img src="https://user-images.githubusercontent.com/65166786/165213728-86d7379d-8c5c-42e6-bce8-173e61f2c570.png" srcset="/img/loading.gif" lazyload alt="image"><br><code>DEFAULT SYSDATE</code>를 해주었기에 따로 값을 넣지 않아도 현재 일자가 입력된다.</p>
+<h2 id="Table-변경"><a href="#Table-변경" class="headerlink" title="Table 변경"></a>Table 변경</h2><h3 id="Table-요약"><a href="#Table-요약" class="headerlink" title="Table 요약"></a>Table 요약</h3><figure class="highlight abnf"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs abnf">DESC ex2_10<span class="hljs-comment">;</span><br></code></pre></td></tr></table></figure>
+<h3 id="Table-삭제"><a href="#Table-삭제" class="headerlink" title="Table 삭제"></a>Table 삭제</h3><figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"><span class="hljs-keyword">DROP</span> <span class="hljs-keyword">TABLE</span> ex2_10;<br></code></pre></td></tr></table></figure>
+<h3 id="Table-Column-Name-변경"><a href="#Table-Column-Name-변경" class="headerlink" title="Table Column Name 변경"></a>Table Column Name 변경</h3><figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"><span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">TABLE</span> ex2_10 <span class="hljs-keyword">RENAME</span> <span class="hljs-keyword">COLUMN</span> Col1 <span class="hljs-keyword">TO</span> Col11; <br></code></pre></td></tr></table></figure>
+<h3 id="Table-Column-타입-변경"><a href="#Table-Column-타입-변경" class="headerlink" title="Table Column 타입 변경"></a>Table Column 타입 변경</h3><figure class="highlight sas"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sas"><span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">TABLE</span> ex2_10 <span class="hljs-keyword">MODIFY</span> col2 VARCHAR2(30);<br></code></pre></td></tr></table></figure>
+<h3 id="Table-Column-추가"><a href="#Table-Column-추가" class="headerlink" title="Table Column 추가"></a>Table Column 추가</h3><figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"><span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">TABLE</span> ex2_10 <span class="hljs-keyword">ADD</span> col3 NUMBER;<br></code></pre></td></tr></table></figure>
+<h3 id="Table-Column-삭제"><a href="#Table-Column-삭제" class="headerlink" title="Table Column 삭제"></a>Table Column 삭제</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">TABLE</span> ex2_10 <span class="hljs-keyword">DROP</span> <span class="hljs-keyword">COLUMN</span> col3 ;<br></code></pre></td></tr></table></figure>
+<h3 id="Table-Column-제약조건-추가"><a href="#Table-Column-제약조건-추가" class="headerlink" title="Table Column 제약조건 추가"></a>Table Column 제약조건 추가</h3><figure class="highlight sas"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sas"><span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">TABLE</span> ex2_10 <span class="hljs-keyword">ADD</span> CONSTRAINTS pk_ex2_10 <span class="hljs-keyword">PRIMARY</span> <span class="hljs-keyword">KEY</span> (col11); <br></code></pre></td></tr></table></figure>
+<h3 id="Table-Column-제약조건-삭제"><a href="#Table-Column-제약조건-삭제" class="headerlink" title="Table Column 제약조건 삭제"></a>Table Column 제약조건 삭제</h3><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><code class="hljs sql"><span class="hljs-keyword">ALTER</span> <span class="hljs-keyword">TABLE</span> ex2_10 <span class="hljs-keyword">DROP</span> CONSTRAINTS pk_ex2_10; <span class="hljs-comment">-- 제약조건 삭제 </span><br></code></pre></td></tr></table></figure>
+<h3 id="Table-복사"><a href="#Table-복사" class="headerlink" title="Table 복사"></a>Table 복사</h3><figure class="highlight pgsql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><code class="hljs pgsql"><span class="hljs-keyword">CREATE</span> <span class="hljs-keyword">TABLE</span> ex2_10_1 <span class="hljs-keyword">AS</span><br><span class="hljs-keyword">SELECT</span> * <span class="hljs-keyword">FROM</span> ex2_10_1;<br></code></pre></td></tr></table></figure>
+
+
+
+
+
+
+            </div>
+            <hr>
+            <div>
+              <div class="post-metas mb-3">
+                
+                  <div class="post-meta mr-3">
+                    <i class="iconfont icon-category"></i>
+                    
+                      <a class="hover-with-bg" href="/categories/Oracle/">Oracle</a>
+                    
+                  </div>
+                
+                
+                  <div class="post-meta">
+                    <i class="iconfont icon-tags"></i>
+                    
+                      <a class="hover-with-bg" href="/tags/Oracle/">Oracle</a>
+                    
+                      <a class="hover-with-bg" href="/tags/SQL/">SQL</a>
+                    
+                  </div>
+                
+              </div>
+              
+                <p class="note note-warning">
+                  
+                    달리 명시되지 않는 한 이 블로그의 모든 기사는 <a target="_blank" href="https://creativecommons.org/licenses/by-sa/4.0/deed.zh" rel="nofollow noopener noopener">CC BY-SA 4.0을 사용합니다.</a> 공유 시 출처를 밝혀주세요！
+                  
+                </p>
+              
+              
+                <div class="post-prevnext">
+                  <article class="post-prev col-6">
+                    
+                    
+                      <a href="/2022/04/23/oracle19c%EC%9D%98%20ubuntu%20%EC%84%A4%EC%B9%98/">
+                        <i class="iconfont icon-arrowleft"></i>
+                        <span class="hidden-mobile">Oracle 19c를 Ubuntu 20.04에 설치하기</span>
+                        <span class="visible-mobile">Previous</span>
+                      </a>
+                    
+                  </article>
+                  <article class="post-next col-6">
+                    
+                    
+                      <a href="/2022/04/22/%ED%8C%8C%EC%9D%B4%EC%8D%AC%20%EC%9D%B4%EB%AF%B8%EC%A7%80%20%EC%9B%B9%20%ED%81%AC%EB%A1%A4%EB%A7%81/">
+                        <span class="hidden-mobile">﻿BeautifulSoup를 이용한 Python 텍스트 웹 크롤링</span>
+                        <span class="visible-mobile">Next</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
+                    
+                  </article>
+                </div>
+              
+            </div>
+
+            
+          </article>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="toc-header"><i class="iconfont icon-list"></i>&nbsp;TOC</p>
+  <div class="toc-body" id="toc-body"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+
+    
+      <a id="scroll-top-button" aria-label="TOP" href="#" role="button">
+        <i class="iconfont icon-arrowup" aria-hidden="true"></i>
+      </a>
+    
+
+    
+      <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Search</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">keyword</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+
+    
+  </main>
+
+  <footer class="text-center mt-5 py-3">
+  <div class="footer-content">
+    
+  </div>
+  
+
+  
+
+  
+</footer>
+
+
+  <!-- SCRIPTS -->
+  
+  <script  src="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.jsdelivr.net/npm/nprogress@0/nprogress.min.css" />
+
+  <script>
+    NProgress.configure({"showSpinner":false,"trickleSpeed":100})
+    NProgress.start()
+    window.addEventListener('load', function() {
+      NProgress.done();
+    })
+  </script>
+
+
+<script  src="https://cdn.jsdelivr.net/npm/jquery@3/dist/jquery.min.js" ></script>
+<script  src="https://cdn.jsdelivr.net/npm/bootstrap@4/dist/js/bootstrap.min.js" ></script>
+<script  src="/js/events.js" ></script>
+<script  src="/js/plugins.js" ></script>
+
+<!-- Plugins -->
+
+
+  <script  src="/js/local-search.js" ></script>
+
+
+
+  
+    <script  src="/js/img-lazyload.js" ></script>
+  
+
+
+
+  
+
+
+
+  
+    <script  src="https://cdn.jsdelivr.net/npm/tocbot@4/dist/tocbot.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@3/dist/jquery.fancybox.min.js" ></script>
+  
+  
+    <script  src="https://cdn.jsdelivr.net/npm/anchor-js@4/anchor.min.js" ></script>
+  
+  
+    <script defer src="https://cdn.jsdelivr.net/npm/clipboard@2/dist/clipboard.min.js" ></script>
+  
+
+
+
+
+
+
+  <script  src="https://cdn.jsdelivr.net/npm/typed.js@2/lib/typed.min.js" ></script>
+  <script>
+    (function (window, document) {
+      var typing = Fluid.plugins.typing;
+      var title = document.getElementById('subtitle').title;
+      
+        typing(title);
+      
+    })(window, document);
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- 主题的启动项 保持在最底部 -->
+<script  src="/js/boot.js" ></script>
+
+
+</body>
+</html>
