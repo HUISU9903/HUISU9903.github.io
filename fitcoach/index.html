@@ -369,32 +369,16 @@ function createDemoPose(elapsedMs) {
 }
 // Version pinned to avoid silent API changes. This app is dependency-free to build,
 // but the MediaPipe library, WASM runtime and model need network access on first load.
-const MP_VERSION = '0.10.22';
-// Safari sometimes rejects a cross-origin ES module with only
-// "Importing a module script failed". Keep independent CDN fallbacks.
+const MP_VERSION = '0.10.21';
+const LOCAL_WASM = new URL('./vendor/wasm', document.baseURI).href.replace(/\/$/, '');
 const MP_SOURCES = [
-  {
-    label: 'jsDelivr ESM',
-    js: `https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@${MP_VERSION}/vision_bundle.mjs`,
-    wasm: `https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@${MP_VERSION}/wasm`,
-  },
-  {
-    label: 'jsDelivr package entry',
-    js: `https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@${MP_VERSION}`,
-    wasm: `https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@${MP_VERSION}/wasm`,
-  },
-  {
-    label: 'unpkg ESM',
-    js: `https://unpkg.com/@mediapipe/tasks-vision@${MP_VERSION}/vision_bundle.mjs`,
-    wasm: `https://unpkg.com/@mediapipe/tasks-vision@${MP_VERSION}/wasm`,
-  },
-  {
-    label: 'esm.sh package',
-    js: `https://esm.sh/@mediapipe/tasks-vision@${MP_VERSION}?bundle`,
-    wasm: `https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@${MP_VERSION}/wasm`,
-  },
+  // Self-hosted JS/WASM avoids cross-origin module failures in iPhone Safari.
+  { label: '내장 AI 라이브러리', js: new URL('./vendor/vision_bundle.mjs', document.baseURI).href, wasm: LOCAL_WASM },
+  // Optional network fallbacks use a real, published version.
+  { label: 'jsDelivr 예비 경로', js: `https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@${MP_VERSION}/vision_bundle.mjs`, wasm: `https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@${MP_VERSION}/wasm` },
+  { label: 'unpkg 예비 경로', js: `https://unpkg.com/@mediapipe/tasks-vision@${MP_VERSION}/vision_bundle.mjs`, wasm: `https://unpkg.com/@mediapipe/tasks-vision@${MP_VERSION}/wasm` },
 ];
-const MP_MODEL = 'https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_lite/float16/1/pose_landmarker_lite.task';
+const MP_MODEL = new URL('./vendor/models/pose_landmarker_lite.task', document.baseURI).href;
 const STORE = 'fitcoach_sessions_v1';
 const CAL_STORE = 'fitcoach_calibration_v1';
 const TARGET_INTERVAL = 100;  // approx 10 inferenced frames per second, not a measured guarantee
