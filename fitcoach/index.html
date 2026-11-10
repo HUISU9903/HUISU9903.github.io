@@ -1,0 +1,827 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0c1720">
+  <meta name="description" content="덤벨 컬 실시간 관절 추적과 음성 코칭을 실험하는 무료 온디바이스 PWA">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="핏코치">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="apple-touch-icon" href="./icon.svg">
+  <link rel="icon" type="image/svg+xml" href="./icon.svg">
+  <style>
+:root {color-scheme:dark; --bg:#091218; --panel:#101e25; --panel2:#14252d; --stroke:#293c44; --ink:#edf6f4; --muted:#90a9ac; --mint:#7af1cd; --amber:#ffc886; --danger:#ff9f96; font-family:-apple-system,BlinkMacSystemFont,"Pretendard","Apple SD Gothic Neo","Noto Sans KR",system-ui,sans-serif;}
+*{box-sizing:border-box} html{background:var(--bg)} body{margin:0;color:var(--ink);min-height:100vh;background:radial-gradient(ellipse 500px 400px at 94% 4%,#153b3e67,transparent 78%),var(--bg)}button,select{font:inherit}button{cursor:pointer}button:disabled{opacity:.35;cursor:not-allowed}.app{max-width:950px;margin:auto;padding:24px clamp(16px,4vw,36px) 44px}.topbar{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:42px}.brand{display:flex;align-items:center;gap:12px}.brand .logo{width:41px;height:41px;border:1px solid #518d7f;border-radius:12px;color:var(--mint);display:grid;place-items:center;font-size:26px;background:#1b3439}.brand strong{display:block;letter-spacing:.14em;font-size:17px;font-weight:800}.brand span{display:block;font-size:10px;color:var(--muted);letter-spacing:.02em;margin-top:3px}.mini-tag{border:1px solid #35575a;border-radius:40px;font-size:10px;letter-spacing:.08em;padding:8px 11px;color:#b0d9ce;white-space:nowrap}.hero{margin-bottom:27px}.eyebrow{font-size:11px;letter-spacing:.16em;color:var(--mint);font-weight:700;display:flex;align-items:center;gap:8px}.eyebrow-dot{width:6px;height:6px;border-radius:50%;background:var(--mint);box-shadow:0 0 12px var(--mint)}h1{font-size:clamp(31px,5vw,49px);letter-spacing:-.065em;line-height:1.18;margin:15px 0 15px;font-weight:830}h1 em{color:var(--mint);font-style:normal} .hero p{color:#a7bcc0;line-height:1.8;font-size:14px;max-width:650px;margin:0}
+.camera-card{border:1px solid var(--stroke);background:#102128;overflow:hidden;border-radius:19px;box-shadow:0 20px 60px #0004}.camera-topline{height:48px;display:flex;align-items:center;justify-content:space-between;padding:0 18px}.card-label{font-size:11px;letter-spacing:.15em;color:#d2e8e4;font-weight:700}.square{font-family:monospace;color:var(--muted);letter-spacing:0;margin-left:5px}.track-tag{display:flex;gap:8px;align-items:center;font-size:11px;color:#a2b5b8;border:1px solid #375058;padding:5px 10px;border-radius:40px}.track-tag.success{color:#91eed3;border-color:#4b987f}.track-tag.warning{color:#ffce93;border-color:#947045}.tiny-dot{width:6px;height:6px;background:currentColor;border-radius:50%}.video-stage{height:clamp(270px,52vw,500px);position:relative;background:radial-gradient(ellipse at center,#1c343c,#102329 68%);overflow:hidden}.video-stage video,.video-stage canvas{position:absolute;width:100%;height:100%;object-fit:contain;top:0;left:0}.video-stage video{display:none}.video-stage canvas{pointer-events:none}.video-stage.mirror video,.video-stage.mirror canvas{transform:scaleX(-1)}.empty-stage{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;text-align:center;padding:10px}.empty-stage strong{font-size:14px}.empty-stage>span{font-size:12px;color:#94adb2}.preview-graphic{position:relative;width:148px;height:148px;margin-bottom:6px;display:grid;place-items:center}.preview-ring{position:absolute;border:1px solid #315158;border-radius:50%}.ring-one{width:148px;height:148px}.ring-two{width:97px;height:97px;border-style:dashed;opacity:.7}.preview-person{width:60px;height:60px;display:grid;place-items:center;font-size:54px;color:var(--mint);opacity:.7}.view-label{position:absolute;bottom:13px;left:15px;font:10px/1 monospace;letter-spacing:.12em;color:#b9eadd;background:#142f33c9;border:1px solid #49797161;padding:8px 9px;border-radius:5px}.video-footer{min-height:45px;padding:12px 17px;display:flex;justify-content:space-between;gap:15px;align-items:center;font-size:11px;color:#bacfd0}.mono{font-variant-numeric:tabular-nums;font-family:ui-monospace,SFMono-Regular,monospace;white-space:nowrap;color:var(--mint)}
+.metrics{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:15px}.metric{background:var(--panel);border:1px solid var(--stroke);border-radius:14px;min-height:125px;padding:17px 18px}.metric.primary{border-color:#427f71;background:linear-gradient(135deg,#17342e,#122a2a)}.metric>span{font-size:12px;color:#b5c6c7}.metric-number{font-family:ui-monospace,SFMono-Regular,monospace;font-weight:700;font-size:35px;margin-top:8px;letter-spacing:-.06em;color:var(--ink)}.metric.primary .metric-number{color:var(--mint)}.unit{font-size:14px;font-weight:500;letter-spacing:0;margin-left:4px;color:#b2ceca}.metric small{font-size:10px;color:var(--muted)}
+.coach-card{display:flex;gap:15px;align-items:center;background:#18312f;border:1px solid #346457;border-radius:15px;padding:18px;margin-top:14px;min-height:90px}.coach-card.warn{background:#38291e;border-color:#72513d}.coach-icon{font-size:24px;color:var(--mint)}.coach-card.warn .coach-icon{color:var(--amber)}.overline{font-size:10px;color:#9acbbc;letter-spacing:.13em;font-weight:700}.coach-card p{margin:6px 0 0;font-size:14px;line-height:1.55;font-weight:600}
+.control-card,.calibration-card,.history-card{border:1px solid var(--stroke);border-radius:17px;background:var(--panel);padding:22px;margin-top:16px}.section-head{display:flex;justify-content:space-between;align-items:center;gap:12px}.section-head h2{font-size:16px;letter-spacing:-.025em;margin:0 0 16px}.timer{font-size:18px;margin-bottom:12px}.buttons{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.btn{border:1px solid #41615d;border-radius:12px;padding:16px 10px;font-size:13px;font-weight:750;transition:background .16s}.btn-main{background:var(--mint);border-color:var(--mint);color:#06352f}.btn-main:hover{background:#b0f9e1}.btn-outline{background:#17302f;color:#b8ffdf}.btn-muted{background:#1a3038;color:#e4f1ee;border-color:#34505a}.inline-settings{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:14px;margin-top:20px;border-top:1px solid var(--stroke);padding-top:18px;font-size:12px}.switchline{display:flex;align-items:center;gap:9px;color:#d4e5e1;cursor:pointer}.switchline input{accent-color:#7af1cd;transform:scale(1.2)}.text-button{background:transparent;border:0;color:var(--mint);font-size:12px;padding:7px 0}.camera-select{color:var(--muted);display:flex;align-items:center;gap:7px}.camera-select select{background:#1a353a;border:1px solid #46625d;color:#e5f4ec;padding:6px 9px;border-radius:8px}
+.calibration-card{padding:0 20px}.calibration-card summary{list-style:none;display:flex;justify-content:space-between;align-items:center;padding:19px 0;cursor:pointer;font-size:14px;font-weight:750}.calibration-card summary::-webkit-details-marker{display:none}.calibration-card summary small{color:var(--muted);font-weight:500;margin-left:7px}.calibration-card>p{color:var(--muted);font-size:12px;line-height:1.65;margin:4px 0 16px}.cal-row{display:grid;grid-template-columns:1fr 57px auto;gap:9px;align-items:center;border-top:1px solid var(--stroke);padding:13px 0;font-size:12px}.cal-row strong{font-family:monospace;color:var(--mint);font-size:14px}.cal-row button{background:#213a3f;color:#deefe9;border:1px solid #3e6264;border-radius:8px;padding:9px 10px;font-size:11px}.calibration-card .reset-cal{margin:7px 0 15px}.smallprint{color:#86a1a3!important;font-size:11px!important;line-height:1.6!important}.history-list{display:grid;gap:8px}.muted{font-size:12px;color:var(--muted)}.history-entry{display:flex;justify-content:space-between;gap:12px;padding:13px 0;border-top:1px solid var(--stroke);font-size:12px}.history-entry strong{color:var(--mint);font-size:14px}.history-entry span{color:#afc5c5}.history-card .smallprint{margin-bottom:0}.disclaimer{font-size:11px;color:#81999c;line-height:1.8;margin:24px 4px}footer{text-align:center;font-size:10px;letter-spacing:.12em;color:#68878a;padding-top:15px}
+@media(max-width:540px){.app{padding:18px 14px 34px}.topbar{margin-bottom:29px}.mini-tag{font-size:9px;padding:7px 9px}.hero{margin-bottom:23px}.hero p{font-size:12px}.metric{padding:14px 10px;min-height:115px}.metric>span{font-size:10px}.metric-number{font-size:29px}.unit{font-size:12px}.metric small{font-size:9px}.metrics{gap:7px}.coach-card{padding:15px}.control-card,.history-card{padding:17px}.btn{padding:15px 5px;font-size:12px}.video-stage{height:350px}.cal-row{grid-template-columns:1fr 42px auto}.cal-row button{font-size:10px;padding:8px 6px}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+</style>
+  <title>핏코치 · 실시간 덤벨 컬</title>
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand">
+        <div class="logo" aria-hidden="true">✦</div>
+        <div><strong>FITCOACH</strong><span>나만의 실시간 운동 파트너</span></div>
+      </div>
+      <span class="mini-tag">BETA · 덤벨 컬</span>
+    </header>
+    <main>
+      <div class="hero">
+        <div class="eyebrow"><span class="eyebrow-dot"></span> LIVE MOVEMENT COACH</div>
+        <h1>운동하는 순간,<br><em>자세를 확인해요.</em></h1>
+        <p>휴대폰을 측면에 세우고 덤벨 컬을 시작해 보세요. 관절을 추적하고 반동이 감지되면 음성으로 안내해요.</p>
+      </div>
+      <section class="camera-card" aria-label="실시간 카메라">
+        <div class="camera-topline">
+          <span class="card-label">LIVE VIEW <span class="square">01</span></span>
+          <span id="trackingBadge" class="track-tag"><span class="tiny-dot"></span> 대기 중</span>
+        </div>
+        <div class="video-stage" id="cameraStage">
+          <video id="video" muted autoplay playsinline webkit-playsinline></video>
+          <canvas id="overlay" aria-label="관절 추적 오버레이"></canvas>
+          <div class="empty-stage" id="emptyStage">
+            <div class="preview-graphic" aria-hidden="true">
+              <span class="preview-ring ring-one"></span><span class="preview-ring ring-two"></span>
+              <span class="preview-person">◌</span>
+            </div>
+            <strong>카메라를 켜면 분석을 시작해요</strong>
+            <span>측면에서 어깨 · 팔꿈치 · 손목 · 골반이 보이게</span>
+          </div>
+          <div class="view-label" id="viewLabel">CAMERA OFF</div>
+        </div>
+        <div class="video-footer">
+          <span id="liveStatus" role="status" aria-live="polite">준비되면 카메라 시작을 눌러주세요.</span>
+          <span id="fpsLabel" class="mono">— FPS</span>
+        </div>
+      </section>
+      <section class="metrics" aria-label="운동 수치">
+        <div class="metric primary"><span>반복 횟수</span><div class="metric-number" id="repCount">0<span class="unit">회</span></div><small>완전한 왕복 동작만 집계</small></div>
+        <div class="metric"><span>팔꿈치 각도</span><div class="metric-number" id="angleValue">—<span class="unit">°</span></div><small id="sideLabel">관절 측정 대기</small></div>
+        <div class="metric"><span>상체 흔들림 변화</span><div class="metric-number" id="swayValue">—<span class="unit">°</span></div><small>카메라 기준 추정값</small></div>
+      </section>
+      <section class="coach-card" aria-label="실시간 코칭">
+        <div class="coach-icon" aria-hidden="true">◉</div>
+        <div><span class="overline">VOICE COACH</span><p id="coachMessage" aria-live="polite">시작하면 이곳에 자세 안내가 표시돼요.</p></div>
+      </section>
+      <section class="control-card">
+        <div class="section-head"><h2>운동 조작</h2><span id="timer" class="timer mono">00:00</span></div>
+        <div class="buttons">
+          <button id="startCamera" class="btn btn-main" type="button">카메라 운동 시작</button>
+          <button id="startDemo" class="btn btn-outline" type="button">데모 모드</button>
+          <button id="pauseBtn" class="btn btn-muted" type="button" disabled>일시정지</button>
+          <button id="endBtn" class="btn btn-muted" type="button" disabled>세트 종료</button>
+        </div>
+        <div class="inline-settings">
+          <label class="switchline"><input id="voiceEnabled" type="checkbox" checked><span>음성 안내</span></label>
+          <button class="text-button" id="testVoice" type="button">소리 테스트 ↗</button>
+          <label class="camera-select">카메라
+            <select id="cameraSelect"><option value="user">전면</option><option value="environment">후면</option></select>
+          </label>
+        </div>
+      </section>
+      <details class="calibration-card">
+        <summary><span>내 가동 범위 설정 <small>선택 사항</small></span><span>⌄</span></summary>
+        <p>처음에는 기본 기준으로 시작해도 돼요. 통증이 없는 범위에서 가볍게 자세를 잡고 현재 각도를 저장해 주세요. 정확한 관절가동범위 측정이 아니에요.</p>
+        <div class="cal-row"><span>팔을 편 시작 자세</span><strong id="bottomValue">150°</strong><button type="button" id="calibrateBottom">현재 각도 저장</button></div>
+        <div class="cal-row"><span>팔을 접은 상단 자세</span><strong id="topValue">85°</strong><button type="button" id="calibrateTop">현재 각도 저장</button></div>
+        <button type="button" class="text-button reset-cal" id="resetCalibration">기본값으로 되돌리기</button>
+        <p class="smallprint">가동 범위와 반동 기준은 예시값이며 전문가가 검증한 개인별 처방이 아니에요.</p>
+      </details>
+      <section class="history-card">
+        <div class="section-head"><h2>최근 세트</h2><button id="exportBtn" class="text-button" type="button">CSV 내보내기 ↗</button></div>
+        <div id="historyList" class="history-list"><p class="muted">아직 저장된 세트가 없어요.</p></div>
+        <p class="smallprint">기록은 이 기기의 브라우저 저장소에만 저장해요. 영상·사진은 저장하지 않아요.</p>
+      </section>
+      <div class="disclaimer">실험용 자세 피드백입니다. 운동 중 통증·어지러움이 있으면 중단하세요. 휴대폰 한 대의 2D 영상만으로 관절의 실제 회전이나 부상 위험을 확정할 수 없어요. · 모델을 처음 불러올 때 인터넷 필요</div>
+    </main>
+    <footer>FITCOACH · ON-DEVICE EXPERIMENT · v0.1</footer>
+  </div>
+  <script type="module">
+/**
+ * A conservative, experimental 2D dumbbell-curl analyzer.
+ * NOT a medical, injury-prevention, or certified form assessment system.
+ * No camera, DOM, storage or MediaPipe dependencies: can be unit-tested offline.
+ */
+const JOINT = Object.freeze({
+  leftShoulder: 11, rightShoulder: 12,
+  leftElbow: 13, rightElbow: 14,
+  leftWrist: 15, rightWrist: 16,
+  leftHip: 23, rightHip: 24,
+});
+const DEFAULTS = Object.freeze({
+  bottomAngle: 150, // elbow near extended (degrees); user-calibratable
+  topAngle: 85,     // elbow flexed (degrees); user-calibratable
+  swayThreshold: 12, // CHANGE in estimated 2D torso lean, not injury threshold
+});
+const MIN_CONFIDENCE = 0.55;
+const EDGEPAD = 0.025;
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+function confidence(p) {
+  if (!p || !Number.isFinite(p.x) || !Number.isFinite(p.y)) return 0;
+  return Math.min(p.visibility ?? 1, p.presence ?? 1);
+}
+function angleDegrees(a, b, c, width = 1, height = 1) {
+  const u = { x: (a.x - b.x) * width, y: (a.y - b.y) * height };
+  const v = { x: (c.x - b.x) * width, y: (c.y - b.y) * height };
+  const ua = Math.hypot(u.x, u.y);
+  const va = Math.hypot(v.x, v.y);
+  if (!ua || !va) return NaN;
+  return Math.acos(clamp((u.x * v.x + u.y * v.y) / (ua * va), -1, 1)) * 180 / Math.PI;
+}
+function pointsForSide(landmarks, side) {
+  const left = side === 'left';
+  return {
+    shoulder: landmarks[left ? JOINT.leftShoulder : JOINT.rightShoulder],
+    elbow: landmarks[left ? JOINT.leftElbow : JOINT.rightElbow],
+    wrist: landmarks[left ? JOINT.leftWrist : JOINT.rightWrist],
+    hip: landmarks[left ? JOINT.leftHip : JOINT.rightHip],
+  };
+}
+function candidate(landmarks, side) {
+  const points = pointsForSide(landmarks, side);
+  const confidenceValues = Object.values(points).map(confidence);
+  const min = Math.min(...confidenceValues);
+  const average = confidenceValues.reduce((a, b) => a + b, 0) / confidenceValues.length;
+  const clipped = Object.values(points).some(p => !p || p.x < EDGEPAD || p.x > 1 - EDGEPAD || p.y < EDGEPAD || p.y > 1 - EDGEPAD);
+  return { side, points, min, average, clipped };
+}
+function extractPose(landmarks, width, height, preferredSide = null) {
+  if (!Array.isArray(landmarks) || landmarks.length < 25 || !width || !height) {
+    return { valid: false, reason: '어깨·팔꿈치·손목·골반이 보이게 카메라를 조절해 주세요.' };
+  }
+  const left = candidate(landmarks, 'left');
+  const right = candidate(landmarks, 'right');
+  const preferred = preferredSide === 'left' ? left : right;
+  const other = preferredSide === 'left' ? right : left;
+  const chosen = preferredSide && preferred.min >= MIN_CONFIDENCE && (!preferred.clipped) && preferred.average >= other.average - 0.16
+    ? preferred
+    : [left, right].sort((a, b) => Number(b.min >= MIN_CONFIDENCE && !b.clipped) - Number(a.min >= MIN_CONFIDENCE && !a.clipped) || b.average - a.average)[0];
+  if (chosen.min < MIN_CONFIDENCE || chosen.clipped) {
+    return { valid: false, reason: '팔과 몸통 관절이 가려졌어요. 측면에서 팔 전체가 보이도록 조정해 주세요.' };
+  }
+  const { shoulder, elbow, wrist, hip } = chosen.points;
+  const elbowAngle = angleDegrees(shoulder, elbow, wrist, width, height);
+  if (!Number.isFinite(elbowAngle)) return { valid: false, reason: '관절 각도를 계산할 수 없어요.' };
+  // Positive or negative lateral lean relative to vertical. Camera-perspective-dependent.
+  const tilt = Math.atan2((shoulder.x - hip.x) * width, (hip.y - shoulder.y) * height) * 180 / Math.PI;
+  return {
+    valid: true,
+    side: chosen.side,
+    elbowAngle,
+    torsoTilt: tilt,
+    confidence: chosen.min,
+  };
+}
+class CurlAnalyzer {
+  constructor(config = {}) {
+    this.config = { ...DEFAULTS, ...config };
+    this.reset();
+  }
+  reset() {
+    this.reps = 0;
+    this.partialReps = 0;
+    this.phase = 'seekBottom';
+    this.side = null;
+    this.smoothedAngle = null;
+    this.baselineTilt = null;
+    this.smoothedTilt = null;
+    this.repStart = null;
+    this.repMinAngle = 180;
+    this.repMaxSway = 0;
+    this.wasMoving = false;
+    this.lastValidAt = null;
+    this.lastTimestamp = -Infinity;
+  }
+  configure(config) {
+    const next = { ...this.config, ...config };
+    if (!(next.bottomAngle >= 130 && next.bottomAngle <= 180 && next.topAngle >= 30 && next.topAngle <= 120 && next.bottomAngle - next.topAngle >= 45)) {
+      throw new RangeError('시작과 상단 각도가 유효하지 않습니다.');
+    }
+    this.config = next;
+    this.phase = 'seekBottom';
+    this.repStart = null;
+    this.smoothedAngle = null;
+  }
+  update(landmarks, width, height, nowMs) {
+    if (nowMs <= this.lastTimestamp) {
+      // MediaPipe VIDEO mode itself also needs monotonically increasing timestamps.
+      return { valid: false, reason: '시간 정보가 올바르지 않아요.', reps: this.reps };
+    }
+    this.lastTimestamp = nowMs;
+    const pose = extractPose(landmarks, width, height, this.side);
+    if (!pose.valid) {
+      if (this.lastValidAt !== null && nowMs - this.lastValidAt > 900) {
+        this.phase = 'seekBottom';
+        this.repStart = null;
+        this.smoothedAngle = null;
+      }
+      return { ...pose, reps: this.reps, partialReps: this.partialReps, phase: 'trackingLost' };
+    }
+    this.lastValidAt = nowMs;
+    if (this.side && pose.side !== this.side) {
+      this.phase = 'seekBottom';
+      this.repStart = null;
+      this.smoothedAngle = null;
+      this.baselineTilt = null;
+      this.smoothedTilt = null;
+    }
+    this.side = pose.side;
+    // EMA damps occasional skeleton jitter. At 10 fps this has a short response time.
+    const alpha = 0.45;
+    this.smoothedAngle = this.smoothedAngle === null ? pose.elbowAngle : alpha * pose.elbowAngle + (1 - alpha) * this.smoothedAngle;
+    this.smoothedTilt = this.smoothedTilt === null ? pose.torsoTilt : alpha * pose.torsoTilt + (1 - alpha) * this.smoothedTilt;
+    const a = this.smoothedAngle;
+    if (this.baselineTilt === null) this.baselineTilt = this.smoothedTilt;
+    if (this.phase === 'seekBottom' || this.phase === 'ready') {
+      if (a >= this.config.bottomAngle - 7) {
+        this.baselineTilt = 0.94 * this.baselineTilt + 0.06 * this.smoothedTilt;
+      }
+    }
+    const sway = Math.abs(this.smoothedTilt - this.baselineTilt);
+    const event = { type: null };
+    if (this.phase === 'seekBottom' && a >= this.config.bottomAngle) this.phase = 'ready';
+    else if (this.phase === 'ready' && a < this.config.bottomAngle - 20) {
+      this.phase = 'lifting';
+      this.repStart = nowMs;
+      this.repMinAngle = a;
+      this.repMaxSway = sway;
+    } else if (this.phase === 'lifting') {
+      this.repMinAngle = Math.min(this.repMinAngle, a);
+      this.repMaxSway = Math.max(this.repMaxSway, sway);
+      if (a <= this.config.topAngle) this.phase = 'lowering';
+      else if (a >= this.config.bottomAngle - 2) {
+        if (this.repStart !== null && nowMs - this.repStart >= 350 && this.repMinAngle <= this.config.bottomAngle - 27) {
+          this.partialReps += 1;
+          event.type = 'partial';
+        }
+        this.phase = 'ready';
+        this.repStart = null;
+      }
+    } else if (this.phase === 'lowering') {
+      this.repMinAngle = Math.min(this.repMinAngle, a);
+      this.repMaxSway = Math.max(this.repMaxSway, sway);
+      if (a >= this.config.bottomAngle) {
+        const duration = nowMs - this.repStart;
+        if (duration >= 750 && duration <= 15000) {
+          this.reps += 1;
+          event.type = 'rep';
+          event.repNumber = this.reps;
+          event.durationMs = duration;
+          event.maxSway = this.repMaxSway;
+          event.minimumAngle = this.repMinAngle;
+        }
+        this.phase = 'ready';
+        this.repStart = null;
+      } else if (this.repStart !== null && nowMs - this.repStart > 15000) {
+        this.phase = 'seekBottom';
+        this.repStart = null;
+      }
+    }
+    return {
+      ...pose, elbowAngle: Math.round(a), torsoTilt: this.smoothedTilt,
+      swayDelta: Math.round(sway * 10) / 10,
+      swaySuspected: (this.phase === 'lifting' || this.phase === 'lowering') && sway >= this.config.swayThreshold,
+      phase: this.phase, reps: this.reps, partialReps: this.partialReps, event,
+    };
+  }
+}
+/** One cue at a time, only after persistent evidence, with a per-cue cooldown. */
+class FeedbackEngine {
+  constructor({ cooldownMs = 8000, dwellMs = 350 } = {}) {
+    this.cooldownMs = cooldownMs;
+    this.dwellMs = dwellMs;
+    this.lastCueAt = new Map();
+    this.missingFrom = null;
+    this.swayFrom = null;
+    this.awaitingSwayImprovement = false;
+  }
+  reset() {
+    this.lastCueAt.clear();
+    this.missingFrom = null;
+    this.swayFrom = null;
+    this.awaitingSwayImprovement = false;
+  }
+  cue(key, message, at, cooldown = this.cooldownMs) {
+    if (at - (this.lastCueAt.get(key) ?? -Infinity) < cooldown) return null;
+    this.lastCueAt.set(key, at);
+    return { key, message, kind: key === 'tracking' ? 'notice' : 'coach' };
+  }
+  update(result, nowMs) {
+    if (!result.valid) {
+      this.swayFrom = null;
+      if (this.missingFrom === null) this.missingFrom = nowMs;
+      if (nowMs - this.missingFrom > 1400) {
+        return this.cue('tracking', result.reason || '관절이 잘 안 보여요. 휴대폰 위치를 바꿔 주세요.', nowMs, 11000);
+      }
+      return null;
+    }
+    this.missingFrom = null;
+    if (result.swaySuspected) {
+      if (this.swayFrom === null) this.swayFrom = nowMs;
+      if (nowMs - this.swayFrom >= this.dwellMs) {
+        const cue = this.cue('sway', '상체가 흔들리고 있어요. 무게를 줄이거나 반동을 줄여보세요.', nowMs);
+        if (cue) this.awaitingSwayImprovement = true;
+        if (cue) return cue;
+      }
+    } else this.swayFrom = null;
+    if (result.event?.type === 'partial') {
+      return this.cue('partial', '설정한 가동 범위에 도달하지 못했어요. 무리하지 말고 기준을 확인해요.', nowMs, 9000);
+    }
+    if (result.event?.type === 'rep' && this.awaitingSwayImprovement) {
+      if (result.event.maxSway < 0.7 * 12) {
+        this.awaitingSwayImprovement = false;
+        return this.cue('improved', '좋아요, 이번에는 상체가 더 안정적이었어요.', nowMs, 9000);
+      }
+    }
+    return null;
+  }
+}
+/** Synthetic joints for testing the UI/rep engine ONLY: not an AI result. */
+function createDemoPose(elapsedMs) {
+  const period = 3200;
+  const cycle = Math.floor(elapsedMs / period);
+  const p = (elapsedMs % period) / period;
+  // Bottom->top->bottom. Every third repetition leans intentionally.
+  const elbowAngle = 166 - 112 * Math.sin(Math.PI * p);
+  const sway = cycle % 3 === 2 && p >= 0.24 && p <= 0.66 ? 0.15 * Math.sin(Math.PI * (p - 0.24) / 0.42) : 0;
+  const shoulderX = 0.55 + sway;
+  const elbow = { x: shoulderX + 0.035, y: 0.52, visibility: 1 };
+  const theta = elbowAngle * Math.PI / 180;
+  const wrist = {
+    x: elbow.x + 0.18 * Math.sin(theta),
+    y: elbow.y - 0.18 * Math.cos(theta),
+    visibility: 1,
+  };
+  const landmarks = Array.from({ length: 33 }, () => ({ x: 0, y: 0, visibility: 0 }));
+  landmarks[JOINT.rightShoulder] = { x: shoulderX, y: 0.34, visibility: 1 };
+  landmarks[JOINT.rightElbow] = elbow;
+  landmarks[JOINT.rightWrist] = wrist;
+  landmarks[JOINT.rightHip] = { x: 0.55, y: 0.77, visibility: 1 };
+  return landmarks;
+}
+// Version pinned to avoid silent API changes. This app is dependency-free to build,
+// but the MediaPipe library, WASM runtime and model need network access on first load.
+const MP_VERSION = '0.10.22';
+const MP_JS = `https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@${MP_VERSION}/vision_bundle.mjs`;
+const MP_WASM = `https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@${MP_VERSION}/wasm`;
+const MP_MODEL = 'https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_lite/float16/1/pose_landmarker_lite.task';
+const STORE = 'fitcoach_sessions_v1';
+const CAL_STORE = 'fitcoach_calibration_v1';
+const TARGET_INTERVAL = 100;  // approx 10 inferenced frames per second, not a measured guarantee
+const SKELETON = [ [11,13], [13,15], [12,14], [14,16], [11,12], [11,23], [12,24], [23,24] ];
+const $ = id => document.getElementById(id);
+const video = $('video');
+const canvas = $('overlay');
+const ctx = canvas.getContext('2d');
+const ui = {
+  stage: $('cameraStage'), empty: $('emptyStage'),
+  trackingBadge: $('trackingBadge'), liveStatus: $('liveStatus'), fps: $('fpsLabel'),
+  viewLabel: $('viewLabel'), reps: $('repCount'), angle: $('angleValue'),
+  sway: $('swayValue'), side: $('sideLabel'), coach: $('coachMessage'),
+  coachCard: document.querySelector('.coach-card'), timer: $('timer'),
+  start: $('startCamera'), demo: $('startDemo'), pause: $('pauseBtn'), end: $('endBtn'),
+  voice: $('voiceEnabled'), cameraSelect: $('cameraSelect'),
+  history: $('historyList'), bottom: $('bottomValue'), top: $('topValue')
+};
+function safeLoad(key, fallback) {
+  try { const value = JSON.parse(localStorage.getItem(key)); return value ?? fallback; }
+  catch { return fallback; }
+}
+function safeSave(key, value) {
+  try { localStorage.setItem(key, JSON.stringify(value)); }
+  catch { showCoach('브라우저 저장소 사용이 제한되어 기록을 저장하지 못했어요.', true); }
+}
+const savedCalibration = safeLoad(CAL_STORE, {});
+const calibrated = {
+  bottomAngle: Number.isFinite(savedCalibration.bottomAngle) ? savedCalibration.bottomAngle : DEFAULTS.bottomAngle,
+  topAngle: Number.isFinite(savedCalibration.topAngle) ? savedCalibration.topAngle : DEFAULTS.topAngle,
+};
+if (calibrated.bottomAngle - calibrated.topAngle < 45 || calibrated.bottomAngle > 180 || calibrated.bottomAngle < 130 || calibrated.topAngle < 30 || calibrated.topAngle > 120) {
+  calibrated.bottomAngle = DEFAULTS.bottomAngle;
+  calibrated.topAngle = DEFAULTS.topAngle;
+}
+const analyzer = new CurlAnalyzer(calibrated);
+const feedback = new FeedbackEngine();
+const state = {
+  mode: 'idle', paused: false, starting: false,
+  stream: null, landmarker: null, raf: null,
+  startedAt: 0, pauseAt: 0, pausedTotal: 0, demoOffset: 0,
+  lastAnalyzed: -Infinity, fpsSamples: [], lastResult: null,
+  swayCues: 0, trackingCues: 0, partialCues: 0,
+  lastNow: 0, source: null,
+};
+function fmtTime(ms) {
+  const sec = Math.max(0, Math.floor(ms / 1000));
+  return `${String(Math.floor(sec / 60)).padStart(2,'0')}:${String(sec % 60).padStart(2,'0')}`;
+}
+function elapsedMs() {
+  if (state.mode === 'idle') return 0;
+  const end = state.paused ? state.pauseAt : performance.now();
+  return Math.max(0, end - state.startedAt - state.pausedTotal);
+}
+function setBadge(message, kind = '') {
+  ui.trackingBadge.className = `track-tag ${kind}`;
+  ui.trackingBadge.innerHTML = `<span class="tiny-dot"></span>${message}`; // fixed app-controlled text only
+}
+function showCoach(message, warn = false) {
+  ui.coach.textContent = message;
+  ui.coachCard.classList.toggle('warn', warn);
+}
+function selectedKoreanVoice() {
+  if (!window.speechSynthesis) return null;
+  const voices = window.speechSynthesis.getVoices();
+  return voices.find(v => v.lang.toLowerCase() === 'ko-kr') || voices.find(v => v.lang.toLowerCase().startsWith('ko')) || null;
+}
+function speak(message) {
+  if (!ui.voice.checked || !window.speechSynthesis || !window.SpeechSynthesisUtterance) return;
+  try {
+    window.speechSynthesis.cancel(); // Prevent a backlog of stale form advice.
+    const utterance = new SpeechSynthesisUtterance(message);
+    utterance.lang = 'ko-KR';
+    utterance.rate = 1.04;
+    utterance.pitch = 1;
+    const voice = selectedKoreanVoice();
+    if (voice) utterance.voice = voice;
+    window.speechSynthesis.speak(utterance);
+  } catch (error) { console.warn('Speech unavailable:', error); }
+}
+function applyCue(cue) {
+  if (!cue) return;
+  if (cue.key === 'sway') state.swayCues++;
+  if (cue.key === 'tracking') state.trackingCues++;
+  if (cue.key === 'partial') state.partialCues++;
+  showCoach(cue.message, cue.key === 'sway' || cue.key === 'tracking' || cue.key === 'partial');
+  speak(cue.message);
+}
+function updateButtons() {
+  const active = state.mode !== 'idle';
+  ui.start.disabled = state.starting || (active && !state.paused);
+  ui.demo.disabled = state.starting || (active && !state.paused);
+  ui.pause.disabled = !active || state.starting;
+  ui.end.disabled = !active || state.starting;
+  ui.pause.textContent = state.paused ? '운동 재개' : '일시정지';
+  ui.start.textContent = state.starting ? '준비 중…' : (state.paused ? '카메라로 재개' : '카메라 운동 시작');
+  ui.demo.textContent = state.paused ? '데모로 재개' : '데모 모드';
+  ui.cameraSelect.disabled = active && !state.paused;
+}
+function resetDisplayedStats() {
+  ui.reps.textContent = '0';
+  ui.angle.innerHTML = '—<span class="unit">°</span>';
+  ui.sway.innerHTML = '—<span class="unit">°</span>';
+  ui.side.textContent = '관절 측정 대기';
+  ui.fps.textContent = '— FPS';
+  ui.timer.textContent = '00:00';
+}
+function setCalibrationText() {
+  ui.bottom.textContent = `${calibrated.bottomAngle}°`;
+  ui.top.textContent = `${calibrated.topAngle}°`;
+}
+function clearFrame() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+}
+function sizeCanvas(w, h) {
+  if (canvas.width !== w || canvas.height !== h) {
+    canvas.width = w;
+    canvas.height = h;
+  }
+}
+function isVisible(p) { return p && Number.isFinite(p.x) && Number.isFinite(p.y) && (p.visibility ?? 1) >= 0.55 && (p.presence ?? 1) >= 0.55; }
+function drawSkeleton(landmarks, w, h, demo = false) {
+  sizeCanvas(w, h);
+  clearFrame();
+  if (!landmarks) return;
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
+  for (const [ai, bi] of SKELETON) {
+    const a = landmarks[ai], b = landmarks[bi];
+    if (!isVisible(a) || !isVisible(b)) continue;
+    ctx.beginPath();
+    ctx.moveTo(a.x * w, a.y * h);
+    ctx.lineTo(b.x * w, b.y * h);
+    ctx.strokeStyle = '#7af1cddd';
+    ctx.lineWidth = demo ? 7 : Math.max(3, Math.round(w / 170));
+    ctx.stroke();
+  }
+  for (const i of [11,12,13,14,15,16,23,24]) {
+    const p = landmarks[i];
+    if (!isVisible(p)) continue;
+    ctx.beginPath(); ctx.arc(p.x*w, p.y*h, demo ? 8 : Math.max(4, Math.round(w / 128)), 0, 2*Math.PI);
+    ctx.fillStyle = '#effff9'; ctx.fill();
+    ctx.lineWidth = 2; ctx.strokeStyle = '#156f59'; ctx.stroke();
+  }
+}
+function recordFrame(now, result, landmarks, dimensions, demo = false) {
+  state.lastResult = result;
+  ui.reps.textContent = String(result.reps);
+  ui.timer.textContent = fmtTime(elapsedMs());
+  if (result.valid) {
+    ui.angle.innerHTML = `${result.elbowAngle}<span class="unit">°</span>`;
+    ui.sway.innerHTML = `${Math.round(result.swayDelta)}<span class="unit">°</span>`;
+    ui.side.textContent = `${result.side === 'left' ? '왼팔' : '오른팔'} 기준 2D 추정`;
+    setBadge(demo ? '시뮬레이션' : '관절 추적 중', 'success');
+    ui.liveStatus.textContent = result.phase === 'seekBottom' ? '팔을 편 시작 자세를 인식하면 카운트를 시작해요.' : result.phase === 'ready' ? '시작 자세 확인 · 덤벨을 들어보세요.' : result.phase === 'lifting' ? '올리는 구간 분석 중' : '내리는 구간 분석 중';
+  } else {
+    ui.angle.innerHTML = '—<span class="unit">°</span>';
+    ui.sway.innerHTML = '—<span class="unit">°</span>';
+    ui.side.textContent = '측정 불가';
+    setBadge('관절 미확인', 'warning');
+    ui.liveStatus.textContent = result.reason;
+  }
+  if (result.event?.type === 'rep') showCoach(`${result.reps}회 완료! 다음 반복도 천천히 진행해요.`);
+  applyCue(feedback.update(result, now));
+  drawSkeleton(landmarks, dimensions.width, dimensions.height, demo);
+  state.fpsSamples.push(now);
+  state.fpsSamples = state.fpsSamples.filter(t => now - t <= 1500);
+  if (state.fpsSamples.length > 1) {
+    const dt = now - state.fpsSamples[0];
+    if (dt > 0) ui.fps.textContent = `${Math.round((state.fpsSamples.length-1)*1000/dt)} FPS`;
+  }
+}
+async function loadModel() {
+  if (state.landmarker) return state.landmarker;
+  ui.liveStatus.textContent = 'AI 관절 모델을 불러오는 중이에요. 인터넷이 필요해요…';
+  const { FilesetResolver, PoseLandmarker } = await import(MP_JS);
+  const vision = await FilesetResolver.forVisionTasks(MP_WASM);
+  let model;
+  try {
+    model = await PoseLandmarker.createFromOptions(vision, {
+      baseOptions: { modelAssetPath: MP_MODEL, delegate: 'GPU' }, runningMode: 'VIDEO',
+      numPoses: 1, minPoseDetectionConfidence: 0.5, minPosePresenceConfidence: 0.5,
+      minTrackingConfidence: 0.5,
+    });
+  } catch (gpuError) {
+    console.warn('GPU setup failed; falling back to CPU:', gpuError);
+    model = await PoseLandmarker.createFromOptions(vision, {
+      baseOptions: { modelAssetPath: MP_MODEL, delegate: 'CPU' }, runningMode: 'VIDEO',
+      numPoses: 1, minPoseDetectionConfidence: 0.5, minPosePresenceConfidence: 0.5,
+      minTrackingConfidence: 0.5,
+    });
+  }
+  state.landmarker = model;
+  return model;
+}
+function stopCameraTracks() {
+  if (state.stream) state.stream.getTracks().forEach(t => t.stop());
+  state.stream = null;
+  video.srcObject = null;
+  video.style.display = 'none';
+}
+function cancelFrame() {
+  if (state.raf !== null) cancelAnimationFrame(state.raf);
+  state.raf = null;
+}
+function cameraLoop(now) {
+  if (state.mode !== 'camera' || state.paused || state.starting) return;
+  if (now - state.lastAnalyzed >= TARGET_INTERVAL && video.readyState >= 2 && video.videoWidth > 0 && video.videoHeight > 0) {
+    const w = video.videoWidth, h = video.videoHeight;
+    state.lastAnalyzed = now;
+    try {
+      const detection = state.landmarker.detectForVideo(video, now);
+      const landmarks = detection.landmarks?.[0] || null;
+      const result = analyzer.update(landmarks, w, h, now);
+      recordFrame(now, result, landmarks, { width: w, height: h });
+    } catch (error) {
+      console.error('Pose analysis failed:', error);
+      showCoach('AI 분석 중 오류가 발생했어요. 세트를 종료하고 다시 시작해 주세요.', true);
+      setBadge('분석 오류', 'warning');
+      void pauseSession();
+      return;
+    }
+  }
+  ui.timer.textContent = fmtTime(elapsedMs());
+  state.raf = requestAnimationFrame(cameraLoop);
+}
+function demoLoop(now) {
+  if (state.mode !== 'demo' || state.paused || state.starting) return;
+  if (now - state.lastAnalyzed >= TARGET_INTERVAL) {
+    state.lastAnalyzed = now;
+    const landmarks = createDemoPose(elapsedMs());
+    const result = analyzer.update(landmarks, 640, 480, now);
+    recordFrame(now, result, landmarks, { width: 640, height: 480 }, true);
+  }
+  ui.timer.textContent = fmtTime(elapsedMs());
+  state.raf = requestAnimationFrame(demoLoop);
+}
+function newSession(mode) {
+  analyzer.reset();
+  feedback.reset();
+  resetDisplayedStats();
+  state.mode = mode;
+  state.startedAt = performance.now();
+  state.pausedTotal = 0;
+  state.pauseAt = 0;
+  state.paused = false;
+  state.swayCues = 0; state.trackingCues = 0; state.partialCues = 0;
+  state.lastResult = null;
+  state.fpsSamples = [];
+  state.lastAnalyzed = -Infinity;
+  ui.empty.style.display = 'none';
+  ui.viewLabel.textContent = mode === 'demo' ? 'DEMO · 가상 관절' : 'LIVE · ON DEVICE';
+  ui.stage.classList.toggle('mirror', mode === 'camera' && ui.cameraSelect.value === 'user');
+  showCoach(mode === 'demo' ? '가상의 관절을 움직이는 테스트 모드예요. 실제 자세 분석이 아니에요.' : '관절을 확인하고 있어요. 시작 자세를 잡아주세요.');
+  updateButtons();
+}
+function startTimerAfterResume() {
+  if (state.paused) {
+    state.pausedTotal += performance.now() - state.pauseAt;
+    state.paused = false;
+    state.lastAnalyzed = -Infinity;
+    state.fpsSamples = [];
+  }
+}
+async function startCamera() {
+  if (state.starting || (state.mode !== 'idle' && !state.paused)) return;
+  if (!navigator.mediaDevices?.getUserMedia) {
+    showCoach('카메라를 사용할 수 없어요. HTTPS 또는 PC의 localhost로 실행해 주세요.', true);
+    return;
+  }
+  const wasResuming = state.mode === 'camera' && state.paused;
+  if (state.mode !== 'idle' && !wasResuming) {
+    showCoach('다른 모드가 일시정지 중이에요. 먼저 세트를 종료해 주세요.', true);
+    return;
+  }
+  // Invoked directly in a user click. Safari may require an audio gesture.
+  if (!wasResuming) speak('카메라 운동을 시작합니다.');
+  state.starting = true;
+  if (!wasResuming) newSession('camera');
+  updateButtons();
+  setBadge('카메라 준비 중');
+  try {
+    state.stream = await navigator.mediaDevices.getUserMedia({
+      audio: false,
+      video: { facingMode: { ideal: ui.cameraSelect.value }, width: { ideal: 640 }, height: { ideal: 480 }, frameRate: { ideal: 24, max: 30 } },
+    });
+    video.srcObject = state.stream;
+    video.style.display = 'block';
+    await video.play();
+    await loadModel();
+    startTimerAfterResume();
+    state.starting = false;
+    updateButtons();
+    ui.liveStatus.textContent = '카메라 분석 시작 · 동작을 천천히 수행하세요.';
+    state.raf = requestAnimationFrame(cameraLoop);
+  } catch (error) {
+    stopCameraTracks();
+    cancelFrame();
+    state.starting = false;
+    if (wasResuming) {
+      state.paused = true;
+    } else {
+      state.mode = 'idle';
+      ui.empty.style.display = 'flex';
+    }
+    updateButtons();
+    setBadge('시작 실패', 'warning');
+    const isPermission = error?.name === 'NotAllowedError' || error?.name === 'PermissionDeniedError';
+    showCoach(isPermission ? '카메라 권한이 거부되었어요. Safari의 사이트 카메라 설정을 확인해 주세요.' : `카메라·AI 시작 실패: ${error?.message || '네트워크 및 지원 여부 확인 필요'}`, true);
+    ui.liveStatus.textContent = 'AI 모델 로드에는 인터넷이 필요해요.';
+  }
+}
+function startDemo() {
+  if (state.starting || (state.mode !== 'idle' && !state.paused)) return;
+  const wasResuming = state.mode === 'demo' && state.paused;
+  if (state.mode !== 'idle' && !wasResuming) {
+    showCoach('다른 모드가 일시정지 중이에요. 먼저 세트를 종료해 주세요.', true);
+    return;
+  }
+  if (!wasResuming) {
+    speak('데모 모드를 시작합니다.');
+    newSession('demo');
+  } else startTimerAfterResume();
+  ui.stage.classList.remove('mirror');
+  ui.empty.style.display = 'none';
+  ui.liveStatus.textContent = '합성 관절 데모 · 카메라와 실제 AI는 사용하지 않아요.';
+  updateButtons();
+  state.raf = requestAnimationFrame(demoLoop);
+}
+function pauseSession() {
+  if (state.mode === 'idle' || state.starting) return;
+  if (state.paused) {
+    if (state.mode === 'camera') void startCamera();
+    else startDemo();
+    return;
+  }
+  state.paused = true;
+  state.pauseAt = performance.now();
+  cancelFrame();
+  if (state.mode === 'camera') stopCameraTracks();
+  if (window.speechSynthesis) window.speechSynthesis.cancel();
+  setBadge('일시정지');
+  ui.liveStatus.textContent = '분석이 멈췄어요. 운동 재개 버튼을 눌러주세요.';
+  showCoach('일시정지했어요. 카메라도 꺼졌어요.');
+  updateButtons();
+}
+function endSession() {
+  if (state.mode === 'idle' || state.starting) return;
+  const duration = elapsedMs();
+  cancelFrame();
+  stopCameraTracks();
+  if (window.speechSynthesis) window.speechSynthesis.cancel();
+  const summary = {
+    date: new Date().toISOString(),
+    mode: state.mode, durationSeconds: Math.round(duration / 1000),
+    reps: analyzer.reps, partialReps: analyzer.partialReps,
+    swayCues: state.swayCues, trackingCues: state.trackingCues,
+  };
+  if (summary.durationSeconds >= 5 || summary.reps > 0) {
+    const previous = safeLoad(STORE, []);
+    safeSave(STORE, [summary, ...previous].slice(0, 30));
+  }
+  const description = `${summary.reps}회 완료 · ${summary.partialReps}회 부분 동작 · 상체 반동 안내 ${summary.swayCues}회`;
+  state.mode = 'idle';
+  state.paused = false;
+  state.starting = false;
+  ui.stage.classList.remove('mirror');
+  ui.empty.style.display = 'flex';
+  ui.viewLabel.textContent = 'CAMERA OFF';
+  setBadge('세트 종료');
+  ui.liveStatus.textContent = '영상을 저장하지 않았어요. 새 세트를 시작할 수 있어요.';
+  showCoach(`세트 종료! ${description}. ${summary.mode === 'demo' ? '(데모 결과)' : '관절 추정에 기반한 참고 기록이에요.'}`);
+  updateButtons();
+  renderHistory();
+}
+function renderHistory() {
+  const history = safeLoad(STORE, []);
+  ui.history.replaceChildren();
+  if (!Array.isArray(history) || history.length === 0) {
+    const p = document.createElement('p'); p.className = 'muted';
+    p.textContent = '아직 저장된 세트가 없어요.'; ui.history.append(p); return;
+  }
+  for (const h of history.slice(0, 7)) {
+    const row = document.createElement('div'); row.className = 'history-entry';
+    const label = document.createElement('span');
+    label.textContent = `${new Date(h.date).toLocaleString('ko-KR', { month:'numeric', day:'numeric', hour:'2-digit', minute:'2-digit' })} · ${h.mode === 'demo' ? '데모' : '실제 카메라'}`;
+    const detail = document.createElement('strong');
+    detail.textContent = `${h.reps}회 · ${fmtTime(h.durationSeconds * 1000)} · 반동 안내 ${h.swayCues}회`;
+    row.append(label, detail); ui.history.append(row);
+  }
+}
+function exportCSV() {
+  const history = safeLoad(STORE, []);
+  if (!Array.isArray(history) || !history.length) {
+    showCoach('내보낼 세트 기록이 없어요.'); return;
+  }
+  const rows = [['date','mode','duration_seconds','reps','partial_reps','sway_cues','tracking_cues'], ...history.map(h => [h.date,h.mode,h.durationSeconds,h.reps,h.partialReps,h.swayCues,h.trackingCues])];
+  const csv = '\ufeff' + rows.map(row => row.map(value => `"${String(value ?? '').replaceAll('"','""')}"`).join(',')).join('\r\n');
+  const url = URL.createObjectURL(new Blob([csv], { type:'text/csv;charset=utf-8;' }));
+  const a = document.createElement('a'); a.href = url; a.download = 'fitcoach-sessions.csv';
+  document.body.append(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+}
+function calibrate(which) {
+  if (!state.lastResult?.valid || state.mode === 'idle' || state.paused) {
+    showCoach('관절이 정상 추적되는 동안 자세를 잡고 저장해 주세요.', true); return;
+  }
+  const reading = Math.round(state.lastResult.elbowAngle);
+  const next = { ...calibrated, [which]: reading };
+  try {
+    analyzer.configure(next);
+    Object.assign(calibrated, next);
+    safeSave(CAL_STORE, calibrated);
+    setCalibrationText();
+    showCoach('가동 범위를 저장했어요. 동작 카운트는 시작 자세부터 다시 인식해요.');
+  } catch {
+    showCoach('시작 각도는 130~180°, 상단은 30~120°이며 두 각도 차이가 45° 이상이어야 해요.', true);
+  }
+}
+ui.start.addEventListener('click', () => { void startCamera(); });
+ui.demo.addEventListener('click', startDemo);
+ui.pause.addEventListener('click', pauseSession);
+ui.end.addEventListener('click', endSession);
+$('testVoice').addEventListener('click', () => {
+  if (window.speechSynthesis) {
+    const previous = ui.voice.checked; ui.voice.checked = true;
+    speak('음성 안내 테스트예요. 상체 반동을 줄여보세요.');
+    ui.voice.checked = previous;
+    showCoach('소리가 나지 않으면 아이폰 음량과 음성 재생 설정을 확인해 주세요.');
+  } else showCoach('이 브라우저에서는 음성 합성을 지원하지 않아요.', true);
+});
+$('calibrateBottom').addEventListener('click', () => calibrate('bottomAngle'));
+$('calibrateTop').addEventListener('click', () => calibrate('topAngle'));
+$('resetCalibration').addEventListener('click', () => {
+  Object.assign(calibrated, { bottomAngle:DEFAULTS.bottomAngle, topAngle:DEFAULTS.topAngle });
+  analyzer.configure(calibrated); safeSave(CAL_STORE, calibrated); setCalibrationText();
+  showCoach('기본 가동 범위로 변경했어요.');
+});
+$('exportBtn').addEventListener('click', exportCSV);
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden && state.mode !== 'idle' && !state.paused && !state.starting) pauseSession();
+});
+window.addEventListener('pagehide', stopCameraTracks);
+if ('serviceWorker' in navigator && location.protocol === 'https:') {
+  window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(error => console.warn('SW registration failed:', error)));
+}
+setCalibrationText();
+renderHistory();
+updateButtons();
+</script>
+</body>
+</html>
