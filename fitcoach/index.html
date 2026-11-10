@@ -370,8 +370,30 @@ function createDemoPose(elapsedMs) {
 // Version pinned to avoid silent API changes. This app is dependency-free to build,
 // but the MediaPipe library, WASM runtime and model need network access on first load.
 const MP_VERSION = '0.10.22';
-const MP_JS = `https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@${MP_VERSION}/vision_bundle.mjs`;
-const MP_WASM = `https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@${MP_VERSION}/wasm`;
+// Safari sometimes rejects a cross-origin ES module with only
+// "Importing a module script failed". Keep independent CDN fallbacks.
+const MP_SOURCES = [
+  {
+    label: 'jsDelivr ESM',
+    js: `https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@${MP_VERSION}/vision_bundle.mjs`,
+    wasm: `https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@${MP_VERSION}/wasm`,
+  },
+  {
+    label: 'jsDelivr package entry',
+    js: `https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@${MP_VERSION}`,
+    wasm: `https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@${MP_VERSION}/wasm`,
+  },
+  {
+    label: 'unpkg ESM',
+    js: `https://unpkg.com/@mediapipe/tasks-vision@${MP_VERSION}/vision_bundle.mjs`,
+    wasm: `https://unpkg.com/@mediapipe/tasks-vision@${MP_VERSION}/wasm`,
+  },
+  {
+    label: 'esm.sh package',
+    js: `https://esm.sh/@mediapipe/tasks-vision@${MP_VERSION}?bundle`,
+    wasm: `https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@${MP_VERSION}/wasm`,
+  },
+];
 const MP_MODEL = 'https://storage.googleapis.com/mediapipe-models/pose_landmarker/pose_landmarker_lite/float16/1/pose_landmarker_lite.task';
 const STORE = 'fitcoach_sessions_v1';
 const CAL_STORE = 'fitcoach_calibration_v1';
@@ -547,26 +569,52 @@ function recordFrame(now, result, landmarks, dimensions, demo = false) {
 }
 async function loadModel() {
   if (state.landmarker) return state.landmarker;
-  ui.liveStatus.textContent = 'AI 관절 모델을 불러오는 중이에요. 인터넷이 필요해요…';
-  const { FilesetResolver, PoseLandmarker } = await import(MP_JS);
-  const vision = await FilesetResolver.forVisionTasks(MP_WASM);
-  let model;
-  try {
-    model = await PoseLandmarker.createFromOptions(vision, {
-      baseOptions: { modelAssetPath: MP_MODEL, delegate: 'GPU' }, runningMode: 'VIDEO',
-      numPoses: 1, minPoseDetectionConfidence: 0.5, minPosePresenceConfidence: 0.5,
-      minTrackingConfidence: 0.5,
-    });
-  } catch (gpuError) {
-    console.warn('GPU setup failed; falling back to CPU:', gpuError);
-    model = await PoseLandmarker.createFromOptions(vision, {
-      baseOptions: { modelAssetPath: MP_MODEL, delegate: 'CPU' }, runningMode: 'VIDEO',
-      numPoses: 1, minPoseDetectionConfidence: 0.5, minPosePresenceConfidence: 0.5,
-      minTrackingConfidence: 0.5,
-    });
+  const failures = [];
+  for (const source of MP_SOURCES) {
+    ui.liveStatus.textContent = `AI 라이브러리 준비 중 · ${source.label}…`;
+    try {
+      // Module namespaces differ among CDNs and package builds.
+      const imported = await Promise.race([
+        import(source.js),
+        new Promise((_, reject) =>
+          setTimeout(() => reject(new Error('모듈 로딩 시간 초과')), 12000)),
+      ]);
+      const lib = imported.FilesetResolver && imported.PoseLandmarker
+        ? imported
+        : imported.default;
+      if (!lib?.FilesetResolver || !lib?.PoseLandmarker) {
+        throw new Error('모듈에 필요한 MediaPipe API가 없어요');
+      }
+      ui.liveStatus.textContent = `AI 런타임 준비 중 · ${source.label}…`;
+      const vision = await lib.FilesetResolver.forVisionTasks(source.wasm);
+      let model;
+      try {
+        model = await lib.PoseLandmarker.createFromOptions(vision, {
+          baseOptions: { modelAssetPath: MP_MODEL, delegate: 'GPU' },
+          runningMode: 'VIDEO', numPoses: 1,
+          minPoseDetectionConfidence: 0.5, minPosePresenceConfidence: 0.5,
+          minTrackingConfidence: 0.5,
+        });
+      } catch (gpuError) {
+        console.warn('GPU initialization failed; trying CPU:', gpuError);
+        model = await lib.PoseLandmarker.createFromOptions(vision, {
+          baseOptions: { modelAssetPath: MP_MODEL, delegate: 'CPU' },
+          runningMode: 'VIDEO', numPoses: 1,
+          minPoseDetectionConfidence: 0.5, minPosePresenceConfidence: 0.5,
+          minTrackingConfidence: 0.5,
+        });
+      }
+      state.landmarker = model;
+      ui.liveStatus.textContent = 'AI 관절 추적 준비 완료';
+      return model;
+    } catch (error) {
+      const reason = error?.message || String(error);
+      failures.push(`${source.label}: ${reason}`);
+      console.warn(`MediaPipe load failed (${source.label})`, error);
+    }
   }
-  state.landmarker = model;
-  return model;
+  console.error('Every MediaPipe source failed:', failures);
+  throw new Error('AI 라이브러리를 불러오지 못했어요. 인터넷 연결·콘텐츠 차단을 확인해 주세요. 상세: ' + failures.map(s => s.slice(0, 115)).join(' / '));
 }
 function stopCameraTracks() {
   if (state.stream) state.stream.getTracks().forEach(t => t.stop());
