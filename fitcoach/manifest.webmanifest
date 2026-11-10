@@ -1,0 +1,19 @@
+{
+  "name": "핏코치 · 실시간 운동 자세 코치",
+  "short_name": "핏코치",
+  "description": "덤벨 컬 관절 추적과 실시간 음성 자세 피드백 실험용 앱",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#091218",
+  "theme_color": "#0c1720",
+  "lang": "ko",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
