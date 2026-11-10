@@ -1,0 +1,68 @@
+name: FitCoach browser smoke test
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - .github/workflows/fitcoach-smoke.yml
+
+permissions:
+  contents: read
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install browser testing tool
+        run: npm install --no-save --no-package-lock --ignore-scripts playwright-core
+      - name: Test published files and fake camera analysis
+        shell: bash
+        run: |
+          node <<'NODE'
+          const { chromium } = require('playwright-core');
+          const origin = 'https://huisu9903.github.io/fitcoach/';
+          const sleep = ms => new Promise(r => setTimeout(r,ms));
+          async function getReadyPage() {
+            for (let i=0; i<12; i++) {
+              const r = await fetch(origin+'?smoke='+Date.now());
+              if (r.ok && (await r.text()).includes("const MP_VERSION = '0.10.21'")) return true;
+              await sleep(8000);
+            }
+            throw new Error('New deployed HTML is not available');
+          }
+          (async () => {
+            await getReadyPage();
+            for (const [path,type] of [
+              ['vendor/vision_bundle.mjs','javascript'],
+              ['vendor/wasm/vision_wasm_internal.wasm','wasm'],
+              ['vendor/models/pose_landmarker_lite.task',null],
+            ]) {
+              const r=await fetch(origin+path,{method:'HEAD'});
+              const ct=r.headers.get('content-type')||'';
+              console.log(path,r.status,ct,'bytes=',r.headers.get('content-length'));
+              if(!r.ok) throw new Error('Asset fetch failed: '+path+' '+r.status);
+              if(type && !ct.includes(type)) throw new Error('Unexpected MIME for '+path+': '+ct);
+            }
+            const browser = await chromium.launch({
+              channel: 'chrome', headless:true,
+              args: ['--no-sandbox','--use-fake-ui-for-media-stream','--use-fake-device-for-media-stream','--autoplay-policy=no-user-gesture-required'],
+            });
+            const context = await browser.newContext({ permissions:['camera'], ignoreHTTPSErrors:false });
+            const page = await context.newPage();
+            const errors=[];
+            page.on('pageerror', e=>errors.push('pageerror '+e.message));
+            page.on('console', msg=>{if(msg.type()==='error')errors.push('console '+msg.text());});
+            await page.goto(origin+'?smoke='+Date.now(),{waitUntil:'domcontentloaded',timeout:30000});
+            await page.locator('#startCamera').click();
+            await page.waitForFunction(() => {
+              const pause=document.querySelector('#pauseBtn');
+              return pause && !pause.disabled;
+            },{timeout:60000});
+            const badge = await page.locator('#trackingBadge').innerText();
+            console.log('AI camera active, status:',badge);
+            console.log('Nonfatal browser messages:',errors.slice(0,8));
+            await browser.close();
+            console.log('FITCOACH BROWSER SMOKE PASS');
+          })().catch(e=>{console.error(e);process.exit(1)});
+          NODE
