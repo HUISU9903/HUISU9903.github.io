@@ -20,7 +20,7 @@ jobs:
         run: |
           set -euo pipefail
           tempdir="$(mktemp -d)"
-          npm pack @mediapipe/tasks-vision@0.10.22 --pack-destination "$tempdir" --silent
+          npm pack @mediapipe/tasks-vision@0.10.22 --pack-destination "$tempdir" --loglevel info
           tar -xzf "$tempdir/mediapipe-tasks-vision-0.10.22.tgz" -C "$tempdir"
           mkdir -p fitcoach/vendor/wasm fitcoach/vendor/models
           cp "$tempdir/package/vision_bundle.mjs" fitcoach/vendor/vision_bundle.mjs
